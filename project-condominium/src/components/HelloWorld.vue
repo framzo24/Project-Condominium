@@ -1,5 +1,4 @@
 <template>
-  <div class="hello">
     <div id="app">
     <header>
       <nav class="navbar">
@@ -7,17 +6,23 @@
         <!-- Contenuto della barra dei menu -->
       </nav>
     </header>
-
+    
     <main>
+      <aside class="sidebar">
+        <h1 class="element-aside">Pagamenti rette condominiali</h1>
+        <h1 class="element-aside">Bilancio anni precedenti</h1>
+        <h1 class="element-aside">Bilancio anno corrente</h1>
+        <h1 class="element-aside">Progetti futuri</h1>
+        <h1 class="element-aside">Famiglie</h1>
+        <h1 class="element-aside">Verbali</h1>
+        <h1 class="element-aside">Riunioni</h1>
+        <h1 class="element-aside">Notifiche</h1>
+        <!-- Contenuto della sidenav -->
+      </aside>
       <div class="container">
         <h1>Contenuto principale della pagina</h1>
         <!-- Contenuto principale della pagina -->
       </div>
-
-      <aside class="sidebar">
-        <h1>Contenuto principale della pagina</h1>
-        <!-- Contenuto della sidenav -->
-      </aside>
     </main>
 
     <footer>
@@ -26,7 +31,6 @@
         <!-- Contenuto del footer -->
       </div>
     </footer>
-  </div>
   </div>
 </template>
 
@@ -43,6 +47,7 @@ export default {
 <style>
 /* Stili CSS per l'applicazione */
 #app {
+  
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -50,17 +55,17 @@ export default {
 
 header {
   background-color: #f0f0f0;
-  padding: 10px;
+  padding: 0px;
 }
 
 .navbar {
-  /* Stili per la barra dei menu */
+
 }
 
 main {
   flex: 1;
   display: flex;
-  padding: 20px;
+  padding: 0px;
 }
 
 .container {
@@ -75,10 +80,18 @@ main {
 
 footer {
   background-color: #f0f0f0;
-  padding: 10px;
+  padding: 0px;
 }
 
 .footer {
   /* Stili per il footer */
+}
+
+.element-aside {
+  background-color: white;
+  border-style: solid;
+  border-width: 0.02cm;
+  border-color: black;
+  border-radius: 0.3cm;
 }
 </style>
