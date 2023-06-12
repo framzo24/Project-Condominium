@@ -1,26 +1,23 @@
 <template>
-  <HelloWorld/>
+  <ComponentWindow />
+  <MainContent />
+  <FooterContent />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ComponentWindow from './components/component-window.vue'
+import FooterContent from './components/footer-content.vue';
+import MainContent from './components/main-content.vue'
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld,
-  }
+    ComponentWindow,
+    MainContent,
+    FooterContent
 }
+} 
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 0px;
-  padding: 0cm;
-}
+<style scoped>
+
 </style>
