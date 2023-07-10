@@ -2,7 +2,7 @@
     <div>
         <header>
         <nav class="navbar">
-          <h1>Header</h1>
+          <p>Header</p>
         </nav>
       </header>
     </div>
@@ -23,9 +23,9 @@ export default {
   min-height: 100vh;
 }
 
-header {
-  background-color: #f0f0f0;
-  padding: 0px;
-  margin-top: 0cm;
+.navbar {
+  background-color: #330a5e;
+  font-size:0.5cm;
+  color: aliceblue;
 }
 </style>
