@@ -11,7 +11,8 @@ CREATE TABLE Condomini (
     cognome VARCHAR(255) NOT NULL,
     indirizzo VARCHAR(255) NOT NULL,
     telefono VARCHAR(20),
-    email VARCHAR(255)
+    email VARCHAR(255),
+    password VARCHAR(255) NOT NULL
 );
 
 -- Creazione della tabella "UnitàImmobiliari" per archiviare le informazioni sulle unità immobiliari
