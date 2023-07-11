@@ -1,10 +1,11 @@
 const express = require('express');
 const app = express();
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const port = 3001;
 
 const db = mysql.createConnection({
   host: 'localhost',
+  port: '3307',
   user: 'root',
   password: '',
   database: 'database_condominium'
