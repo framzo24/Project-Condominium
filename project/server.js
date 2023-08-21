@@ -58,13 +58,15 @@ app.listen(port, () => {
 });
 
 app.post('/login', (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
+  const { email, password }  = req.body;
+
+  console.log(email,password);
 
   // Query per il controllo delle credenziali nel database
-  const query = "SELECT * FROM Condomini WHERE email = "+username+" AND password = "+password;
-  connection.query(query, (err, results) => {
+  const query = "SELECT * FROM Condomini WHERE email = '"+email+"' AND password = '"+password;
+  db.query(query, (err, results) => {
     if (err) {
+      console.error(err);
       res.status(500).send('Errore del server');
     } else if (results.length === 0) { 
       res.status(401).send('Credenziali non valide');
