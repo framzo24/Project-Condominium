@@ -8,9 +8,14 @@
             padding: 0;
         }
 
-        header {
+        .header {
             background-color: green;
             height: 50px;
+        }
+
+        .header .button-header {
+            justify-content: end;
+            float: right;
         }
 
         footer {
@@ -59,9 +64,11 @@
             font-size: 30px;
             cursor: pointer;
             position: fixed;
-            top: 10px;
+            top: 5px;
             left: 10px;
             z-index: 2;
+            border-right: 5cm;
+        
         }
         #container {
             margin: 1cm;
@@ -83,24 +90,28 @@
     </style>
 </head>
 <body>
-    <header></header>
+    <div class="header">
 
-    <div class="navbar" id="navbar">
-        <a id="link" href="/users" type="button">Pagamenti rette condominiali</a>
-        <a href="#">Bilancio anni precedenti</a>
-        <a href="#">Progetti futuri</a>
-        <a href="#">Famiglie</a>
-        <a href="#">Verbali</a>
-        <a href="#">Riunioni</a>
-        <a href="#">Notifiche</a>
-        <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
-    </div>
+        <div class="navbar" id="navbar">
+            <a id="link" href="/users" type="button">Pagamenti rette condominiali</a>
+            <a href="#">Bilancio anni precedenti</a>
+            <a href="#">Progetti futuri</a>
+            <a href="#">Famiglie</a>
+            <a href="#">Verbali</a>
+            <a href="#">Riunioni</a>
+            <a href="#">Notifiche</a>
+            <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
+        </div>
 
-    <div class="hamburger" onclick="openNavbar()">
-        &#9776;
-        <a id="navbar" href="/login" type="button">login</a>
+        <div class="hamburger" onclick="openNavbar()">
+            &#9776;
+            <div class="button-header">
+            <a id="link" href="/login" type="button">accedi</a>
+            <a id="button" href="/registration" type="button">registrati</a>
+            </div>
+        </div>
+
     </div>
-    
     <script>
         function openNavbar() {
             document.getElementById("navbar").style.width = "250px";

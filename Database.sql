@@ -6,7 +6,7 @@ USE database_condominium;
 
 -- Creazione della tabella "Condomini" per archiviare le informazioni sui condomini
 CREATE TABLE Condomini (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     cognome VARCHAR(255) NOT NULL,
     indirizzo VARCHAR(255) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE Condomini (
 
 -- Creazione della tabella "UnitàImmobiliari" per archiviare le informazioni sulle unità immobiliari
 CREATE TABLE UnitàImmobiliari (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     condominio_id INT,
     numero INT,
     proprietario_id INT,
@@ -28,7 +28,7 @@ CREATE TABLE UnitàImmobiliari (
 
 -- Creazione della tabella "Spese" per archiviare le informazioni sulle spese condominiali
 CREATE TABLE Spese (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     descrizione VARCHAR(255) NOT NULL,
     importo DECIMAL(10, 2) NOT NULL,
     data DATE NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE Spese (
 
 -- Creazione della tabella "Pagamenti" per archiviare le informazioni sui pagamenti effettuati dai condomini
 CREATE TABLE Pagamenti (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     spesa_id INT,
     condomino_id INT,
     importo DECIMAL(10, 2) NOT NULL,

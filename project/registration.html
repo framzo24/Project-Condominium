@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registrazione</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      background-color: green;
+      /* height: 50px; */
+      padding: 10px;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+        margin: 0px;
+    }
+
+    .footer {
+      background-color: gray;
+      padding: 6px;
+      color: white;
+      bottom: 0cm;
+    }
+
+    .container {
+      margin: 20px;
+      text-align: center;
+      
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    label {
+      /* display: block; */
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="password"] {
+      width: 10cm;
+      padding: 5px;
+    }
+
+    input[type="submit"] {
+      background-color: green;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+    p {
+        margin: 0px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Registrazione</h1>
+  </div>
+
+  <div class="container">
+    <form method="post" action="/registration">
+      <div class="form-group">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+      </div>
+
+      <div class="form-group">
+        <label for="cognome">Cognome:</label>
+        <input type="text" id="cognome" name="cognome" required>
+      </div>
+
+      <div class="form-group">
+        <label for="indirizzo">Indirizzo:</label>
+        <input type="text" id="indirizzo" name="indirizzo" required>
+      </div>
+
+      <div class="form-group">
+        <label for="telefono">Telefono:</label>
+        <input type="tel" id="telefono" name="telefono" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <input type="submit" value="Registrati">
+    </form>
+  </div>
+
+  <div class="footer">
+    <p>© 2023 - Tutti i diritti riservati</p>
+  </div>
+</body>
+</html>
