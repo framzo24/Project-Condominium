@@ -1,6 +1,3 @@
-rimando alla home da pagina registrazione
 grafica in tutto
-fare le pagine dei bottoni già inseriti 
 trovare concept per il sito
-controlli soliti su password e email
 crittografare la password

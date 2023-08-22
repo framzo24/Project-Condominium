@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const app = express();
 const mysql = require('mysql2');
 const port = 3001;
@@ -41,16 +42,32 @@ app.get('/registration', (req, res) => {
   res.sendFile(directory+'/registration.html');
 });
 
-app.get('/users', (req, res) => {
-    db.query('SELECT * FROM Condomini', (err, results) => {
-      if (err) {
-        console.error('Errore nella query al database:', err);
-        res.status(500).send('Errore nella query al database');
-      } else {
-        res.send(results);
-        
-      }
-    });
+app.get('/condominium-fee-payments', (req, res) => {
+  res.sendFile(directory+'/condominium-fee-payments.html');
+});
+
+app.get('/budget-previous-years', (req, res) => {
+  res.sendFile(directory+'/budget-previous-years.html');
+});
+
+app.get('/family', (req, res) => {
+  res.sendFile(directory+'/family.html');
+});
+
+app.get('/future-projects', (req, res) => {
+  res.sendFile(directory+'/future-projects.html');
+});
+
+app.get('/notifications', (req, res) => {
+  res.sendFile(directory+'/notifications.html');
+});
+
+app.get('/reunions', (req, res) => {
+  res.sendFile(directory+'/reunions.html');
+});
+
+app.get('/verbals', (req, res) => {
+  res.sendFile(directory+'/verbals.html');
 });
 
 app.listen(port, () => {
@@ -60,18 +77,16 @@ app.listen(port, () => {
 app.post('/login', (req, res) => {
   const { email, password }  = req.body;
 
-  console.log(email,password);
-
   // Query per il controllo delle credenziali nel database
-  const query = "SELECT * FROM Condomini WHERE email = '"+email+"' AND password = '"+password;
-  db.query(query, (err, results) => {
+  const query = "SELECT * FROM Condomini WHERE email = ? AND password = ?";
+  db.query(query, [email,password], (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).send('Errore del server');
-    } else if (results.length === 0) { 
+    } else if (results.length = 0) { 
       res.status(401).send('Credenziali non valide');
     } else {
-      res.status(200).send('Login effettuato con successo');
+      res.sendFile(directory+'/index.html');
     }
   });
 });
@@ -80,17 +95,38 @@ app.post('/login', (req, res) => {
 app.post('/registration', (req, res) => {
   const { nome, cognome, indirizzo, telefono, email, password } = req.body;
 
-    // Esegui la query per inserire il nuovo utente nella tabella "Condomini"
-    const insertQuery = `INSERT INTO Condomini (nome, cognome, indirizzo, telefono, email, password) VALUES (?, ?, ?, ?, ?, ?)`;
+  // Controllo se l'email esiste già nel database
+  const controlloMail = 'SELECT * FROM Condomini WHERE email = ?';
+  db.query(controlloMail, [email], (controlloErr, controlloRes) => {
+    if (controlloErr) {
+      console.error("Errore durante il controllo dell'email:", controlloErr);
+      return res.status(500).send("Errore durante la registrazione dell'utente.");
+    }
 
-    db.query(insertQuery, [nome, cognome, indirizzo, telefono, email, password], (err, result) => {
-        if (err) {
-            console.error("Errore durante l'inserimento dell'utente:", err);
-            return res.status(500).send("Errore durante la registrazione dell'utente.");
-        }
+    if (controlloRes.length > 0) {
+      // L'email esiste già nel database
+      return res.status(400).send("L'indirizzo email è già registrato.");
+    }
 
-        console.log("Nuovo utente inserito con successo.");
-        res.send("Registrazione completata con successo.");
+  // Esegui l'hashing della password
+  bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
+    if (hashErr) {
+      console.error("Errore durante l'hashing della password:", hashErr);
+      return res.status(500).send("Errore durante la registrazione dell'utente.");
+    }
+
+  // Esegui la query per inserire il nuovo utente nella tabella "Condomini"
+  const insertQuery = `INSERT INTO Condomini (nome, cognome, indirizzo, telefono, email, password) VALUES (?, ?, ?, ?, ?, ?)`;
+
+  db.query(insertQuery, [nome, cognome, indirizzo, telefono, email, hashedPassword], (err, result) => {
+      if (err) {
+          console.error("Errore durante l'inserimento dell'utente:", err);
+          return res.status(500).send("Errore durante la registrazione dell'utente.");
+      }
+
+      console.log("Nuovo utente inserito con successo.");
+      res.sendFile(directory+'/login.html');
     });
-
+  });
+});
 });

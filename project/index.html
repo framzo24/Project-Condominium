@@ -87,29 +87,36 @@
         #login {
             background-color: aqua;
         }
+        .button-header {
+            width: fit-content;
+            font-size: 30px;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
     <div class="header">
 
         <div class="navbar" id="navbar">
-            <a id="link" href="/users" type="button">Pagamenti rette condominiali</a>
-            <a href="#">Bilancio anni precedenti</a>
-            <a href="#">Progetti futuri</a>
-            <a href="#">Famiglie</a>
-            <a href="#">Verbali</a>
-            <a href="#">Riunioni</a>
-            <a href="#">Notifiche</a>
+            <a id="link" href="/condominium-fee-payments" type="button">Pagamenti rette condominiali</a>
+            <a id="link" href="/budget-previous-years" type="button">Bilancio anni precedenti</a>
+            <a id="link" href="/future-projects" type="button">Progetti futuri</a>
+            <a id="link" href="/family" type="button">Famiglie</a>
+            <a id="link" href="/verbals" type="button">Verbali</a>
+            <a id="link" href="/reunions" type="button">Riunioni</a>
+            <a id="link" href="/notifications" type="button">Notifiche</a>
             <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
         </div>
 
         <div class="hamburger" onclick="openNavbar()">
             &#9776;
-            <div class="button-header">
+            
+        </div>
+        <div class="button-header">
+            <a id="link" href="/home" type="button">home</a>
             <a id="link" href="/login" type="button">accedi</a>
             <a id="button" href="/registration" type="button">registrati</a>
             </div>
-        </div>
 
     </div>
     <script>

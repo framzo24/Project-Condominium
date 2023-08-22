@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina con Footer, Header e Navbar</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .header {
+            background-color: rgb(51, 51, 51);
+            color: white;
+            height: 30px;
+            padding: 20px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header .button-header {
+            justify-content: end;
+            float: right;
+        }
+
+        footer {
+            background-color: rgb(51, 51, 51);
+            color: white;
+            height: 50px;
+            position: fixed;
+            padding: 10px;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .navbar {
+            background-color: grey;
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .navbar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: black;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            color: white;
+        }
+
+        .navbar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .hamburger {
+            font-size: 30px;
+            cursor: pointer;
+            position: fixed;
+            top: 5px;
+            left: 10px;
+            z-index: 2;
+            border-right: 5cm;
+        
+        }
+        #container {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 40px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        select {
+            padding: 5px;
+        }
+        #login {
+            background-color: aqua;
+        }
+        .button-header {
+            width: fit-content;
+            font-size: 30px;
+            height: 100%;
+        }
+    </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const filterSelect = document.getElementById("filter");
+    const datePicker = document.getElementById("datePicker");
+    const inputField = document.getElementById("inputField");
+    const submitButton = document.getElementById("submitButton");
+    const codeInput = document.getElementById("codeInput");
+    const table = document.getElementById("dataTable").getElementsByTagName('tbody')[0];
+
+    filterSelect.addEventListener("change", function() {
+      const selectedValue = filterSelect.value;
+
+      datePicker.style.display = selectedValue === "data" ? "block" : "none";
+      inputField.style.display = selectedValue !== "data" && selectedValue !== "codice" ? "block" : "none";
+      codeInput.style.display = selectedValue === "codice" ? "block" : "none";
+
+      filterTable();
+    });
+
+    function filterTable() {
+      const filterValue = inputField.querySelector("input").value.toLowerCase();
+      const codeValue = codeInput.querySelector("input").value.toLowerCase();
+
+      for (let row of table.rows) {
+        const description = row.cells[0].textContent.toLowerCase();
+        const code = row.cells[1].textContent.toLowerCase();
+        const sender = row.cells[2].textContent.toLowerCase();
+        const price = row.cells[3].textContent.toLowerCase();
+        
+        if (description.includes(filterValue) && code.includes(codeValue)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      }
+    }
+  
+      submitButton.addEventListener("click", function() {
+        filterTable();
+      });
+    });
+  </script>
+</head>
+<body>
+    <div class="header">
+
+        <div class="navbar" id="navbar">
+            <a id="link" href="/condominium-fee-payments" type="button">Pagamenti rette condominiali</a>
+            <a id="link" href="/budget-previous-years" type="button">Bilancio anni precedenti</a>
+            <a id="link" href="/future-projects" type="button">Progetti futuri</a>
+            <a id="link" href="/family" type="button">Famiglie</a>
+            <a id="link" href="/verbals" type="button">Verbali</a>
+            <a id="link" href="/reunions" type="button">Riunioni</a>
+            <a id="link" href="/notifications" type="button">Notifiche</a>
+            <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
+        </div>
+
+        <div class="hamburger" onclick="openNavbar()">
+            &#9776;
+            
+        </div>
+        <div class="button-header">
+            <a id="link" href="/login" type="button">accedi</a>
+            <a id="button" href="/registration" type="button">registrati</a>
+            </div>
+
+    </div>
+
+    <script>
+        function openNavbar() {
+            document.getElementById("navbar").style.width = "250px";
+        }
+
+        function closeNavbar() {
+            document.getElementById("navbar").style.width = "0";
+        }
+    </script>
+
+<div class="container">
+    <label for="filter">Filtra per:</label>
+    <select id="filter">
+      <option value="data">Data</option>
+      <option value="prezzo">Prezzo</option>
+      <option value="descrizione">Descrizione</option>
+      <option value="codice">Codice Identificativo</option>
+    </select>
+    
+    <div id="datePicker" style="display: none;">
+      <label for="date">Seleziona una data:</label>
+      <input type="date" id="date" name="date">
+    </div>
+    
+    <div id="inputField" style="display: none;">
+      <label for="input">Inserisci valore:</label>
+      <input type="text" id="input" name="input">
+      <button id="submitButton">Invia</button>
+    </div>
+    
+    <div id="codeInput" style="display: none;">
+      <label for="code">Inserisci codice identificativo:</label>
+      <input type="text" id="code" name="code">
+    </div>
+    
+    <table id="dataTable">
+        <thead>
+          <tr>
+            <th>Descrizione</th>
+            <th>Codice Identificativo</th>
+            <th>Mittente</th>
+            <th>Prezzo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Prodotto A</td>
+            <td>123</td>
+            <td>Mittente A</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>Prodotto B</td>
+            <td>456</td>
+            <td>Mittente B</td>
+            <td>200</td>
+          </tr>
+          <!-- Aggiungi altre righe della tabella qui -->
+        </tbody>
+      </table>
+    </div>
+
+    <footer>
+        <a>About</a>
+        <a>Us</a>
+    </footer>
+</body>
+</html>
