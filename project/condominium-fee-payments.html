@@ -78,12 +78,12 @@
             border-right: 5cm;
         
         }
-        #container {
-            margin: 20px auto;
+        .container {
+            margin: 20px ;
             padding: 20px;
             background-color: white;
             box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-            max-width: 800px;
+            max-width: 200px auto;
         }
 
         table {
@@ -110,6 +110,35 @@
             width: fit-content;
             font-size: 30px;
             height: 100%;
+        }
+        .title-page {
+          margin-top: 30px;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 35px;
+        }
+        .card-space {
+          display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 10px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            padding: 0px;
+        }
+        .card {
+          width: calc(25% - 10px); /* 25% per quattro card e -10px per la spaziatura */
+            height: 50px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .card:hover {
+          background-color: #e0e0e0;
         }
     </style>
 
@@ -192,8 +221,14 @@
     </script>
 
 <div class="container">
+
+  <div>
+    <p class="title-page">Pagamenti rette condominiali</p>
+  </div>
+
     <label for="filter">Filtra per:</label>
     <select id="filter">
+      <option value=""></option>
       <option value="data">Data</option>
       <option value="prezzo">Prezzo</option>
       <option value="descrizione">Descrizione</option>
@@ -203,6 +238,7 @@
     <div id="datePicker" style="display: none;">
       <label for="date">Seleziona una data:</label>
       <input type="date" id="date" name="date">
+      <button id="submitButton">Invia</button>
     </div>
     
     <div id="inputField" style="display: none;">
@@ -214,6 +250,14 @@
     <div id="codeInput" style="display: none;">
       <label for="code">Inserisci codice identificativo:</label>
       <input type="text" id="code" name="code">
+      <button id="submitButton">Invia</button>
+    </div>
+
+    <div class="card-space">
+      <div class="card">Nuovo pagamento</div>
+      <div class="card">Modifica pagamento</div>
+      <div class="card">Cancella pagamento</div>
+      <div class="card">Non so pagamento</div>
     </div>
     
     <table id="dataTable">
@@ -237,6 +281,24 @@
             <td>456</td>
             <td>Mittente B</td>
             <td>200</td>
+          </tr>
+          <tr>
+            <td>Prodotto C</td>
+            <td>789</td>
+            <td>Mittente C</td>
+            <td>150</td>
+          </tr>
+          <tr>
+            <td>Prodotto D</td>
+            <td>101</td>
+            <td>Mittente D</td>
+            <td>180</td>
+          </tr>
+          <tr>
+            <td>Prodotto E</td>
+            <td>112</td>
+            <td>Mittente E</td>
+            <td>220</td>
           </tr>
           <!-- Aggiungi altre righe della tabella qui -->
         </tbody>
