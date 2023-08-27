@@ -8,6 +8,7 @@
             margin: 0;
             padding: 0;
             font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(116, 116, 116);
         }
 
         .header {
@@ -16,11 +17,22 @@
             height: 30px;
             padding: 20px;
             box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+          display: flex;
         }
 
         .header .button-header {
             justify-content: end;
             float: right;
+            color: white;
+            height: auto;
+            padding: 5px;
+          background-color: white;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          transition: background-color 0.3s;
         }
 
         footer {
@@ -69,7 +81,7 @@
         }
 
         .hamburger {
-            font-size: 30px;
+            font-size: 45px;
             cursor: pointer;
             position: fixed;
             top: 5px;
@@ -82,7 +94,7 @@
             margin: 20px ;
             padding: 20px;
             background-color: white;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            box-shadow: 0px 0px 20px rgb(101, 101, 101);
             max-width: 200px auto;
         }
 
@@ -91,7 +103,6 @@
             border-collapse: collapse;
             margin-top: 40px;
         }
-
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
@@ -100,7 +111,7 @@
         th {
             background-color: #f2f2f2;
         }
-        select {
+        select { /* Sezione del filtraggio */
             padding: 5px;
         }
         #login {
@@ -127,18 +138,39 @@
         }
         .card {
           width: calc(25% - 10px); /* 25% per quattro card e -10px per la spaziatura */
-            height: 50px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
+          height: 50px;
+          background-color: #f0f0f0;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          transition: background-color 0.3s;
         }
         .card:hover {
           background-color: #e0e0e0;
+        }
+        .form-container {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .card.active + .form-container {
+            display: block;
+        }
+
+        .form-container input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
     </style>
 
@@ -166,10 +198,11 @@
       const codeValue = codeInput.querySelector("input").value.toLowerCase();
 
       for (let row of table.rows) {
-        const description = row.cells[0].textContent.toLowerCase();
-        const code = row.cells[1].textContent.toLowerCase();
-        const sender = row.cells[2].textContent.toLowerCase();
-        const price = row.cells[3].textContent.toLowerCase();
+        const data = row.cells[0].textContent.toLowerCase();
+        const description = row.cells[1].textContent.toLowerCase();
+        const code = row.cells[2].textContent.toLowerCase();
+        const sender = row.cells[3].textContent.toLowerCase();
+        const price = row.cells[4].textContent.toLowerCase();
         
         if (description.includes(filterValue) && code.includes(codeValue)) {
           row.style.display = "";
@@ -201,12 +234,14 @@
 
         <div class="hamburger" onclick="openNavbar()">
             &#9776;
-            
-        </div>
-        <div class="button-header">
+          <div class="button-header">
             <a id="link" href="/login" type="button">accedi</a>
+          </div>
+          <div class="button-header">
             <a id="button" href="/registration" type="button">registrati</a>
-            </div>
+          </div>
+        </div>
+        
 
     </div>
 
@@ -255,6 +290,16 @@
 
     <div class="card-space">
       <div class="card">Nuovo pagamento</div>
+      <div class="form-container">
+          <form action="/insert_payment" method="post">
+              <input type="date" name="data" placeholder="Data">
+              <input type="text" name="descrizione" placeholder="Descrizione">
+              <input type="text" name="mittente" placeholder="Mittente">
+              <input type="text" name="codice_identificativo" placeholder="Codice identificativo">
+              <input type="number" name="prezzo" step="0.01" placeholder="Prezzo">
+              <button type="submit">Inserisci</button>
+          </form>
+      </div>
       <div class="card">Modifica pagamento</div>
       <div class="card">Cancella pagamento</div>
       <div class="card">Non so pagamento</div>
@@ -263,6 +308,7 @@
     <table id="dataTable">
         <thead>
           <tr>
+            <th>Data</th>
             <th>Descrizione</th>
             <th>Codice Identificativo</th>
             <th>Mittente</th>
@@ -270,36 +316,6 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Prodotto A</td>
-            <td>123</td>
-            <td>Mittente A</td>
-            <td>100</td>
-          </tr>
-          <tr>
-            <td>Prodotto B</td>
-            <td>456</td>
-            <td>Mittente B</td>
-            <td>200</td>
-          </tr>
-          <tr>
-            <td>Prodotto C</td>
-            <td>789</td>
-            <td>Mittente C</td>
-            <td>150</td>
-          </tr>
-          <tr>
-            <td>Prodotto D</td>
-            <td>101</td>
-            <td>Mittente D</td>
-            <td>180</td>
-          </tr>
-          <tr>
-            <td>Prodotto E</td>
-            <td>112</td>
-            <td>Mittente E</td>
-            <td>220</td>
-          </tr>
           <!-- Aggiungi altre righe della tabella qui -->
         </tbody>
       </table>

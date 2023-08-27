@@ -46,3 +46,14 @@ CREATE TABLE Pagamenti (
     FOREIGN KEY (spesa_id) REFERENCES Spese(id),
     FOREIGN KEY (condomino_id) REFERENCES Condomini(id)
 );
+
+CREATE TABLE Amministratore (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    cognome VARCHAR(255),
+    codice INT,
+    
+);
+
+-- un membro della famiglia accede facendo il login con il codice del condominio in cui vive
+-- l'amministratore accede inserendo il suo codice personale

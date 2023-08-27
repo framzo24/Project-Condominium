@@ -108,25 +108,38 @@ app.post('/registration', (req, res) => {
       return res.status(400).send("L'indirizzo email è già registrato.");
     }
 
-  // Esegui l'hashing della password
-  bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
-    if (hashErr) {
-      console.error("Errore durante l'hashing della password:", hashErr);
-      return res.status(500).send("Errore durante la registrazione dell'utente.");
-    }
-
-  // Esegui la query per inserire il nuovo utente nella tabella "Condomini"
-  const insertQuery = `INSERT INTO Condomini (nome, cognome, indirizzo, telefono, email, password) VALUES (?, ?, ?, ?, ?, ?)`;
-
-  db.query(insertQuery, [nome, cognome, indirizzo, telefono, email, hashedPassword], (err, result) => {
-      if (err) {
-          console.error("Errore durante l'inserimento dell'utente:", err);
-          return res.status(500).send("Errore durante la registrazione dell'utente.");
+    // Esegui l'hashing della password
+    bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
+      if (hashErr) {
+        console.error("Errore durante l'hashing della password:", hashErr);
+        return res.status(500).send("Errore durante la registrazione dell'utente.");
       }
 
-      console.log("Nuovo utente inserito con successo.");
-      res.sendFile(directory+'/login.html');
+      // Esegui la query per inserire il nuovo utente nella tabella "Condomini"
+      const insertQuery = `INSERT INTO Condomini (nome, cognome, indirizzo, telefono, email, password) VALUES (?, ?, ?, ?, ?, ?)`;
+
+      db.query(insertQuery, [nome, cognome, indirizzo, telefono, email, hashedPassword], (err, result) => {
+        if (err) {
+            console.error("Errore durante l'inserimento dell'utente:", err);
+            return res.status(500).send("Errore durante la registrazione dell'utente.");
+        }
+
+        console.log("Nuovo utente inserito con successo.");
+        res.sendFile(directory+'/login.html');
+      });
     });
   });
 });
+
+app.post('/insert_payment', (req, res) => {
+  const { data, descrizione, mittente, codice_identificativo, prezzo } = req.body;
+  const insertQuery = 'INSERT INTO `Spese`(descrizione, importo, data, condominio_id) VALUES (?, ?, ?, ?)';
+  db.query(insertQuery, [data,descrizione,mittente,codice_identificativo,prezzo], (err, result) => {
+    if (err) {
+      console.error("Errore durante l'inserimento del pagamento", err);
+      return res.status(500).send("Errore durante l'inserimento del pagamento");
+  }
+
+  console.log("Nuovo pagamento inserito con successo.");
+  });
 });
