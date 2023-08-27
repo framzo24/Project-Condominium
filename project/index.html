@@ -47,6 +47,18 @@
             display: block;
             transition: 0.3s;
         }
+        .button-header a {
+            /* padding: 8px 8px 8px 32px; */
+            text-decoration: none;
+            font-size: 25px;
+            color: black;
+            /* display: block; */
+            transition: 0.3s;
+            background-color: white;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px;
+        }
 
         .navbar a:hover {
             color: white;
@@ -91,6 +103,9 @@
             width: fit-content;
             font-size: 30px;
             height: 100%;
+            overflow-x: hidden;
+            transition: 0.5s;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -110,13 +125,12 @@
 
         <div class="hamburger" onclick="openNavbar()">
             &#9776;
-            
         </div>
         <div class="button-header">
             <a id="link" href="/home" type="button">home</a>
             <a id="link" href="/login" type="button">accedi</a>
             <a id="button" href="/registration" type="button">registrati</a>
-            </div>
+        </div>
 
     </div>
     <script>
