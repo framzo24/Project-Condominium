@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina con Footer, Header e Navbar</title>
+    <title>Pagamenti rette condominiali</title>
     <style>
         body {
             margin: 0;
@@ -14,58 +14,55 @@
         .header {
           background-color: rgb(51, 51, 51);
           color: white;
-          height: 30px;
+          height: 45px;
           padding: 20px;
-          box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-          display: flex;
+          box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+          /* display: flex; */
         }
 
-        .header .button-header {
-            justify-content: end;
-            float: right;
-            color: white;
-            height: auto;
-            padding: 5px;
-          background-color: white;
-          border: 1px solid #ccc;
+        .button-header {
+          justify-content: end;
+          float: right;
+          height: auto;
+          padding: 5px;
           border-radius: 5px;
           justify-content: center;
           align-items: center;
-          cursor: pointer;
           transition: background-color 0.3s;
         }
 
-        footer {
-            background-color: rgb(51, 51, 51);
-            color: white;
-            height: 50px;
-            position: fixed;
-            padding: 10px;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
-
-        .navbar {
-            background-color: grey;
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-
-        .navbar a {
-            padding: 8px 8px 8px 32px;
+        .button-header a {
             text-decoration: none;
             font-size: 25px;
             color: black;
-            display: block;
             transition: 0.3s;
+            background-color: white;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .navbar {
+          background-color: grey;
+          height: 100%;
+          width: 0;
+          position: fixed;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          overflow-x: hidden;
+          transition: 0.5s;
+          padding-top: 60px;
+        }
+
+        .navbar a {
+          padding: 8px 8px 8px 32px;
+          text-decoration: none;
+          font-size: 25px;
+          color: black;
+          display: block;
+          transition: 0.3s;
         }
 
         .navbar a:hover {
@@ -81,7 +78,7 @@
         }
 
         .hamburger {
-            font-size: 45px;
+            font-size: 50px;
             cursor: pointer;
             position: fixed;
             top: 5px;
@@ -90,11 +87,12 @@
             border-right: 5cm;
         
         }
+
         .container {
             margin: 20px ;
             padding: 20px;
             background-color: white;
-            box-shadow: 0px 0px 20px rgb(101, 101, 101);
+            box-shadow: 0px 0px 20px rgb(101, 101, 101, 0.5);
             max-width: 200px auto;
         }
 
@@ -114,16 +112,29 @@
         select { /* Sezione del filtraggio */
             padding: 5px;
         }
-        #login {
-            background-color: aqua;
-        }
         .button-header {
             width: fit-content;
             font-size: 30px;
             height: 100%;
+            overflow-x: hidden;
+            transition: 0.5s;
+            text-decoration: none;
         }
+        .button-header a {
+            /* padding: 8px 8px 8px 32px; */
+            text-decoration: none;
+            font-size: 25px;
+            color: black;
+            /* display: block; */
+            transition: 0.3s;
+            background-color: white;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px;
+        }
+
         .title-page {
-          margin-top: 30px;
+          margin-top: 5px;
           font-family: Arial, Helvetica, sans-serif;
           font-size: 35px;
         }
@@ -171,6 +182,17 @@
             padding: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
+        }
+
+        footer {
+          background-color: rgb(51, 51, 51);
+          color: white;
+          height: 20px;
+          position: fixed;
+          padding: 10px;
+          bottom: 0;
+          width: 100%;
+          text-align: center;
         }
     </style>
 
@@ -234,12 +256,11 @@
 
         <div class="hamburger" onclick="openNavbar()">
             &#9776;
-          <div class="button-header">
-            <a id="link" href="/login" type="button">accedi</a>
-          </div>
-          <div class="button-header">
-            <a id="button" href="/registration" type="button">registrati</a>
-          </div>
+        </div>
+        <div class="button-header">
+          <a id="link" href="/home" type="button">home</a>
+          <a id="link" href="/login" type="button">accedi</a>
+          <a id="button" href="/registration" type="button">registrati</a>
         </div>
         
 
@@ -248,10 +269,12 @@
     <script>
         function openNavbar() {
             document.getElementById("navbar").style.width = "250px";
+            document.getElementById("hamburger").style.display = "none";
         }
 
         function closeNavbar() {
             document.getElementById("navbar").style.width = "0";
+            document.getElementById("hamburger").style.display = "";
         }
     </script>
 
