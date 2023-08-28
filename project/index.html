@@ -105,6 +105,12 @@
             max-width: 200px auto;
         }
 
+        .photo {
+            background-color: grey;
+            height: 180px;
+            width: 150px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -174,37 +180,43 @@
     </script>
 
     <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Colonna 1</th>
-                    <th>Colonna 2</th>
-                    <th>Colonna 3</th>
-                    <th>Colonna 4</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Riga 1, Cella 1</td>
-                    <td>Riga 1, Cella 2</td>
-                    <td>Riga 1, Cella 3</td>
-                    <td>Riga 1, Cella 4</td>
-                </tr>
-                <tr>
-                    <td>Riga 2, Cella 1</td>
-                    <td>Riga 2, Cella 2</td>
-                    <td>Riga 2, Cella 3</td>
-                    <td>Riga 2, Cella 4</td>
-                </tr>
-                <!-- Ripeti le righe per le restanti 8 righe -->
-                <tr>
-                    <td>Riga 10, Cella 1</td>
-                    <td>Riga 10, Cella 2</td>
-                    <td>Riga 10, Cella 3</td>
-                    <td>Riga 10, Cella 4</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="profile-section">
+            <div class="photo">
+            </div>
+            <div class="profile-details">
+                <a>Nome: </a>
+                <a>Cognome: </a>
+                <a>P. IVA: </a>
+            </div>
+            <!-- <img src="/project/images/elon.jpg" style="height: 400px;" alt="Amministratore"> -->
+            
+        </div>
+
+        <div class="data-table">
+            <h2>Condomini di cui sei amministratore</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indirizzo</th>
+                        <th>Nome condominio</th>
+                        <th>Numero di piani</th>
+                        <th>Numero di appartamenti</th>
+                        <th>Numero appartamenti occupati</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dati dei condomini -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="charts">
+            <!-- Grafici a torta e cartesiani -->
+        </div>
+    </div>
+</body>
+</html>
+
     </div>
 
     <footer>
