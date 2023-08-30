@@ -1,9 +1,10 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const app = express();
 const mysql = require('mysql2');
 const port = 3001;
-const directory = '/Users/francescozoni/Documents/UniPR/Tecnologie Internet/Project-Condominium/project';
+const directory = '/Users/francescozoni/Documents/UniPR/Tecnologie Internet/Project-Condominioum/project';
 
 app.use(express.urlencoded({ extended: true })); // Configura il middleware per il parsing dei dati del form
 
@@ -43,7 +44,7 @@ app.get('/registration', (req, res) => {
 });
 
 app.get('/condominium-fee-payments', (req, res) => {
-  res.sendFile(directory+'/condominium-fee-payments.html');
+  res.sendFile(directory+'/condominioum-fee-payments.html');
 });
 
 app.get('/budget-previous-years', (req, res) => {
@@ -78,7 +79,7 @@ app.post('/login', (req, res) => {
   const { email, password }  = req.body;
 
   // Query per il controllo delle credenziali nel database
-  const query = "SELECT * FROM Condomini WHERE email = ? AND password = ?";
+  const query = "SELECT * FROM Utente WHERE email = ? AND password = ?";
   db.query(query, [email,password], (err, results) => {
     if (err) {
       console.error(err);
@@ -86,6 +87,7 @@ app.post('/login', (req, res) => {
     } else if (results.length = 0) { 
       res.status(401).send('Credenziali non valide');
     } else {
+      // const payload = {userId: }
       res.sendFile(directory+'/index.html');
     }
   });
@@ -93,10 +95,10 @@ app.post('/login', (req, res) => {
 
 
 app.post('/registration', (req, res) => {
-  const { nome, cognome, indirizzo, telefono, email, password } = req.body;
+  const { nome, cognome, email, telefono, password } = req.body;
 
   // Controllo se l'email esiste già nel database
-  const controlloMail = 'SELECT * FROM Condomini WHERE email = ?';
+  const controlloMail = 'SELECT * FROM Utente WHERE email = ?';
   db.query(controlloMail, [email], (controlloErr, controlloRes) => {
     if (controlloErr) {
       console.error("Errore durante il controllo dell'email:", controlloErr);
@@ -115,8 +117,8 @@ app.post('/registration', (req, res) => {
         return res.status(500).send("Errore durante la registrazione dell'utente.");
       }
 
-      // Esegui la query per inserire il nuovo utente nella tabella "Condomini"
-      const insertQuery = `INSERT INTO Condomini (nome, cognome, indirizzo, telefono, email, password) VALUES (?, ?, ?, ?, ?, ?)`;
+      // Esegui la query per inserire il nuovo utente nella tabella "Condominio"
+      const insertQuery = `INSERT INTO Utente (nome, cognome, indirizzo, telefono, email, password) VALUES (?, ?, ?, ?, ?, ?)`;
 
       db.query(insertQuery, [nome, cognome, indirizzo, telefono, email, hashedPassword], (err, result) => {
         if (err) {
@@ -133,7 +135,7 @@ app.post('/registration', (req, res) => {
 
 app.post('/insert_payment', (req, res) => {
   const { data, descrizione, mittente, codice_identificativo, prezzo } = req.body;
-  const insertQuery = 'INSERT INTO `Spese`(descrizione, importo, data, condominio_id) VALUES (?, ?, ?, ?)';
+  const insertQuery = 'INSERT INTO Pagamento (descrizione, importo, data, condominio_id) VALUES (?, ?, ?, ?)';
   db.query(insertQuery, [data,descrizione,mittente,codice_identificativo,prezzo], (err, result) => {
     if (err) {
       console.error("Errore durante l'inserimento del pagamento", err);
