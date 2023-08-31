@@ -4,67 +4,55 @@ CREATE DATABASE database_condominium;
 
 USE database_condominium;
 
-CREATE TABLE Condominio (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(255) NOT NULL,
-    indirizzo VARCHAR(255) NOT NULL,
-    n_piani int NOT NULL,
-    n_appartamenti int NOT NULL,
-    cantine boolean,
-    garage boolean
-);
-
-CREATE TABLE Utente (
+-- Creazione della tabella "Condomini" per archiviare le informazioni sui condomini
+CREATE TABLE Condomini (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
     cognome VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    p_iva VARCHAR(255),
-    ruolo ENUM('Amministratore','Utente'),
-    condominio_id INT,
-    FOREIGN KEY (condominio_id) REFERENCES Condominio(id)
+    indirizzo VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(255),
+    password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE Pagamento (
+-- Creazione della tabella "UnitàImmobiliari" per archiviare le informazioni sulle unità immobiliari
+CREATE TABLE UnitàImmobiliari (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    data DATE NOT NULL,
+    condominio_id INT,
+    numero INT,
+    proprietario_id INT,
+    metri_quadrati DECIMAL(8, 2) NOT NULL,
+    FOREIGN KEY (condominio_id) REFERENCES Condomini(id),
+    FOREIGN KEY (proprietario_id) REFERENCES Condomini(id)
+);
+
+-- Creazione della tabella "Spese" per archiviare le informazioni sulle spese condominiali
+CREATE TABLE Spese (
+    id INT PRIMARY KEY AUTO_INCREMENT,
     descrizione VARCHAR(255) NOT NULL,
-    codice_identificativo int(3) NOT NULL,
     importo DECIMAL(10, 2) NOT NULL,
+    data DATE NOT NULL,
     condominio_id INT,
-    utente_id INT,
-    FOREIGN KEY (condominio_id) REFERENCES Condominio(id),
-    FOREIGN KEY (utente_id) REFERENCES Utente(id)
+    FOREIGN KEY (condominio_id) REFERENCES Condomini(id)
 );
 
-CREATE TABLE Notifica (
+-- Creazione della tabella "Pagamenti" per archiviare le informazioni sui pagamenti effettuati dai condomini
+CREATE TABLE Pagamenti (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    tipologia ENUM('Lamentela','Revisione','Altro') NOT NULL,
+    spesa_id INT,
+    condomino_id INT,
+    importo DECIMAL(10, 2) NOT NULL,
     data DATE NOT NULL,
-    descrizione VARCHAR(255) NOT NULL,
-    utente_id INT,
-    FOREIGN KEY (utente_id) REFERENCES Utente(id)
+    FOREIGN KEY (spesa_id) REFERENCES Spese(id),
+    FOREIGN KEY (condomino_id) REFERENCES Condomini(id)
 );
 
-CREATE TABLE Riunione (
+CREATE TABLE Amministratore (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    data DATE NOT NULL,
-    ora TIME,
-    titolo VARCHAR(255) NOT NULL,
-    descrizione VARCHAR(255) NOT NULL,
-    utente_id INT NOT NULL,
-    FOREIGN KEY (utente_id) REFERENCES Utente(id)
-);
-
-CREATE TABLE Progetto_Futuro (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    data_inizio DATE NOT NULL,
-    data_fine DATE NOT NULL,
-    nome VARCHAR(255) NOT NULL,
-    descrizione VARCHAR(255) NOT NULL,
-    utente_id INT NOT NULL,
-    FOREIGN KEY (utente_id) REFERENCES Utente(id)
+    nome VARCHAR(255),
+    cognome VARCHAR(255),
+    codice INT,
+    
 );
 
 -- un membro della famiglia accede facendo il login con il codice del condominio in cui vive
