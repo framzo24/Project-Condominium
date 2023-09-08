@@ -9,6 +9,56 @@ const directory = '/Users/francescozoni/Documents/UniPR/Tecnologie Internet/Proj
 app.use(express.urlencoded({ extended: true })); // Configura il middleware per il parsing dei dati del form
 app.use(express.json());
 
+const condominiData = [
+  {
+    id: 1,
+    nome: 'Condominio A',
+    foto: '/images/condominii/condominioA.jpg', // Percorso dell'immagine
+    indirizzo: 'Via Roma, 123',
+    n_piani: 5,
+    n_appartamenti: 20,
+    canetine: true,
+    garage: false,
+  },
+  // Aggiungi altri condomini qui...
+];
+
+// Endpoint API per ottenere i dettagli dei condomini
+app.get('/api/condominii', (req, res) => {
+  res.json(condominiData);
+});
+
+const condominiumGrid = document.querySelector('.condominium-grid');
+
+// Cicla attraverso i dati dei condomini e crea le visualizzazioni
+condominiData.forEach((condominio) => {
+  const condominioDiv = document.createElement('div');
+  condominioDiv.classList.add('condominio-card');
+
+  // Immagine del condominio
+  const condominioImage = document.createElement('img');
+  condominioImage.src = condominio.foto;
+  condominioImage.alt = condominio.nome;
+  condominioDiv.appendChild(condominioImage);
+
+  // Informazioni principali del condominio
+  const infoDiv = document.createElement('div');
+  infoDiv.classList.add('condominio-info');
+  infoDiv.innerHTML = `
+    <h3>${condominio.nome}</h3>
+    <p>Indirizzo: ${condominio.indirizzo}</p>
+    <p>Numero di piani: ${condominio.n_piani}</p>
+    <p>Numero di appartamenti: ${condominio.n_appartamenti}</p>
+    <p>Cantine: ${condominio.cantine ? 'Si' : 'No'}</p>
+    <p>Garage: ${condominio.garage ? 'Si' : 'No'}</p>
+  `;
+
+  condominioDiv.appendChild(infoDiv);
+
+  // Aggiungi il condominio alla griglia
+  condominiumGrid.appendChild(condominioDiv);
+});
+
 const db = mysql.createConnection({
   host: 'localhost',
   port: '3307',
