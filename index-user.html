@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pagina principale</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(116, 116, 116);
+        }
+
+        .header {
+            background-color: rgb(51, 51, 51);
+            color: white;
+            height: 45px;
+            padding: 20px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .button-header {
+            justify-content: end;
+            float: right;
+            height: auto;
+            padding: 5px;
+            border-radius: 5px;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+            font-size: 30px;
+        }
+
+        .button-header a {
+            text-decoration: none;
+            font-size: 25px;
+            color: black;
+            transition: 0.3s;
+            background-color: white;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+          background-color: rgb(51, 51, 51);
+          color: white;
+          height: 20px;
+          position: fixed;
+          padding: 10px;
+          bottom: 0;
+          width: 100%;
+          text-align: center;
+        }
+
+        .navbar {
+            background-color: grey;
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .navbar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: black;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            color: white;
+        }
+
+        .navbar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .hamburger {
+            font-size: 50px;
+            cursor: pointer;
+            position: fixed;
+            top: 5px;
+            left: 10px;
+            z-index: 2;
+            border-right: 5cm;
+        
+        }
+
+        .container-admin {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 0px rgb(101, 101, 101, 0.5);
+            max-width: 200px auto;
+        }
+
+        .container-user {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 0px rgb(101, 101, 101, 0.5);
+            max-width: 200px auto;
+        }
+
+        .photo {
+            background-color: grey;
+            height: 180px;
+            width: 150px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 40px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .button-header {
+            justify-content: end;
+            float: right;
+            /* color: white; */
+            height: auto;
+            /* padding: 5px; */
+            /* background-color: white; */
+            /* border: 1px solid #ccc; */
+            border-radius: 5px;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .profile-section {
+            display: flex;
+            width: 100%;
+            /* border: 1px solid black; */
+        }
+
+        .profile-details {
+            padding-left: 50px;
+            padding-top: 10px;
+            display: grid;
+            align-content: stretch;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+
+        <div class="navbar" id="navbar">
+            <a id="link" href="/condominium-fee-payments" type="button">Pagamenti rette condominiali</a>
+            <a id="link" href="/budget-previous-years" type="button">Bilancio anni precedenti</a>
+            <a id="link" href="/future-projects" type="button">Progetti futuri</a>
+            <a id="link" href="/family" type="button">Famiglie</a>
+            <a id="link" href="/verbals" type="button">Verbali</a>
+            <a id="link" href="/reunions" type="button">Riunioni</a>
+            <a id="link" href="/notifications" type="button">Notifiche</a>
+            <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
+        </div>
+
+        <div class="hamburger" id="hamburger" onclick="openNavbar()">
+            &#9776;
+        </div>
+        <div class="button-header">
+            <a id="link" href="/home" type="button">home</a>
+            <a id="link" href="/login" type="button">accedi</a>
+            <a id="button" href="/registration" type="button">registrati</a>
+        </div>
+
+    </div>
+    <script>
+        function openNavbar() {
+            document.getElementById("navbar").style.width = "250px";
+            document.getElementById("hamburger").style.display = "none";
+        }
+
+        function closeNavbar() {
+            document.getElementById("navbar").style.width = "0";
+            document.getElementById("hamburger").style.display = "";
+        }
+
+        fetch('/condominio')
+            .then(Response => Response.json())
+            .then(data => {
+                const tableBody = document.getElementById('table-body');
+
+                data.forEach(condominio => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                    <td>${condominio.id}</td>
+                    <td>${condominio.nome}</td>
+                    <td>${condominio.indirizzo}</td>
+                    <td>${condominio.n_piani}</td>
+                    <td>${condominio.n_appartamenti}</td>
+                    <td>${condominio.cantine ? 'Si' : 'No'}</td>
+                    <td>${condominio.garage ? 'Si' : 'No'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+
+    <div class="container-admin">
+        <div class="profile-section">
+            <div class="photo" style="text-align: center;align-items: center;">
+                Foto
+            </div>
+            <div class="profile-details">
+                <a>Nome: </a>
+                <a>Cognome: </a>
+            </div>
+            <img src="elon.jpg" alt="Amministratore">
+            
+        </div>
+
+        <div class="data-table">
+            <h2>Utente familiare</h2>
+        </div>
+
+        <div class="charts">
+            <!-- Grafici a torta e cartesiani -->
+        </div>
+    </div>
+
+</body>
+</html>
+
+    <footer>
+        <a>About</a>
+        <a>Ciao</a>
+    </footer>
+
+</body>
+</html>
+
+<!-- vede icone dei suoi appartamenti e se clicca vede info famiglie dentro ci sarà un tasto aggiungifamiglia/modifica -->

@@ -1,16 +1,18 @@
 {
-  "dependencies": {
-    "jsonwebtoken": "^9.0.1"
-  },
-  "name": "project-condominium",
+  "name": "project_condominium",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.6.0",
+    "node": "^20.5.1"
+  }
 }

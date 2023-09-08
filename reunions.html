@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pagina con Footer, Header e Navbar</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: green;
+            height: 50px;
+        }
+
+        .header .button-header {
+            justify-content: end;
+            float: right;
+        }
+
+        footer {
+            background-color: gray;
+            height: 50px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .navbar {
+            background-color: yellow;
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .navbar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: black;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            color: white;
+        }
+
+        .navbar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .hamburger {
+            font-size: 30px;
+            cursor: pointer;
+            position: fixed;
+            top: 5px;
+            left: 10px;
+            z-index: 2;
+            border-right: 5cm;
+        
+        }
+        #container {
+            margin: 1cm;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        #login {
+            background-color: aqua;
+        }
+        .button-header {
+            width: fit-content;
+            font-size: 30px;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+
+        <div class="navbar" id="navbar">
+            <a id="link" href="/condominium-fee-payments" type="button">Pagamenti rette condominiali</a>
+            <a id="link" href="/budget-previous-years" type="button">Bilancio anni precedenti</a>
+            <a id="link" href="/future-projects" type="button">Progetti futuri</a>
+            <a id="link" href="/family" type="button">Famiglie</a>
+            <a id="link" href="/verbals" type="button">Verbali</a>
+            <a id="link" href="/reunions" type="button">Riunioni</a>
+            <a id="link" href="/notifications" type="button">Notifiche</a>
+            <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
+        </div>
+
+        <div class="hamburger" onclick="openNavbar()">
+            &#9776;
+            
+        </div>
+        <div class="button-header">
+            <a id="link" href="/login" type="button">accedi</a>
+            <a id="button" href="/registration" type="button">registrati</a>
+            </div>
+
+    </div>
+    <script>
+        function openNavbar() {
+            document.getElementById("navbar").style.width = "250px";
+        }
+
+        function closeNavbar() {
+            document.getElementById("navbar").style.width = "0";
+        }
+    </script>
+
+    <div id="container">
+        Pagina delle riunioni
+    </div>
+
+    <footer>
+        <a>About</a>
+        <a>Ciao</a>
+    </footer>
+</body>
+</html>
+<!-- calendario e tabella, se clicchi viene la descrizione della riunione e infondo alla tabella c'è scarca verbale e per l'amministratore anche un tasto dove può aggiugere il verbale -->
