@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const mysql = require('mysql2');
 const port = 3002;
-const directory = '/Users/francescozoni/Documents/UniPR/Tecnologie Internet/Project_Condominium/Project_Condominium';
+const directory = '/Users/francescozoni/Documents/UniPR/Tecnologie Internet/Project-Condominium';
 
 app.use(express.urlencoded({ extended: true })); // Configura il middleware per il parsing dei dati del form
 app.use(express.json());
@@ -69,32 +69,50 @@ app.listen(port, () => {
     console.log(`Server in ascolto sulla porta ${port}`);
 });
 
-// IL LOGIN DEVE ESSERE EFFETTUATO TRAMITE LA MAIL E LA PASSWORD E IL COD. PERSONALE / COD. CONDOMINIO
 app.post('/login', (req, res) => {
-  const { email, password, codice } = req.body;
+  const { email, password } = req.body;
 
-  // Query per il controllo delle credenziali nel database
-  const query = "SELECT * FROM Utente WHERE email = ? AND password = ? AND ";
-  db.query(query, [email, password], (err, results) => {
+  // Effettua una query per ottenere la riga dell'utente basata sull'email
+  const selectQuery = 'SELECT * FROM Utente WHERE email = ?';
+  db.query(selectQuery, [email], (err, results) => {
     if (err) {
-      res.status(500).send('Errore del server');
-    } else if (results.length === 0) {
-        res.status(401).send('Credenziali non valide. Verifica email e password.');
-      } else {
-        const user = results[0];
-        if (user.ruolo === "Utente" && user.codice === codice) {
-          res.sendFile(directory + '/index-user.html');
-        } else if (ruolo === "Amministratore" && user.codicePersonale === codicePersonale) {
-          res.sendFile(directory + '/index.html');
-        } else {
-          // Gestisci altri casi di ruolo se necessario
-          res.status(403).send('Accesso non autorizzato');
-        }
+      console.error("Errore durante il login:", err);
+      return res.status(500).send("Errore durante il login.");
+    }
+
+    if (results.length === 0) {
+      // L'utente non esiste nel database
+      return res.status(401).send("Credenziali non valide.");
+    }
+
+    // Verifica la password hashata
+    const user = results[0];
+    bcrypt.compare(password, user.password, (hashErr, isMatch) => {
+      if (hashErr) {
+        console.error("Errore durante la verifica della password:", hashErr);
+        return res.status(500).send("Errore durante il login.");
+      }
+
+      if (!isMatch) {
+        // La password non corrisponde
+        return res.status(401).send("Credenziali non valide.");
+      }
+
+      // Creazione del token JWT per l'utente autenticato
+      const token = jwt.sign({ userId: user.id }, 'your-secret-key', { expiresIn: '1h' });
+      
+      // Puoi restituire il token come risposta o eseguire altre azioni dopo il login
+      // res.send({ token }); // Modifica di conseguenza la risposta in base alle tue esigenze
+
+      if (user.ruolo === "Utente") {
+        res.sendFile(directory+'/index-user.html');
+      }
+      else {
+        res.sendFile(directory+'/index.html');
       }
     });
   });
-
-
+});
 
 app.post('/registration', (req, res) => {
   const { nome, cognome, email, password, p_iva, ruolo } = req.body;
@@ -112,28 +130,36 @@ app.post('/registration', (req, res) => {
       return res.status(400).send("L'indirizzo email è già registrato.");
     }
 
-    // // Esegui l'hashing della password
-    // bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
-    //   if (hashErr) {
-    //     console.error("Errore durante l'hashing della password:", hashErr);
-    //     return res.status(500).send("Errore durante la registrazione dell'utente.");
-    //   }
+    // Esegui l'hashing della password
+    bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
+      if (hashErr) {
+        console.error("Errore durante l'hashing della password:", hashErr);
+        return res.status(500).send("Errore durante la registrazione dell'utente.");
+      }
 
       // Esegui la query per inserire il nuovo utente nella tabella "Condominio"
       const insertQuery = `INSERT INTO Utente (nome, cognome, email, password, p_iva, ruolo) VALUES (?, ?, ?, ?, ?, ?)`;
 
-      db.query(insertQuery, [nome, cognome, email, password, p_iva, ruolo], (err, result) => {
+      db.query(insertQuery, [nome, cognome, email, hashedPassword, p_iva, ruolo], (err, result) => {
         if (err) {
             console.error("Errore durante l'inserimento dell'utente:", err);
             return res.status(500).send("Errore durante la registrazione dell'utente.");
         }
-
         console.log("Nuovo utente inserito con successo.");
         res.sendFile(directory+'/login.html');
       });
-    // });
+    });
   });
 });
+
+app.post('/logout', (req, res) => {
+  // Rimuovi il token dal localStorage (o sessionStorage) lato client
+  localStorage.removeItem('token');
+
+  // Reindirizza l'utente alla pagina di login o a una pagina di benvenuto
+  res.redirect(directory+'/login.html'); // Modifica di conseguenza il percorso di reindirizzamento
+});
+
 
 app.post('/insert_payment', (req, res) => {
   const { data, descrizione, mittente, codice_identificativo, prezzo } = req.body;
