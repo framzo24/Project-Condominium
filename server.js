@@ -9,54 +9,10 @@ const directory = '/Users/francescozoni/Documents/UniPR/Tecnologie Internet/Proj
 app.use(express.urlencoded({ extended: true })); // Configura il middleware per il parsing dei dati del form
 app.use(express.json());
 
-const condominiData = [
-  {
-    id: 1,
-    nome: 'Condominio A',
-    foto: '/images/condominii/condominioA.jpg', // Percorso dell'immagine
-    indirizzo: 'Via Roma, 123',
-    n_piani: 5,
-    n_appartamenti: 20,
-    canetine: true,
-    garage: false,
-  },
-  // Aggiungi altri condomini qui...
-];
 
 // Endpoint API per ottenere i dettagli dei condomini
 app.get('/api/condominii', (req, res) => {
   res.json(condominiData);
-});
-
-const condominiumGrid = document.querySelector('.condominium-grid');
-
-// Cicla attraverso i dati dei condomini e crea le visualizzazioni
-condominiData.forEach((condominio) => {
-  const condominioDiv = document.createElement('div');
-  condominioDiv.classList.add('condominio-card');
-
-  // Immagine del condominio
-  const condominioImage = document.createElement('img');
-  condominioImage.src = condominio.foto;
-  condominioImage.alt = condominio.nome;
-  condominioDiv.appendChild(condominioImage);
-
-  // Informazioni principali del condominio
-  const infoDiv = document.createElement('div');
-  infoDiv.classList.add('condominio-info');
-  infoDiv.innerHTML = `
-    <h3>${condominio.nome}</h3>
-    <p>Indirizzo: ${condominio.indirizzo}</p>
-    <p>Numero di piani: ${condominio.n_piani}</p>
-    <p>Numero di appartamenti: ${condominio.n_appartamenti}</p>
-    <p>Cantine: ${condominio.cantine ? 'Si' : 'No'}</p>
-    <p>Garage: ${condominio.garage ? 'Si' : 'No'}</p>
-  `;
-
-  condominioDiv.appendChild(infoDiv);
-
-  // Aggiungi il condominio alla griglia
-  condominiumGrid.appendChild(condominioDiv);
 });
 
 const db = mysql.createConnection({
@@ -74,49 +30,49 @@ db.connect((err) => {
     console.log('Connessione al database stabilita correttamente');
   }
 });
-  
+
 app.get('/home', (req, res) => {
-    res.sendFile(directory+'/index.html');
+  res.sendFile(directory + '/index.html');
 });
 
 app.get('/login', (req, res) => {
-    res.sendFile(directory+'/login.html');
+  res.sendFile(directory + '/login.html');
 });
 
 app.get('/registration', (req, res) => {
-  res.sendFile(directory+'/registration.html');
+  res.sendFile(directory + '/registration.html');
 });
 
 app.get('/condominium-fee-payments', (req, res) => {
-  res.sendFile(directory+'/condominium-fee-payments.html');
+  res.sendFile(directory + '/condominium-fee-payments.html');
 });
 
 app.get('/budget-previous-years', (req, res) => {
-  res.sendFile(directory+'/budget-previous-years.html');
+  res.sendFile(directory + '/budget-previous-years.html');
 });
 
 app.get('/family', (req, res) => {
-  res.sendFile(directory+'/family.html');
+  res.sendFile(directory + '/family.html');
 });
 
 app.get('/future-projects', (req, res) => {
-  res.sendFile(directory+'/future-projects.html');
+  res.sendFile(directory + '/future-projects.html');
 });
 
 app.get('/notifications', (req, res) => {
-  res.sendFile(directory+'/notifications.html');
+  res.sendFile(directory + '/notifications.html');
 });
 
 app.get('/reunions', (req, res) => {
-  res.sendFile(directory+'/reunions.html');
+  res.sendFile(directory + '/reunions.html');
 });
 
 app.get('/verbals', (req, res) => {
-  res.sendFile(directory+'/verbals.html');
+  res.sendFile(directory + '/verbals.html');
 });
 
 app.listen(port, () => {
-    console.log(`Server in ascolto sulla porta ${port}`);
+  console.log(`Server in ascolto sulla porta ${port}`);
 });
 
 app.post('/login', (req, res) => {
@@ -150,15 +106,15 @@ app.post('/login', (req, res) => {
 
       // Creazione del token JWT per l'utente autenticato
       const token = jwt.sign({ userId: user.id }, 'your-secret-key', { expiresIn: '1h' });
-      
+
       // Puoi restituire il token come risposta o eseguire altre azioni dopo il login
       // res.send({ token }); // Modifica di conseguenza la risposta in base alle tue esigenze
 
       if (user.ruolo === "Utente") {
-        res.sendFile(directory+'/index-user.html');
+        res.sendFile(directory + '/index-user.html');
       }
       else {
-        res.sendFile(directory+'/index.html');
+        res.sendFile(directory + '/index.html');
       }
     });
   });
@@ -192,11 +148,11 @@ app.post('/registration', (req, res) => {
 
       db.query(insertQuery, [nome, cognome, email, hashedPassword, p_iva, ruolo], (err, result) => {
         if (err) {
-            console.error("Errore durante l'inserimento dell'utente:", err);
-            return res.status(500).send("Errore durante la registrazione dell'utente.");
+          console.error("Errore durante l'inserimento dell'utente:", err);
+          return res.status(500).send("Errore durante la registrazione dell'utente.");
         }
         console.log("Nuovo utente inserito con successo.");
-        res.sendFile(directory+'/login.html');
+        res.sendFile(directory + '/login.html');
       });
     });
   });
@@ -207,20 +163,20 @@ app.post('/logout', (req, res) => {
   localStorage.removeItem('token');
 
   // Reindirizza l'utente alla pagina di login o a una pagina di benvenuto
-  res.redirect(directory+'/login.html'); // Modifica di conseguenza il percorso di reindirizzamento
+  res.redirect(directory + '/login.html'); // Modifica di conseguenza il percorso di reindirizzamento
 });
 
 
 app.post('/insert_payment', (req, res) => {
   const { data, descrizione, mittente, codice_identificativo, prezzo } = req.body;
   const insertQuery = 'INSERT INTO Pagamento (descrizione, importo, data, condominio_id) VALUES (?, ?, ?, ?)';
-  db.query(insertQuery, [data,descrizione,mittente,codice_identificativo,prezzo], (err, result) => {
+  db.query(insertQuery, [data, descrizione, mittente, codice_identificativo, prezzo], (err, result) => {
     if (err) {
       console.error("Errore durante l'inserimento del pagamento", err);
       return res.status(500).send("Errore durante l'inserimento del pagamento");
     }
 
-  console.log("Nuovo pagamento inserito con successo.");
+    console.log("Nuovo pagamento inserito con successo.");
   });
 });
 
