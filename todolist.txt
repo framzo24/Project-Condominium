@@ -1,3 +1,8 @@
 grafica in tutto
 trovare concept per il sito
 crittografare la password
+
+
+insert_payment:
+    da dove prendiamo l'id del condominio?
+    bisogna prendere l'id del utente anche
