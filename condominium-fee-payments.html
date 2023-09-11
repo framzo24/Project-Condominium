@@ -186,7 +186,27 @@
     }
 
     .form-container {
-      /* display: none; */
+      display: none;
+      width: calc(25% - 10px);
+      padding: 20px;
+      box-sizing: border-box;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-container1 {
+      display: none;
+      width: calc(25% - 10px);
+      padding: 20px;
+      box-sizing: border-box;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-container2 {
+      display: none;
       width: calc(25% - 10px);
       padding: 20px;
       box-sizing: border-box;
@@ -244,7 +264,7 @@
       <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
     </div>
 
-    <div class="hamburger" onclick="openNavbar()">
+    <div class="hamburger" id="hamburger" onclick="openNavbar()">
       &#9776;
     </div>
 
@@ -257,24 +277,6 @@
   </div>
 
   <script>
-
-    function openNavbar() {
-      document.getElementById("navbar").style.width = "250px";
-      document.getElementById("hamburger").style.display = "none";
-    }
-
-    function closeNavbar() {
-      document.getElementById("navbar").style.width = "0";
-      document.getElementById("hamburger").style.display = "";
-    }
-
-    function openNewPayment() {
-      document.getElementById("form-container").style.display = "";
-    }
-
-    function closenNewPayment() {
-      document.getElementById("form-container").style.display = "none";
-    }
 
     document.addEventListener("DOMContentLoaded", function () {
       const filterSelect = document.getElementById("filter");
@@ -457,24 +459,24 @@
     </div>
 
     <div class="card-space">
-      <a class="card" onclick="openNewPayment()">Nuovo Pagamento</a>
-      <div class="card">Modifica pagamento</div>
-      <div class="card">Cancella pagamento</div>
+      <div class="card" onclick="openFormPayment('form-container')">Nuovo Pagamento</div>
+      <div class="card" onclick="openFormPayment('form-container1')" >Modifica pagamento</div>
+      <div class="card" onclick="openFormPayment('form-container2')" >Cancella pagamento</div>
     </div>
 
     <div class="modify-container">
       <div class="form-container" id="form-container">
-        <h3>Inserimento Pagamento</h3>
-        <form action="/insert_payment" method="post" id="form-container">
-          <input type="date" name="data" placeholder="Data">
-          <input type="text" name="descrizione" placeholder="Descrizione">
-          <input type="text" name="codice_identificativo" placeholder="Codice identificativo">
-          <input type="number" name="prezzo" step="0.01" placeholder="Prezzo">
-          <button type="submit">Inserisci</button>
+        <h3>Nuovo Pagamento</h3>
+        <form action="/insert_payment" method="post">
+          <input type="date" name="data" placeholder="Data" required>
+          <input type="text" name="descrizione" placeholder="Descrizione" required>
+          <input type="text" name="codice_identificativo" placeholder="Codice identificativo" required>
+          <input type="number" name="prezzo" step="0.01" placeholder="Prezzo" required>
+          <button type="submit" onclick="closenFormPayment('form-container')">Inserisci</button>
         </form>
       </div>
 
-      <div class="form-container">
+      <div class="form-container1" id="form-container1">
         <h3>Modifica Pagamento</h3>
         <form action="/new_payment" method="post" id="modificaForm">
           <input type="hidden" id="idPagamento">
@@ -486,11 +488,11 @@
           <input type="text" id="codiceIdentificativo" name="codiceIdentificativo" required>
           <label for="importo">Importo:</label>
           <input type="text" id="importo" name="importo" required>
-          <button type="button" id="confermaModifica">Conferma</button>
+          <button type="button" onclick="closenFormPayment('form-container1')">Conferma</button>
         </form>
       </div>
 
-      <div class="form-container">
+      <div class="form-container2" id="form-container2">
         <h3>Cancella pagamento</h3>
         <form action="/delete_payment" method="post">
           <input type="hidden" id="idPagamento">
@@ -502,7 +504,7 @@
           <input type="text" id="codiceIdentificativo" name="codiceIdentificativo" required>
           <label for="importo">Importo:</label>
           <input type="text" id="importo" name="importo" required>
-          <button type="button" id="confermaModifica">Conferma</button>
+          <button type="button" onclick="closenFormPayment('form-container2')">Conferma</button>
         </form>
       </div>
     </div>
@@ -527,6 +529,27 @@
     <a>About</a>
     <a>Us</a>
   </footer>
+
+  <script>
+    function openNavbar() {
+      document.getElementById("navbar").style.width = "250px";
+      document.getElementById("hamburger").style.display = "none";
+    }
+
+    function closeNavbar() {
+      document.getElementById("navbar").style.width = "0";
+      document.getElementById("hamburger").style.display = "";
+    }
+
+    function openFormPayment(form) {
+      document.getElementById(form).style.display = "block";
+    }
+
+    function closenFormPayment(form) {
+      document.getElementById(form).style.display = "none";
+    }
+  </script>
+
 </body>
 
 </html>
