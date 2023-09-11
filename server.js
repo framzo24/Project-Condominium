@@ -166,17 +166,18 @@ app.post('/logout', (req, res) => {
   res.redirect(directory + '/login.html'); // Modifica di conseguenza il percorso di reindirizzamento
 });
 
-
 app.post('/insert_payment', (req, res) => {
-  const { data, descrizione, mittente, codice_identificativo, prezzo } = req.body;
-  const insertQuery = 'INSERT INTO Pagamento (descrizione, importo, data, condominio_id) VALUES (?, ?, ?, ?)';
-  db.query(insertQuery, [data, descrizione, mittente, codice_identificativo, prezzo], (err, result) => {
+  const { data, descrizione, codice_identificativo, prezzo } = req.body;
+  const condominio_id = 1;
+  const utente_id = 1;
+  const insertQuery = 'INSERT INTO Pagamento (data, descrizione, codice_identificativo, importo, condominio_id, utente_id) VALUES (?, ?, ?, ?, ?, ?)';
+  db.query(insertQuery, [data, descrizione, codice_identificativo, prezzo, condominio_id, utente_id], (err, result) => {
     if (err) {
       console.error("Errore durante l'inserimento del pagamento", err);
       return res.status(500).send("Errore durante l'inserimento del pagamento");
     }
-
     console.log("Nuovo pagamento inserito con successo.");
+
   });
 });
 
@@ -193,14 +194,13 @@ app.post('/aggiorna-pagamento', (req, res) => {
   db.query(updateQuery, [data, descrizione, codiceIdentificativo, importo, idPagamento], (err, results) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Errore del server durante l\'aggiornamento del pagamento');
+      res.status(500).send("Errore del server durante l'aggiornamento del pagamento");
     } else {
       // Aggiornamento riuscito
       res.status(200).send('Pagamento aggiornato con successo');
     }
   });
 });
-
 
 app.get('/condominio', (req, res) => {
   const query = 'SELECT * FROM Condominio';
@@ -209,3 +209,48 @@ app.get('/condominio', (req, res) => {
     res.json(result);
   });
 });
+
+//funzione per recuperare i dati dei pagamenti dal database
+function getPagamentiFromDatabase(callback) {
+  const query = 'SELECT * FROM Pagamento';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Errore durante la query al database:', err);
+      return callback(err, null);
+    }
+    //creaione array di popolamento
+    const datiPagamenti = [];
+    //popolamento dell'array dal risultato della query
+    results.forEach((row) => {
+      const pagamento = {
+        id: row.id,
+        data: row.data,
+        descrizione: row.descrizione,
+        codice_identificativo: row.codice_identificativo,
+        importo: row.importo,
+        condominio_id: row.condominio_id,
+        utente_id: row.utente_id,
+      };
+      //inserire il singolo dato nell'array
+      datiPagamenti.push(pagamento);
+    });
+    //ritornare i dati della funzione
+    callback(null, datiPagamenti);
+  })
+}
+
+//route per la pagina dei pagamenti
+app.get('/pagamenti', (req, res) => {
+  getPagamentiFromDatabase((err, datiPagamenti) => {
+    if (err) {
+      // Gestisci l'errore
+      console.error('Errore durante il recupero dei pagamenti:', err);
+      res.status(500).send('Errore durante il recupero dei pagamenti');
+    } else {
+      // Invia i dati dei pagamenti come risposta JSON
+      res.json(datiPagamenti);
+    }
+  });
+});
+
