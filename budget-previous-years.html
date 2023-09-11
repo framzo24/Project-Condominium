@@ -114,9 +114,12 @@
 
         th,
         td {
-            border: 1px solid black;
+            border: 0px solid white;
             padding: 8px;
-            text-align: center;
+            text-align:left;
+        }
+        tr {
+            width: 150px;
         }
     </style>
 </head>
@@ -147,7 +150,14 @@
     </div>
 
     <div class="container">
-        
+        <table>
+            <tr>
+                <td>Bilancio anno 2023</td>
+            </tr>
+            <tr>
+                <td>Bilancio anno 2022</td>
+            </tr>
+        </table>
     </div>
 
     <footer>
@@ -160,7 +170,7 @@
             document.getElementById("navbar").style.width = "0";
             document.getElementById("hamburger").style.display = "block";
         }
-        
+
         function openNavbar() {
             document.getElementById("navbar").style.width = "250px";
             document.getElementById("hamburger").style.display = "none";
