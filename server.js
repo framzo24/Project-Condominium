@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const mysql = require('mysql2');
 const port = 3002;
-const directory = '/Users/francescozoni/Documents/UniPR/Tecnologie Internet/Project-Condominium';
+const config = require('./config.json');
+const directory = config.projectDirectory;
 
 app.use(express.urlencoded({ extended: true })); // Configura il middleware per il parsing dei dati del form
 app.use(express.json());
@@ -16,11 +17,11 @@ app.get('/api/condominii', (req, res) => {
 });
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  port: '3307',
-  user: 'root',
+  host: config.dbServer,
+  port: config.dbPort,
+  user: config.dbUsername,
   password: '',
-  database: 'database_condominium'
+  database: config.dbName
 });
 
 db.connect((err) => {
