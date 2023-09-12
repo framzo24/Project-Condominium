@@ -2,3 +2,13 @@
 .DS_Store
 node_modules/.DS_Store
 .DS_Store
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# macOS
+.DS_Store
+
+# Visual Studio Code
+.vscode/

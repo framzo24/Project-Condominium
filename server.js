@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const mysql = require('mysql2');
 const port = 3002;
-const directory = '/Users/francescozoni/Documents/UniPR/Tecnologie Internet/Project-Condominium';
+const directory = '/Users/elena/OneDrive/Desktop/Project-Condominium/Project-Condominium';
 
 app.use(express.urlencoded({ extended: true })); // Configura il middleware per il parsing dei dati del form
 app.use(express.json());
@@ -17,7 +17,7 @@ app.get('/api/condominii', (req, res) => {
 
 const db = mysql.createConnection({
   host: 'localhost',
-  port: '3307',
+  port: '3306',
   user: 'root',
   password: '',
   database: 'database_condominium'
