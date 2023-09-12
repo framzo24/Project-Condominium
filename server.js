@@ -240,6 +240,41 @@ function getPagamentiFromDatabase(callback) {
   })
 }
 
+// funzione per recuperare i dati dei condomini dal database
+function getCondominiFromDatabase(callback) {
+  const query = 'SELECT * FROM Condominio'; // Sostituisci con la tua query SQL effettiva
+
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error('Errore durante la query al database:', err);
+          return callback(err, null);
+      }
+
+      // Crea un array per memorizzare tutti i condomini
+      const condominiArray = [];
+
+      // Itera attraverso i risultati e crea un oggetto per ciascun condominio
+      results.forEach((row) => {
+          const condominio = {
+              id: row.id,
+              nome: row.nome,
+              foto: '/elon.jpg', // Percorso dell'immagine
+              indirizzo: row.indirizzo,
+              n_piani: row.n_piani,
+              n_appartamenti: row.n_appartamenti,
+              cantine: row.cantine,
+              garage: row.garage,
+          };
+
+          // Aggiungi l'oggetto condominio all'array dei condomini
+          condominiArray.push(condominio);
+      });
+
+      // Passa l'array dei condomini come risultato
+      callback(null, condominiArray);
+  });
+}
+
 //route per la pagina dei pagamenti
 app.get('/pagamenti', (req, res) => {
   getPagamentiFromDatabase((err, datiPagamenti) => {
@@ -253,4 +288,20 @@ app.get('/pagamenti', (req, res) => {
     }
   });
 });
+
+//route per la pagina dei condomini
+app.get('/condomini', (req, res) => {
+  getCondominiFromDatabase((err, condominiArray) => {
+    if (err) {
+      // Gestisci l'errore
+      console.error('Errore durante il recupero dei condomini:', err);
+      res.status(500).send('Errore durante il recupero dei condomini');
+    } else {
+      // Invia i dati dei pagamenti come risposta JSON
+      res.json(condominiArray);
+    }
+  });
+});
+
+
 
