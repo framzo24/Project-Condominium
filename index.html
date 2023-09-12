@@ -177,87 +177,6 @@
         </div>
 
     </div>
-    <script>
-        function openNavbar() {
-            document.getElementById("navbar").style.width = "250px";
-            document.getElementById("hamburger").style.display = "none";
-        }
-
-        function closeNavbar() {
-            document.getElementById("navbar").style.width = "0";
-            document.getElementById("hamburger").style.display = "";
-        }
-
-        const condominiData = any;
-
-        function getCondominiFromDatabase(callback) {
-            const query = 'SELECT * FROM Condominio'; // Sostituisci con la tua query SQL effettiva
-
-            db.query(query, (err, results) => {
-                if (err) {
-                    console.error('Errore durante la query al database:', err);
-                    return callback(err, null);
-                }
-
-                // Crea un array per memorizzare tutti i condomini
-                const condominiArray = [];
-
-                // Itera attraverso i risultati e crea un oggetto per ciascun condominio
-                results.forEach((row) => {
-                    const condominio = {
-                        id: row.id,
-                        nome: row.nome,
-                        foto: '/elon.jpg', // Percorso dell'immagine
-                        indirizzo: row.indirizzo,
-                        n_piani: row.n_piani,
-                        n_appartamenti: row.n_appartamenti,
-                        cantine: row.cantine,
-                        garage: row.garage,
-                    };
-
-                    // Aggiungi l'oggetto condominio all'array dei condomini
-                    condominiArray.push(condominio);
-                });
-
-                // Passa l'array dei condomini come risultato
-                callback(null, condominiArray);
-            });
-        }
-
-
-
-
-        const condominiumGrid = document.querySelector('.condominium-grid');
-
-        // Cicla attraverso i dati dei condomini e crea le visualizzazioni
-        condominiData.forEach((condominio) => {
-            const condominioDiv = document.createElement('div');
-            condominioDiv.classList.add('condominio-card');
-
-            // Immagine del condominio
-            const condominioImage = document.createElement('img');
-            condominioImage.src = condominio.foto;
-            condominioImage.alt = condominio.nome;
-            condominioDiv.appendChild(condominioImage);
-
-            // Informazioni principali del condominio
-            const infoDiv = document.createElement('div');
-            infoDiv.classList.add('condominio-info');
-            infoDiv.innerHTML = `
-            <h3>${condominio.nome}</h3>
-            <p>Indirizzo: ${condominio.indirizzo}</p>
-            <p>Numero di piani: ${condominio.n_piani}</p>
-            <p>Numero di appartamenti: ${condominio.n_appartamenti}</p>
-            <p>Cantine: ${condominio.cantine ? 'Si' : 'No'}</p>
-            <p>Garage: ${condominio.garage ? 'Si' : 'No'}</p>
-        `;
-
-            condominioDiv.appendChild(infoDiv);
-
-            // Aggiungi il condominio alla griglia
-            condominiumGrid.appendChild(condominioDiv);
-        });
-    </script>
 
     <div class="container-admin">
         <div class="profile-section">
@@ -290,6 +209,57 @@
     <a>About</a>
     <a>Ciao</a>
 </footer>
+
+<script>
+    function openNavbar() {
+        document.getElementById("navbar").style.width = "250px";
+        document.getElementById("hamburger").style.display = "none";
+    }
+
+    function closeNavbar() {
+        document.getElementById("navbar").style.width = "0";
+        document.getElementById("hamburger").style.display = "";
+    }
+
+    /* const condominiumGrid = document.querySelector('.condominium-grid');
+
+    // Cicla attraverso i dati dei condomini e crea le visualizzazioni
+    condominiData.forEach((condominio) => {
+        const condominioDiv = document.createElement('div');
+        condominioDiv.classList.add('condominio-card');
+
+        // Immagine del condominio
+        const condominioImage = document.createElement('img');
+        condominioImage.src = condominio.foto;
+        condominioImage.alt = condominio.nome;
+        condominioDiv.appendChild(condominioImage);
+
+        // Informazioni principali del condominio
+        const infoDiv = document.createElement('div');
+        infoDiv.classList.add('condominio-info');
+        infoDiv.innerHTML = `
+        <h3>${condominio.nome}</h3>
+        <p>Indirizzo: ${condominio.indirizzo}</p>
+        <p>Numero di piani: ${condominio.n_piani}</p>
+        <p>Numero di appartamenti: ${condominio.n_appartamenti}</p>
+        <p>Cantine: ${condominio.cantine ? 'Si' : 'No'}</p>
+        <p>Garage: ${condominio.garage ? 'Si' : 'No'}</p>
+    `;
+
+        condominioDiv.appendChild(infoDiv);
+
+        // Aggiungi il condominio alla griglia
+        condominiumGrid.appendChild(condominioDiv);
+    }); */
+
+    function populateTableCondomini(condominiArray) {
+        const table = document.getElementById('condominium-grid');
+
+        const gridRows = condominiArray.map((condominio)) => '
+            <div class="grid-item">1</div>
+        '
+    }
+</script>
 
 </body>
 
