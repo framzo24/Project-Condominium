@@ -14,6 +14,8 @@ const pippo = 1;
 
 app.use(express.urlencoded({ extended: true })); // Configura il middleware per il parsing dei dati del form
 app.use(express.json());
+app.use('/pdf', express.static('/Users/francescozoni/Documents/UniPR/Project-Condominium/pdf'));
+app.use('/images', express.static('/Users/francescozoni/Documents/UniPR/Project-Condominium/images'));
 
 
 // Endpoint API per ottenere i dettagli dei condomini

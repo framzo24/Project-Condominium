@@ -1,9 +1,9 @@
 {
   "dbServer": "localhost",
-  "dbPort": 3306,
+  "dbPort": 3307,
   "dbUsername": "root",
   "dbPassword": "",
   "dbName": "database_condominium",
-  "projectDirectory": "/Users/elena/OneDrive/Desktop/gitkraken/Project-Condominium"
+  "projectDirectory": "/Users/francescozoni/Documents/UniPR/Project-Condominium"
 }
 
