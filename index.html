@@ -91,23 +91,13 @@
         .hamburger {
             font-size: 50px;
             cursor: pointer;
-            position: fixed;
             top: 5px;
             left: 10px;
             z-index: 2;
             border-right: 5cm;
-
         }
 
         .container-admin {
-            margin: 20px;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0px 0px 0px rgb(101, 101, 101, 0.5);
-            max-width: 200px auto;
-        }
-
-        .container-user {
             margin: 20px;
             padding: 20px;
             background-color: white;
@@ -149,6 +139,14 @@
             display: grid;
             align-content: stretch;
         }
+
+        .grid-item {
+            /* border: 1px solid black; */
+        }
+        .grid-item a {
+            text-decoration: none;
+            color: black;
+        }
     </style>
 </head>
 
@@ -180,20 +178,16 @@
 
     <div class="container-admin">
         <div class="profile-section">
-            <div class="photo" style="text-align: center;align-items: center;">
-                Foto
-            </div>
+            <img id="image-admin" height="300px" src="./images/elon.jpg" >
             <div class="profile-details">
                 <a>Nome: </a>
                 <a>Cognome: </a>
                 <a>P. IVA: </a>
             </div>
-            <img src="elon.jpg" alt="Amministratore">
-
         </div>
 
-        <div class="condominium-grid">
-            
+        <div id="grid-container">
+            <!-- Spazio che viene aggiornato dinamicamente -->
         </div>
 
         <div class="charts">
@@ -252,13 +246,48 @@
         condominiumGrid.appendChild(condominioDiv);
     }); */
 
-    function populateTableCondomini(condominiArray) {
-        const table = document.getElementById('condominium-grid');
+    function populateGrid(condominiArray) {
+        const gridContainer = document.getElementById('grid-container'); // Sostituisci con l'ID del tuo contenitore griglia
 
-        const gridRows = condominiArray.map((condominio)) => '
-            <div class="grid-item">1</div>
-        '
+        condominiArray.forEach((condominio) => {
+            const gridItem = document.createElement('div');
+            gridItem.classList.add('grid-item'); // Aggiungi classi CSS per la formattazione
+
+            // Creazione del contenuto del singolo elemento della griglia
+            const imagesPath = "foto"
+            const content = `
+                <img src="./images/${imagesPath.replace('foto',condominio.nome)}.jpg" height="200px" >
+                <a href="/family"><h2>${condominio.nome}</h2></a>
+                <p>Indirizzo: ${condominio.indirizzo}</p>
+                <p>Numero Piani: ${condominio.n_piani}</p>
+                <p>Numero Appartamenti: ${condominio.n_appartamenti}</p>
+                <p>Cantine: ${condominio.cantine ? 'Sì' : 'No'}</p>
+                <p>Garage: ${condominio.garage ? 'Sì' : 'No'}</p>
+                `;
+
+            gridItem.innerHTML = content;
+            gridContainer.appendChild(gridItem);
+        });
     }
+
+    // Nella tua pagina HTML
+    window.addEventListener('load', () => {
+        fetch('/condomini')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Errore nella richiesta');
+                }
+                return response.json();
+            })
+            .then((condominiArray) => {
+                // Popola la griglia HTML con i dati recuperati
+                populateGrid(condominiArray);
+            })
+            .catch((error) => {
+                console.error('Errore durante la richiesta al server:', error);
+            });
+    });
+
 </script>
 
 </body>
