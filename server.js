@@ -6,11 +6,6 @@ const mysql = require('mysql2');
 const port = 3002;
 const config = require('./config.json');
 const directory = config.projectDirectory;
-<<<<<<< HEAD
-const francesco_zoni_finocchio = 1;
-=======
-const pippo = 1;
->>>>>>> main
 
 app.use(express.urlencoded({ extended: true })); // Configura il middleware per il parsing dei dati del form
 app.use(express.json());
