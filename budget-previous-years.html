@@ -107,19 +107,8 @@
             max-width: 200px auto;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            border: 0px solid white;
-            padding: 8px;
-            text-align:left;
-        }
-        tr {
-            width: 150px;
+        .container .container ul li {
+            cursor: pointer;
         }
     </style>
 </head>
@@ -150,14 +139,24 @@
     </div>
 
     <div class="container">
-        <table>
-            <tr>
-                <td>Bilancio anno 2023</td>
-            </tr>
-            <tr>
-                <td>Bilancio anno 2022</td>
-            </tr>
-        </table>
+        <ul id="bilanci-list">
+            <li id="bilancio-2010">Bilancio anno 2010</li>
+            <li id="bilancio-2011">Bilancio anno 2011</li>
+            <li id="bilancio-2012">Bilancio anno 2012</li>
+            <li id="bilancio-2013">Bilancio anno 2013</li>
+            <li id="bilancio-2014">Bilancio anno 2014</li>
+            <li id="bilancio-2015">Bilancio anno 2015</li>
+            <li id="bilancio-2016">Bilancio anno 2016</li>
+            <li id="bilancio-2017">Bilancio anno 2017</li>
+            <li id="bilancio-2018">Bilancio anno 2018</li>
+            <li id="bilancio-2019">Bilancio anno 2019</li>
+            <li id="bilancio-2020">Bilancio anno 2020</li>
+            <!-- Aggiungi altri anni qui -->
+        </ul>
+    </div>
+
+    <div id="pdf-preview" class="pdf-preview">
+        <!-- L'anteprima del PDF sarà visualizzata qui -->
     </div>
 
     <footer>
@@ -166,6 +165,21 @@
     </footer>
 
     <script>
+        // Aggiungi un gestore di eventi a ciascun elemento dell'elenco dei bilanci
+        const bilanciList = document.getElementById('bilanci-list');
+        const pdfPreview = document.getElementById('pdf-preview');
+
+        bilanciList.addEventListener('click', (event) => {
+            // Ottieni l'ID dell'elemento cliccato
+            const clickedId = event.target.id;
+
+            // Costruisci il percorso del file PDF in base all'ID
+            const pdfPath = `./pdf/${clickedId.replace('bilancio-', '')}.pdf`;
+
+            // Visualizza l'anteprima del PDF nell'elemento di anteprima
+            pdfPreview.innerHTML = `<embed src="${pdfPath}" type="application/pdf" width="100%" height="600px" />`;
+        });
+
         function closeNavbar() {
             document.getElementById("navbar").style.width = "0";
             document.getElementById("hamburger").style.display = "block";
@@ -176,6 +190,7 @@
             document.getElementById("hamburger").style.display = "none";
         }
     </script>
+
 
 </body>
 
