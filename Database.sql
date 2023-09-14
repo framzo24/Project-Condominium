@@ -26,6 +26,15 @@ CREATE TABLE Condominio (
     FOREIGN KEY (utente_id) REFERENCES Utente(id)
 );
 
+CREATE TABLE Associazione (
+    ass_id INT PRIMARY KEY AUTO_INCREMENT,
+    condominio_id INT NOT NULL,
+    utente_id INT NOT NULL,
+
+    FOREIGN KEY(utente_id) REFERENCES Utente(id),
+    FOREIGN KEY (condominio_id) REFERENCES Condominio(id)
+);
+
 CREATE TABLE Pagamento (
     id INT PRIMARY KEY AUTO_INCREMENT,
     data DATE NOT NULL,
@@ -63,8 +72,8 @@ CREATE TABLE Progetto_Futuro (
     data_fine DATE NOT NULL,
     nome VARCHAR(255) NOT NULL,
     descrizione VARCHAR(255) NOT NULL,
-    utente_id INT NOT NULL,
-    FOREIGN KEY (utente_id) REFERENCES Utente(id)
+    condominio_id INT NOT NULL,
+    FOREIGN KEY (condominio_id) REFERENCES Condominio(id)
 );
 
 -- un membro della famiglia accede facendo il login con il codice del condominio in cui vive
