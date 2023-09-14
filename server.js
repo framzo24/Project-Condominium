@@ -6,7 +6,14 @@ const mysql = require('mysql2');
 const port = 3002;
 const config = require('./config.json');
 const directory = config.projectDirectory;
-const secretKey = 'your-secret-key';
+const session = require('express-session');
+
+// Configura express-session 
+app.use(session({
+    secret: 'elenafrancesco', // Cambia con una chiave segreta più sicura
+    resave: false,
+    saveUninitialized: true
+}));
 
 app.use(express.urlencoded({ extended: true })); // Configura il middleware per il parsing dei dati del form
 app.use(express.json());
@@ -105,10 +112,8 @@ app.post('/login', (req, res) => {
       email: results[0].email,
       p_iva: results[0].p_iva,
     };
-    res.json(userData);
 
-    sessionStorage.setItem("id", userData.id);
-    sessionStorage.setItem("nome", userData.nome);
+    req.session.userData = userData;
 
     bcrypt.compare(password, user.password, (hashErr, isMatch) => {
       if (hashErr) {
