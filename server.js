@@ -6,6 +6,7 @@ const mysql = require('mysql2');
 const port = 3002;
 const config = require('./config.json');
 const directory = config.projectDirectory;
+const secretKey = 'your-secret-key';
 
 app.use(express.urlencoded({ extended: true })); // Configura il middleware per il parsing dei dati del form
 app.use(express.json());
@@ -96,6 +97,19 @@ app.post('/login', (req, res) => {
 
     // Verifica la password hashata
     const user = results[0];
+
+    const userData = {
+      id: results[0].id,
+      nome: results[0].nome,
+      cognome: results[0].cognome,
+      email: results[0].email,
+      p_iva: results[0].p_iva,
+    };
+    res.json(userData);
+
+    sessionStorage.setItem("id", userData.id);
+    sessionStorage.setItem("nome", userData.nome);
+
     bcrypt.compare(password, user.password, (hashErr, isMatch) => {
       if (hashErr) {
         console.error("Errore durante la verifica della password:", hashErr);
@@ -106,12 +120,6 @@ app.post('/login', (req, res) => {
         // La password non corrisponde
         return res.status(401).send("Credenziali non valide.");
       }
-
-      // Creazione del token JWT per l'utente autenticato
-      const token = jwt.sign({ userId: user.id }, 'your-secret-key', { expiresIn: '1h' });
-
-      // Puoi restituire il token come risposta o eseguire altre azioni dopo il login
-      // res.send({ token }); // Modifica di conseguenza la risposta in base alle tue esigenze
 
       if (user.ruolo === "Utente") {
         res.sendFile(directory + '/index-user.html');
@@ -248,33 +256,33 @@ function getCondominiFromDatabase(callback) {
   const query = 'SELECT * FROM Condominio'; // Sostituisci con la tua query SQL effettiva
 
   db.query(query, (err, results) => {
-      if (err) {
-          console.error('Errore durante la query al database:', err);
-          return callback(err, null);
-      }
+    if (err) {
+      console.error('Errore durante la query al database:', err);
+      return callback(err, null);
+    }
 
-      // Crea un array per memorizzare tutti i condomini
-      const condominiArray = [];
+    // Crea un array per memorizzare tutti i condomini
+    const condominiArray = [];
 
-      // Itera attraverso i risultati e crea un oggetto per ciascun condominio
-      results.forEach((row) => {
-          const condominio = {
-              id: row.id,
-              nome: row.nome,
-              foto: '/elon.jpg', // Percorso dell'immagine
-              indirizzo: row.indirizzo,
-              n_piani: row.n_piani,
-              n_appartamenti: row.n_appartamenti,
-              cantine: row.cantine,
-              garage: row.garage,
-          };
+    // Itera attraverso i risultati e crea un oggetto per ciascun condominio
+    results.forEach((row) => {
+      const condominio = {
+        id: row.id,
+        nome: row.nome,
+        foto: '/elon.jpg', // Percorso dell'immagine
+        indirizzo: row.indirizzo,
+        n_piani: row.n_piani,
+        n_appartamenti: row.n_appartamenti,
+        cantine: row.cantine,
+        garage: row.garage,
+      };
 
-          // Aggiungi l'oggetto condominio all'array dei condomini
-          condominiArray.push(condominio);
-      });
+      // Aggiungi l'oggetto condominio all'array dei condomini
+      condominiArray.push(condominio);
+    });
 
-      // Passa l'array dei condomini come risultato
-      callback(null, condominiArray);
+    // Passa l'array dei condomini come risultato
+    callback(null, condominiArray);
   });
 }
 
@@ -306,5 +314,50 @@ app.get('/condomini', (req, res) => {
   });
 });
 
+/* // Rotta per ottenere i dati dell'utente
+app.get('/getuserdata', (req, res) => {
+  const token = req.headers.authorization.split(' ')[1]; // Estrai il token JWT dall'header
 
+  // Verifica il token JWT
+  jwt.verify(token, secretKey, (err, decodedToken) => {
+      if (err) {
+          return res.status(401).json({ message: 'Token non valido' });
+      }
+      // Qui dovresti recuperare i dati dell'utente dal database o da dove li hai memorizzati
+      const userId = decodedToken.userId;
+      // Esempio: recupera i dati dell'utente dal database
+      const userData = getUserDataFromDatabase(userId);
 
+      res.json(userData);
+  });
+});
+
+// Funzione per recuperare i dati dell'utente dal database
+function getUserDataFromDatabase(userId, callback) {
+  // Query per recuperare i dati dell'utente dal database
+  const query = 'SELECT * FROM Utente WHERE id = ?';
+
+  // Esegui la query con il parametro userId
+  db.query(query, [userId], (err, results) => {
+      if (err) {
+          console.error('Errore durante il recupero dei dati dell\'utente:', err);
+          callback(err, null);
+      } else {
+          if (results.length > 0) {
+              // Se sono presenti risultati, restituisci il primo risultato (presumendo che ci sia solo un utente con l'ID specificato)
+              const userData = {
+                id: results.id,
+                nome: results.nome,
+                cognome: results.cognome,
+                email: results.email,
+                p_iva: results.p_iva,
+              };
+              callback(null, userData);
+          } else {
+              // Se non ci sono risultati, restituisci null
+              callback(null, null);
+          }
+      }
+  });
+  return { username: 'UtenteDiEsempio', email: 'utente@example.com' };
+} */

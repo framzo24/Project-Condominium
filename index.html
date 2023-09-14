@@ -143,6 +143,7 @@
         .grid-item {
             /* border: 1px solid black; */
         }
+
         .grid-item a {
             text-decoration: none;
             color: black;
@@ -178,7 +179,7 @@
 
     <div class="container-admin">
         <div class="profile-section">
-            <img id="image-admin" height="300px" src="./images/elon.jpg" >
+            <img id="image-admin" height="300px" src="./images/elon.jpg">
             <div class="profile-details">
                 <a>Nome: </a>
                 <a>Cognome: </a>
@@ -195,68 +196,62 @@
         </div>
     </div>
 
-</body>
+    <footer>
+        <a>About</a>
+        <a>Ciao</a>
+    </footer>
 
-</html>
+    <script>
 
-<footer>
-    <a>About</a>
-    <a>Ciao</a>
-</footer>
+        function populateProfileDetails() {
+            var nome = sessionStorage.getItem("nome");
+            var cognome = sessionStorage.getItem("cognome");
+            var partitaIVA = sessionStorage.getItem("partitaIVA");
 
-<script>
-    function openNavbar() {
-        document.getElementById("navbar").style.width = "250px";
-        document.getElementById("hamburger").style.display = "none";
-    }
+            // Ottieni il div "profile-details"
+            var profileDetails = document.querySelector('.profile-details');
 
-    function closeNavbar() {
-        document.getElementById("navbar").style.width = "0";
-        document.getElementById("hamburger").style.display = "";
-    }
+            // Crea gli elementi e inserisci i dati
+            var nomeElement = document.createElement('a');
+            nomeElement.textContent = 'Nome: ' + nome;
+            profileDetails.appendChild(nomeElement);
 
-    /* const condominiumGrid = document.querySelector('.condominium-grid');
+            var cognomeElement = document.createElement('a');
+            cognomeElement.textContent = 'Cognome: ' + cognome;
+            profileDetails.appendChild(cognomeElement);
 
-    // Cicla attraverso i dati dei condomini e crea le visualizzazioni
-    condominiData.forEach((condominio) => {
-        const condominioDiv = document.createElement('div');
-        condominioDiv.classList.add('condominio-card');
+            var partitaIVAElement = document.createElement('a');
+            partitaIVAElement.textContent = 'P. IVA: ' + partitaIVA;
+            profileDetails.appendChild(partitaIVAElement);
+        }
 
-        // Immagine del condominio
-        const condominioImage = document.createElement('img');
-        condominioImage.src = condominio.foto;
-        condominioImage.alt = condominio.nome;
-        condominioDiv.appendChild(condominioImage);
+        // Chiama la funzione per popolare i dati del profilo quando la pagina si carica
+        window.addEventListener('load', function () {
+            populateProfileDetails();
+        });
 
-        // Informazioni principali del condominio
-        const infoDiv = document.createElement('div');
-        infoDiv.classList.add('condominio-info');
-        infoDiv.innerHTML = `
-        <h3>${condominio.nome}</h3>
-        <p>Indirizzo: ${condominio.indirizzo}</p>
-        <p>Numero di piani: ${condominio.n_piani}</p>
-        <p>Numero di appartamenti: ${condominio.n_appartamenti}</p>
-        <p>Cantine: ${condominio.cantine ? 'Si' : 'No'}</p>
-        <p>Garage: ${condominio.garage ? 'Si' : 'No'}</p>
-    `;
 
-        condominioDiv.appendChild(infoDiv);
+        function openNavbar() {
+            document.getElementById("navbar").style.width = "250px";
+            document.getElementById("hamburger").style.display = "none";
+        }
 
-        // Aggiungi il condominio alla griglia
-        condominiumGrid.appendChild(condominioDiv);
-    }); */
+        function closeNavbar() {
+            document.getElementById("navbar").style.width = "0";
+            document.getElementById("hamburger").style.display = "";
+        }
 
-    function populateGrid(condominiArray) {
-        const gridContainer = document.getElementById('grid-container'); // Sostituisci con l'ID del tuo contenitore griglia
+        function populateGrid(condominiArray) {
+            const gridContainer = document.getElementById('grid-container'); // Sostituisci con l'ID del tuo contenitore griglia
 
-        condominiArray.forEach((condominio) => {
-            const gridItem = document.createElement('div');
-            gridItem.classList.add('grid-item'); // Aggiungi classi CSS per la formattazione
+            condominiArray.forEach((condominio) => {
+                const gridItem = document.createElement('div');
+                gridItem.classList.add('grid-item'); // Aggiungi classi CSS per la formattazione
 
-            // Creazione del contenuto del singolo elemento della griglia
-            const imagesPath = "foto"
-            const content = `
-                <img src="./images/${imagesPath.replace('foto',condominio.nome)}.jpg" height="200px" >
+                // Creazione del contenuto del singolo elemento della griglia
+                const imagesPath = "foto"
+                const content = `
+                <img src="./images/${imagesPath.replace('foto', condominio.nome)}.jpg" height="200px" >
                 <a href="/family"><h2>${condominio.nome}</h2></a>
                 <p>Indirizzo: ${condominio.indirizzo}</p>
                 <p>Numero Piani: ${condominio.n_piani}</p>
@@ -265,30 +260,30 @@
                 <p>Garage: ${condominio.garage ? 'Sì' : 'No'}</p>
                 `;
 
-            gridItem.innerHTML = content;
-            gridContainer.appendChild(gridItem);
-        });
-    }
-
-    // Nella tua pagina HTML
-    window.addEventListener('load', () => {
-        fetch('/condomini')
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Errore nella richiesta');
-                }
-                return response.json();
-            })
-            .then((condominiArray) => {
-                // Popola la griglia HTML con i dati recuperati
-                populateGrid(condominiArray);
-            })
-            .catch((error) => {
-                console.error('Errore durante la richiesta al server:', error);
+                gridItem.innerHTML = content;
+                gridContainer.appendChild(gridItem);
             });
-    });
+        }
 
-</script>
+        // Nella tua pagina HTML
+        window.addEventListener('load', () => {
+            fetch('/condomini')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Errore nella richiesta');
+                    }
+                    return response.json();
+                })
+                .then((condominiArray) => {
+                    // Popola la griglia HTML con i dati recuperati
+                    populateGrid(condominiArray);
+                })
+                .catch((error) => {
+                    console.error('Errore durante la richiesta al server:', error);
+                });
+        });
+
+    </script>
 
 </body>
 

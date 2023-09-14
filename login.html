@@ -70,19 +70,6 @@
 </head>
 
 <body>
-    <script>
-        // Funzione per mostrare i campi "Utente" e nascondere i campi "Amministratore"
-        function showUtenteFields() {
-            document.getElementById("utenteFields").style.display = "block";
-            document.getElementById("amministratoreFields").style.display = "none";
-        }
-
-        // Funzione per mostrare i campi "Amministratore" e nascondere i campi "Utente"
-        function showAmministratoreFields() {
-            document.getElementById("amministratoreFields").style.display = "block";
-            document.getElementById("utenteFields").style.display = "none";
-        }
-    </script>
 
     <header>
         <h1>Login del nostro bellissimo sito</h1>
@@ -102,6 +89,30 @@
     <footer>
         <p>Vuoi delle info in più? Vattele a pigliare</p>
     </footer>
+    <script>
+        // Funzione per mostrare i campi "Utente" e nascondere i campi "Amministratore"
+        function showUtenteFields() {
+            document.getElementById("utenteFields").style.display = "block";
+            document.getElementById("amministratoreFields").style.display = "none";
+        }
+
+        // Funzione per mostrare i campi "Amministratore" e nascondere i campi "Utente"
+        function showAmministratoreFields() {
+            document.getElementById("amministratoreFields").style.display = "block";
+            document.getElementById("utenteFields").style.display = "none";
+        }
+
+/*         document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Evita l'invio del modulo
+            var email = document.querySelector('input[name="email"]').value;
+            var password = document.querySelector('input[name="password"]').value;
+
+            // Memorizza i dati nella sessionStorage
+            sessionStorage.setItem("email", email);
+            sessionStorage.setItem("password", password);
+        });
+ */
+    </script>
 </body>
 
 </html>
