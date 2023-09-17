@@ -205,6 +205,15 @@
             border-radius: 10px;
         }
 
+        .modificaProgettoForm {
+          width: calc(25% - 10px);
+          padding: 20px;
+          box-sizing: border-box;
+          background-color: #f0f0f0;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+      }
+
     </style>
 </head>
 
@@ -255,12 +264,11 @@
         const filterValue = inputField.querySelector("input").value.toLowerCase();
 
         for (let row of table.rows) {
-          const dataInizio = row.cells[1].textContent.toLowerCase();
-          const dataFine = row.cells[2].textContent.toLowerCase();
+          const data_inizio = row.cells[1].textContent.toLowerCase();
+          const data_fine = row.cells[2].textContent.toLowerCase();
           const nome = row.cells[3].textContent.toLowerCase();
           const descrizione = row.cells[4].textContent.toLowerCase();
-          const condominioId = row.cells[5].textContent.toLowerCase();
-
+          const condominio_id = row.cells[5].textContent.toLowerCase();
             
         }
       };
@@ -321,11 +329,11 @@
       const tableRows = datiProgetto.map((progetto) => `
           <tr>
             <td>${progetto.id}</td>
-            <td>${progetto.dataInizio}</td>
-            <td>${progetto.dataFine}</td>
+            <td>${progetto.data_inizio}</td>
+            <td>${progetto.data_fine}</td>
             <td>${progetto.nome}</td>
             <td>${progetto.descrizione}</td>
-            <td>${pagamento.condominioId}</td>
+            <td>${pagamento.condominio_id}</td>
           </tr>
         `).join('');
 

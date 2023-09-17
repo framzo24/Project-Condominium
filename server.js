@@ -271,11 +271,11 @@ function getProgettiFromDatabase(callback) {
     results.forEach((row) => {
       const progetto = {
         id: row.id,
-        dataInizio: row.data_inizio,
-        dataFine: row.data_fine,
+        data_inizio: row.data_inizio,
+        data_fine: row.data_fine,
         nome: row.nome,
         descrizione: row.descrizione,
-        condominioId: row.condominio_id,
+        condominio_id: row.condominio_id,
       };
       //inserire il singolo dato nell'array
       datiProgetto.push(progetto);
