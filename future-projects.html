@@ -2,7 +2,8 @@
 <html>
 
 <head>
-    <title>Pagina principale</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progetti Futuri</title>
     <style>
         body {
             margin: 0;
@@ -41,6 +42,17 @@
             padding: 5px;
             margin: 5px;
             cursor: pointer;
+        }
+
+        .title-page {
+            margin-top: 5px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 35px;
+        }
+
+        select {
+            /* Sezione del filtraggio */
+            padding: 5px;
         }
 
         footer {
@@ -88,6 +100,33 @@
             margin-left: 50px;
         }
 
+        .form-container {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            /* margin-top: 40px; */
+        }
+  
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
         .hamburger {
             font-size: 50px;
             cursor: pointer;
@@ -97,12 +136,73 @@
             border-right: 5cm;
         }
 
+        .button-header {
+            width: fit-content;
+            font-size: 30px;
+            height: 100%;
+            overflow-x: hidden;
+            transition: 0.5s;
+            text-decoration: none;
+        }
+
+        .button-header a {
+            /* padding: 8px 8px 8px 32px; */
+            text-decoration: none;
+            font-size: 25px;
+            color: black;
+            /* display: block; */
+            transition: 0.3s;
+            background-color: white;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .card-space {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 10px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            padding: 0px;
+        }
+
+        .card {
+            width: calc(33% - 10px);
+            /* 25% per quattro card e -10px per la spaziatura */
+            height: 50px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .card:hover {
+             background-color: #e0e0e0;
+        }
+
+        .modify-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            /* margin-top: 20px; */
+            margin-bottom: 20px;
+            padding: 0px;
+        }
+
         .container-admin {
             margin: 20px;
             padding: 20px;
             background-color: white;
             box-shadow: 0px 0px 0px rgb(101, 101, 101, 0.5);
             max-width: 200px auto;
+            border-radius: 10px;
         }
 
     </style>
@@ -134,9 +234,155 @@
 
     </div>
 
-    <div class="container">
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const filterSelect = document.getElementById("filter");
+        const datePicker = document.getElementById("datePicker");
+        const inputField = document.getElementById("inputField");
+        const submitButton = document.getElementById("submitButton");
+        const table = document.getElementById("progetti-table").getElementsByTagName('tbody')[0];
+
+      filterSelect.addEventListener("change", function () {
+        const selectedValue = filterSelect.value;
+
+        datePicker.style.display = selectedValue === "data" ? "block" : "none";
+        inputField.style.display = selectedValue !== "data" && selectedValue !== "codice" ? "block" : "none";
+
+        filterTable();
+      });
+
+      function filterTable() {
+        const filterValue = inputField.querySelector("input").value.toLowerCase();
+
+        for (let row of table.rows) {
+          const dataInizio = row.cells[1].textContent.toLowerCase();
+          const dataFine = row.cells[2].textContent.toLowerCase();
+          const nome = row.cells[3].textContent.toLowerCase();
+          const descrizione = row.cells[4].textContent.toLowerCase();
+          const condominioId = row.cells[5].textContent.toLowerCase();
+
+            
+        }
+      };
+
+      submitButton.addEventListener("click", function () {
+        filterTable();
+      });
+    });
+
+    function mostraModificaForm(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
+      document.getElementById("idProgetto").value = idProgetto;
+      document.getElementById("dataInizio").value = dataInizio;
+      document.getElementById("dataFine").value = dataFine;
+      document.getElementById("nome").value = nome;
+      document.getElementById("descrizione").value = descrizione;
+        document.getElementById("condominioId").value = condominioId;
+      document.getElementById("modificaProgettoForm").style.display = "block";
+    }
+
+
+    /// Esempio di chiamata a getPagamentiFromDatabase() all'avvio della pagina
+    window.addEventListener('load', () => {
+      // Nella tua pagina HTML
+      fetch('/progetti')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Errore nella richiesta');
+          }
+          return response.json();
+        })
+        .then((datiProgetto) => {
+          // Popola la tabella con i dati recuperati
+          populateTable(datiProgetto);
+        })
+        .catch((error) => {
+          console.error('Errore durante la richiesta al server:', error);
+        });
+
+    });
+
+    function populateTable(datiProgetto) {
+      const table = document.getElementById('progetti-table'); // Assumi che l'elemento HTML della tabella abbia l'ID 'progetti-table'
+              // Crea l'intestazione della tabella
+      const tableHeader = `
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Data Inizio</th>
+            <th>Data Fine</th>
+            <th>Nome</th>
+            <th>Descrizione</th>
+            <th>Condominio Id</th>
+          </tr>
+        </thead>
+      `;
+
+      // Crea le righe della tabella con i dati recuperati
+      const tableRows = datiProgetto.map((progetto) => `
+          <tr>
+            <td>${progetto.id}</td>
+            <td>${progetto.dataInizio}</td>
+            <td>${progetto.dataFine}</td>
+            <td>${progetto.nome}</td>
+            <td>${progetto.descrizione}</td>
+            <td>${pagamento.condominioId}</td>
+          </tr>
+        `).join('');
+
+      // Aggiungi l'intestazione e le righe alla tabella
+      table.innerHTML = tableHeader + tableRows;
+    }
+
+    </script>
+
+    <div class="container-admin">
+        <div>
+            <p class="title-page">Progetti Futuri</p>
+          </div>
+
+          <label for="filter">Filtra per:</label>
+          <select id="filter">
+            <option value=""></option>
+            <option value="data_inizio">Data Inizio</option>
+            <option value="data_fine">Data Fine</option>
+            <option value="condominio_id">Condominio Id</option>
+            <option value="nome">Nome</option>
+          </select>
+
+          <div id="datePicker" style="display: none;">
+            <label for="date">Seleziona una data:</label>
+            <input type="date" id="date" name="date">
+            <button id="submitButton">Invia</button>
+          </div>
+      
+          <div id="inputField" style="display: none;">
+            <label for="input">Inserisci valore:</label>
+            <input type="text" id="input" name="input">
+            <button id="submitButton">Invia</button>
+          </div>
+      
+
+          <table id="progetti-table">
+            <thead>
+              <tr>
+                <th>Data Inizio</th>
+                <th>Data Fine</th>
+                <th>Nome</th>
+                <th>Descrizione</th>
+                <th>Id Condominio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Aggiungi altre righe della tabella qui -->
+            </tbody>
+          </table>
 
     </div>
+
+    <footer>
+        <a>About</a>
+        <a>Us</a>
+      </footer>
 
 </body>
 

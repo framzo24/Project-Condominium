@@ -256,6 +256,35 @@ function getPagamentiFromDatabase(callback) {
   })
 }
 
+//funzione per recuperare i dati dei progetti futuri dal database
+function getProgettiFromDatabase(callback) {
+  const query = 'SELECT * FROM Progetto_Futuro';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Errore durante la query al database:', err);
+      return callback(err, null);
+    }
+    //creaione array di popolamento
+    const datiProgetto = [];
+    //popolamento dell'array dal risultato della query
+    results.forEach((row) => {
+      const progetto = {
+        id: row.id,
+        dataInizio: row.data_inizio,
+        dataFine: row.data_fine,
+        nome: row.nome,
+        descrizione: row.descrizione,
+        condominioId: row.condominio_id,
+      };
+      //inserire il singolo dato nell'array
+      datiProgetto.push(progetto);
+    });
+    //ritornare i dati della funzione
+    callback(null, datiProgetto);
+  })
+}
+
 // funzione per recuperare i dati dei condomini dal database
 function getCondominiFromDatabase(callback) {
   const query = 'SELECT * FROM Condominio'; // Sostituisci con la tua query SQL effettiva
@@ -301,6 +330,20 @@ app.get('/pagamenti', (req, res) => {
     } else {
       // Invia i dati dei pagamenti come risposta JSON
       res.json(datiPagamenti);
+    }
+  });
+});
+
+//route per la pagina dei progetti
+app.get('/progetti', (req, res) => {
+  getProgettiFromDatabase((err, datiProgetto) => {
+    if (err) {
+      // Gestisci l'errore
+      console.error('Errore durante il recupero dei progetti:', err);
+      res.status(500).send('Errore durante il recupero dei progetti');
+    } else {
+      // Invia i dati dei progetti come risposta JSON
+      res.json(datiProgetto);
     }
   });
 });

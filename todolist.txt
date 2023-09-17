@@ -19,3 +19,6 @@ SELECT condominio.nome
 FROM condominio, Associazione
 WHERE condominio.id=ass.condominio_id
 AND ass.condominio_id=utente_id
+
+
+non si chiudono i pannelli nei pagamenti
