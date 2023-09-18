@@ -111,9 +111,7 @@ app.post('/login', (req, res) => {
       cognome: results[0].cognome,
       email: results[0].email,
       p_iva: results[0].p_iva,
-    };
-
-    req.session.userData = userData;
+    };    
 
     bcrypt.compare(password, user.password, (hashErr, isMatch) => {
       if (hashErr) {
@@ -181,8 +179,8 @@ app.get('/logout', (req, res) => {
 
 app.post('/insert_payment', (req, res) => {
   const { data, descrizione, codice_identificativo, prezzo } = req.body;
-  const condominio_id = 1;
-  const utente_id = 1;
+  const condominio_id = 3;
+  const utente_id = 2;
   const insertQuery = 'INSERT INTO Pagamento (data, descrizione, codice_identificativo, importo, condominio_id, utente_id) VALUES (?, ?, ?, ?, ?, ?)';
   db.query(insertQuery, [data, descrizione, codice_identificativo, prezzo, condominio_id, utente_id], (err, result) => {
     if (err) {
@@ -199,7 +197,7 @@ app.post('/aggiorna-pagamento', (req, res) => {
 
   // Esegui la query SQL per aggiornare il pagamento nel database
   const updateQuery = `
-    UPDATE Pagamenti
+    UPDATE Pagamento
     SET data = ?, descrizione = ?, codice_identificativo = ?, importo = ?
     WHERE id = ?;
   `;
@@ -209,8 +207,26 @@ app.post('/aggiorna-pagamento', (req, res) => {
       console.error(err);
       res.status(500).send("Errore del server durante l'aggiornamento del pagamento");
     } else {
-      // Aggiornamento riuscito
-      res.status(200).send('Pagamento aggiornato con successo');
+      console.log('Pagamento aggiornato con successo');
+    }
+  });
+});
+
+app.post('/delete_payment', (req, res) => {
+  const { idPagamento } = req.body;
+
+  // Esegui la query SQL per aggiornare il pagamento nel database
+  const updateQuery = `
+    DELETE FROM Pagamento
+    WHERE id = ?;
+  `;
+
+  db.query(updateQuery, [idPagamento], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Errore del server durante l'eliminazione del pagamento");
+    } else {
+      console.log('Pagamento eliminato con successo');
     }
   });
 });
