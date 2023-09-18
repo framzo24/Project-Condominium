@@ -316,6 +316,15 @@
       });
     });
 
+     // Funzione per formattare la data in "gg/mm/aaaa"
+  function formattaData(data) {
+      const dataObj = new Date(data);
+      const giorno = String(dataObj.getDate()).padStart(2, '0');
+      const mese = String(dataObj.getMonth() + 1).padStart(2, '0'); // Mese è 0-based
+      const anno = dataObj.getFullYear();
+      return `${giorno}/${mese}/${anno}`;
+    }
+
     function mostraModificaForm(idPagamento, data, descrizione, codiceIdentificativo, importo) {
       document.getElementById("idPagamento").value = idPagamento;
       document.getElementById("data").value = data;
@@ -386,7 +395,7 @@
       const tableRows = datiPagamenti.map((pagamento) => `
           <tr>
             <td>${pagamento.id}</td>
-            <td>${pagamento.data}</td>
+            <td>${formattaData(pagamento.data)}</td>
             <td>${pagamento.descrizione}</td>
             <td>${pagamento.codice_identificativo}</td>
             <td>${pagamento.importo}</td>
