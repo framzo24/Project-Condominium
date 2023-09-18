@@ -301,16 +301,3 @@
 </html>
 <!-- calendario e tabella, se clicchi viene la descrizione della riunione e infondo alla tabella c'è scarca verbale e per l'amministratore anche un tasto dove può aggiugere il verbale -->
 
-<!-- app.get("/new-reunion", (req, res) => {
-  const { meetingDate, meetingTime, meetingTitle, meetingDescription } = req.body;
-  const utente_id = 2;
-  const insertQuery = 'INSERT INTO Riunione (data, ora, titolo, descrizione, utente_id) VALUES (?,?,?,?,?)';
-  db.query(insertQuery, [meetingDate,meetingTime,meetingTitle,meetingDescription, utente_id], (err, result) => {
-    if (err) {
-      console.error("Errore durante l'inserimento della riunione", err);
-      return res.status(500).send("Errore durante l'inserimento della riunione");
-    }
-    console.log("Nuova riunione inserita con successo.");
-  });
-});
- -->
