@@ -1,11 +1,7 @@
-grafica in tutto
-trovare concept per il sito
-finire la sessione
 finire funzione logout perché per ora torna al login, ma dovrebbe anche cancellare i dati salvati in session
 fare tabella dei condomini per la pagina home dell'utente
 nel calendario non ci sono gli eventi, mettere che al click si apre un alert con i dettagli dell'evento
 inserire pulsanti per modificare una riunione o cancellarla
-fare in modo che i pannelli dei pagamenti si chiudano
 
 
 
