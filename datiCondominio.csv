@@ -1,0 +1,1 @@
+INSERT INTO `Condominio`(`nome`, `indirizzo`, `n_piani`, `n_appartamenti`, `cantine`, `garage`, `utente_id`) VALUES ('Rodolfi','Via Milano 1','4','8','1','1','2')
