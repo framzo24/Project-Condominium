@@ -94,7 +94,7 @@
 
     <div class="container">
         <form id="loginForm" method="post" action="/login">
-            <input type="text" placeholder="Email" name="email" required>
+            <input type="text" placeholder="Email" name="email" id="email" required>
             <input type="password" placeholder="Password" name="password" required>
             <input type="submit" value="Accedi">
         </form>
@@ -110,18 +110,14 @@
 
 </body>
 <script>
-    // Funzione per mostrare i campi "Utente" e nascondere i campi "Amministratore"
-    function showUtenteFields() {
-        document.getElementById("utenteFields").style.display = "block";
-        document.getElementById("amministratoreFields").style.display = "none";
-    }
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
 
-    // Funzione per mostrare i campi "Amministratore" e nascondere i campi "Utente"
-    function showAmministratoreFields() {
-        document.getElementById("amministratoreFields").style.display = "block";
-        document.getElementById("utenteFields").style.display = "none";
-    }
+        // Recupera il valore dell'email inserita nel form
+        var email = document.getElementById('email').value;
 
+        // Salva l'email in sessionStorage
+        sessionStorage.setItem('email', email);
+    });
 </script>
 
 </html>
