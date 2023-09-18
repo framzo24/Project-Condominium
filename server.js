@@ -174,12 +174,9 @@ app.post('/registration', (req, res) => {
   });
 });
 
-app.post('/logout', (req, res) => {
-  // Rimuovi il token dal localStorage (o sessionStorage) lato client
-  localStorage.removeItem('token');
-
+app.get('/logout', (req, res) => {
   // Reindirizza l'utente alla pagina di login o a una pagina di benvenuto
-  res.redirect(directory + '/login.html'); // Modifica di conseguenza il percorso di reindirizzamento
+  res.sendFile(directory + '/login.html'); // Modifica di conseguenza il percorso di reindirizzamento
 });
 
 app.post('/insert_payment', (req, res) => {
@@ -320,6 +317,101 @@ function getCondominiFromDatabase(callback) {
   });
 }
 
+// funzione per recuperare i dati delle riunioni dal database
+function getRiunioniFromDatabase(callback) {
+  const query = 'SELECT * FROM Riunione';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Errore durante la query al database:', err);
+      return callback(err, null);
+    }
+
+    // Crea un array per memorizzare tutti i condomini
+    const riunioniArray = [];
+
+    // Itera attraverso i risultati e crea un oggetto per ciascun condominio
+    results.forEach((row) => {
+      const riunione = {
+        id: row.id,
+        data: row.data,
+        ora: row.ora,
+        titolo: row.titolo,
+        descrizione: row.descrizione,
+        utente_id: row.utente_id,
+      };
+
+      // Aggiungi l'oggetto condominio all'array dei condomini
+      riunioniArray.push(riunione);
+    });
+
+    // Passa l'array dei condomini come risultato
+    callback(null, riunioniArray);
+  });
+}
+
+function convertiFormatoData(dataString) {
+  // Crea un oggetto Data a partire dalla stringa della data
+  const data = new Date(dataString);
+
+  // Estrai l'anno, il mese e il giorno dalla data
+  const anno = data.getFullYear();
+  const mese = String(data.getMonth() + 1).padStart(2, '0'); // Aggiunge lo zero iniziale se necessario
+  const giorno = String(data.getDate()).padStart(2, '0'); // Aggiunge lo zero iniziale se necessario
+
+  // Formatta la data nel formato "YYYY-MM-DD"
+  const dataFormattata = `${anno}-${mese}-${giorno}`;
+
+  return dataFormattata;
+}
+
+function calcolaDataFinale(dataString) {
+  // Crea un oggetto Data a partire dalla stringa della data
+  const dataIniziale = new Date(dataString);
+
+  // Calcola la data finale aggiungendo un'ora alla data iniziale
+  const dataFinale = new Date(dataIniziale.getTime() + 60 * 60 * 1000); // Aggiunge 1 ora in millisecondi
+
+  // Estrai l'anno, il mese e il giorno dalla data finale
+  const anno = dataFinale.getFullYear();
+  const mese = String(dataFinale.getMonth() + 1).padStart(2, '0'); // Aggiunge lo zero iniziale se necessario
+  const giorno = String(dataFinale.getDate()).padStart(2, '0'); // Aggiunge lo zero iniziale se necessario
+  const ora = String(dataFinale.getHours()).padStart(2, '0'); // Aggiunge lo zero iniziale se necessario
+  const minuti = String(dataFinale.getMinutes()).padStart(2, '0'); // Aggiunge lo zero iniziale se necessario
+
+  // Formatta la data finale nel formato "YYYY-MM-DDTHH:MM:SS"
+  const dataFinaleFormattata = `${anno}-${mese}-${giorno}T${ora}:${minuti}:00`;
+
+  return dataFinaleFormattata;
+}
+
+function convertiPerFullCalendar(riunione) {
+  const dataFormattata = convertiFormatoData(riunione.data);
+  const dataFinale = calcolaDataFinale(riunione.data);
+  const fullCalendarEvento = {
+    title: riunione.titolo,
+    start: `${dataFormattata}T${riunione.ora}:00`,
+    end: `${dataFinale}`,
+  };
+  return fullCalendarEvento;
+}
+
+//route per la pagina delle riunioni
+app.get('/riunioni', (req, res) => {
+  getRiunioniFromDatabase((err, riunioniArray) => {
+    if (err) {
+      // Gestisci l'errore
+      console.error('Errore durante il recupero delle riunioni:', err);
+      res.status(500).send('Errore durante il recupero delle riunioni');
+    } else {
+      // Invia i dati delle riunioni come risposta JSON
+      const eventiFullCalendar = riunioniArray.map(convertiPerFullCalendar);
+      res.json(eventiFullCalendar);
+      console.log(eventiFullCalendar);
+    }
+  });
+});
+
 //route per la pagina dei pagamenti
 app.get('/pagamenti', (req, res) => {
   getPagamentiFromDatabase((err, datiPagamenti) => {
@@ -362,9 +454,10 @@ app.get('/condomini', (req, res) => {
   });
 });
 
-app.get("/new-reunion", (req, res) => {
+app.post("/new-reunion", (req, res) => {
   const { meetingDate, meetingTime, meetingTitle, meetingDescription } = req.body;
   const utente_id = 2;
+  console.log(meetingDate);
   const insertQuery = 'INSERT INTO Riunione (data, ora, titolo, descrizione, utente_id) VALUES (?,?,?,?,?)';
   db.query(insertQuery, [meetingDate,meetingTime,meetingTitle,meetingDescription, utente_id], (err, result) => {
     if (err) {
