@@ -2,341 +2,404 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progetti Futuri</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: rgb(116, 116, 116);
-        }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progetti Futuri</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: rgb(116, 116, 116);
+    }
 
-        .header {
-            background-color: rgb(51, 51, 51);
-            color: white;
-            height: 45px;
-            padding: 20px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-        }
+    .header {
+      background-color: rgb(51, 51, 51);
+      color: white;
+      height: 45px;
+      padding: 20px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+    }
 
-        .button-header {
-            justify-content: end;
-            float: right;
-            height: auto;
-            padding: 5px;
-            border-radius: 5px;
-            justify-content: center;
-            align-items: center;
-            transition: background-color 0.3s;
-            font-size: 30px;
-        }
+    .button-header {
+      justify-content: end;
+      float: right;
+      height: auto;
+      padding: 5px;
+      border-radius: 5px;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s;
+      font-size: 30px;
+    }
 
-        .button-header a {
-            text-decoration: none;
-            font-size: 25px;
-            color: black;
-            transition: 0.3s;
-            background-color: white;
-            border-radius: 10px;
-            padding: 5px;
-            margin: 5px;
-            cursor: pointer;
-        }
+    .button-header a {
+      text-decoration: none;
+      font-size: 25px;
+      color: black;
+      transition: 0.3s;
+      background-color: white;
+      border-radius: 10px;
+      padding: 5px;
+      margin: 5px;
+      cursor: pointer;
+    }
 
-        .title-page {
-            margin-top: 5px;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 35px;
-        }
+    .title-page {
+      margin-top: 5px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 35px;
+    }
 
-        select {
-            /* Sezione del filtraggio */
-            padding: 5px;
-        }
+    select {
+      /* Sezione del filtraggio */
+      padding: 5px;
+    }
 
-        footer {
-            background-color: rgb(51, 51, 51);
-            color: white;
-            height: 20px;
-            position: fixed;
-            padding: 10px;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }
+    footer {
+      background-color: rgb(51, 51, 51);
+      color: white;
+      height: 20px;
+      position: fixed;
+      padding: 10px;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+    }
 
-        .navbar {
-            background-color: grey;
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
+    .navbar {
+      background-color: grey;
+      height: 100%;
+      width: 0;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+    }
 
-        .navbar a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: black;
-            display: block;
-            transition: 0.3s;
-        }
+    .navbar a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 25px;
+      color: black;
+      display: block;
+      transition: 0.3s;
+    }
 
-        .navbar a:hover {
-            color: white;
-        }
+    .navbar a:hover {
+      color: white;
+    }
 
-        .navbar .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
+    .navbar .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
 
-        .form-container {
-            display: none;
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+    .form-container {
+      display: none;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            /* margin-top: 40px; */
-        }
-  
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      /* margin-top: 40px; */
+    }
 
-        th {
-            background-color: #f2f2f2;
-        }
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
 
-        .hamburger {
-            font-size: 50px;
-            cursor: pointer;
-            top: 5px;
-            left: 10px;
-            z-index: 2;
-            border-right: 5cm;
-        }
+    th {
+      background-color: #f2f2f2;
+    }
 
-        .button-header {
-            width: fit-content;
-            font-size: 30px;
-            height: 100%;
-            overflow-x: hidden;
-            transition: 0.5s;
-            text-decoration: none;
-        }
+    .hamburger {
+      font-size: 50px;
+      cursor: pointer;
+      top: 5px;
+      left: 10px;
+      z-index: 2;
+      border-right: 5cm;
+    }
 
-        .button-header a {
-            /* padding: 8px 8px 8px 32px; */
-            text-decoration: none;
-            font-size: 25px;
-            color: black;
-            /* display: block; */
-            transition: 0.3s;
-            background-color: white;
-            border-radius: 10px;
-            padding: 5px;
-            margin: 5px;
-        }
+    .button-header {
+      width: fit-content;
+      font-size: 30px;
+      height: 100%;
+      overflow-x: hidden;
+      transition: 0.5s;
+      text-decoration: none;
+    }
 
-        .card-space {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 10px;
-            margin-top: 40px;
-            margin-bottom: 40px;
-            padding: 0px;
-        }
+    .button-header a {
+      /* padding: 8px 8px 8px 32px; */
+      text-decoration: none;
+      font-size: 25px;
+      color: black;
+      /* display: block; */
+      transition: 0.3s;
+      background-color: white;
+      border-radius: 10px;
+      padding: 5px;
+      margin: 5px;
+    }
 
-        .card {
-            width: calc(33% - 10px);
-            /* 25% per quattro card e -10px per la spaziatura */
-            height: 50px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+    .card-space {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 10px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      padding: 0px;
+    }
 
-        .card:hover {
-             background-color: #e0e0e0;
-        }
+    .card {
+      width: calc(33% - 10px);
+      /* 25% per quattro card e -10px per la spaziatura */
+      height: 50px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-        .modify-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 100%;
-            /* margin-top: 20px; */
-            margin-bottom: 20px;
-            padding: 0px;
-        }
+    .card:hover {
+      background-color: #e0e0e0;
+    }
 
-        .container-admin {
-            margin: 20px;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0px 0px 0px rgb(101, 101, 101, 0.5);
-            max-width: 200px auto;
-            border-radius: 10px;
-        }
+    .modify-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+      /* margin-top: 20px; */
+      margin-bottom: 20px;
+      padding: 0px;
+    }
 
-        .modificaProgettoForm {
-          width: calc(25% - 10px);
-          padding: 20px;
-          box-sizing: border-box;
-          background-color: #f0f0f0;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-      }
+    .container-admin {
+      margin: 20px;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0px 0px 0px rgb(101, 101, 101, 0.5);
+      max-width: 200px auto;
+      border-radius: 10px;
+    }
 
-    </style>
+    .modificaProgettoForm {
+      width: calc(25% - 10px);
+      padding: 20px;
+      box-sizing: border-box;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="header">
+  <div class="header">
 
-        <div class="navbar" id="navbar">
-            <a id="link" href="/condominium-fee-payments" type="button">Pagamenti rette condominiali</a>
-            <a id="link" href="/budget-previous-years" type="button">Bilancio anni precedenti</a>
-            <a id="link" href="/future-projects" type="button">Progetti futuri</a>
-            <a id="link" href="/family" type="button">Famiglie</a>
-            <a id="link" href="/verbals" type="button">Verbali</a>
-            <a id="link" href="/reunions" type="button">Riunioni</a>
-            <a id="link" href="/notifications" type="button">Notifiche</a>
-            <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
-        </div>
-
-        <div class="hamburger" id="hamburger" onclick="openNavbar()">
-            &#9776;
-        </div>
-        <div class="button-header">
-            <a id="link" href="/home" type="button">home</a>
-            <a id="link" href="/login" type="button">accedi</a>
-            <a id="button" href="/registration" type="button">registrati</a>
-            <a id="button" href="/logout" type="button">logout</a>
-        </div>
-
+    <div class="navbar" id="navbar">
+      <a id="link" href="/condominium-fee-payments" type="button">Pagamenti rette condominiali</a>
+      <a id="link" href="/budget-previous-years" type="button">Bilancio anni precedenti</a>
+      <a id="link" href="/future-projects" type="button">Progetti futuri</a>
+      <a id="link" href="/family" type="button">Famiglie</a>
+      <a id="link" href="/verbals" type="button">Verbali</a>
+      <a id="link" href="/reunions" type="button">Riunioni</a>
+      <a id="link" href="/notifications" type="button">Notifiche</a>
+      <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
     </div>
 
-    <script>
+    <div class="hamburger" id="hamburger" onclick="openNavbar()">
+      &#9776;
+    </div>
+    <div class="button-header">
+      <a id="link" href="/home" type="button">home</a>
+      <a id="link" href="/login" type="button">accedi</a>
+      <a id="button" href="/registration" type="button">registrati</a>
+      <a id="button" href="/logout" type="button">logout</a>
+    </div>
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const filterSelect = document.getElementById("filter");
-        const datePicker = document.getElementById("datePicker");
-        const inputField = document.getElementById("inputField");
-        const dateSubmitButton = document.getElementById("dateSubmitButton");
-        const inputSubmitButton = document.getElementById("inputDateSubmitButton");
-        const table = document.getElementById("progetti-table").getElementsByTagName('tbody')[0];
+  </div>
 
-      filterSelect.addEventListener("change", function () {
-        const selectedValue = filterSelect.value;
+  <div class="container-admin">
+    <div>
+      <p class="title-page">Progetti Futuri</p>
+    </div>
 
-        // Controlla se il filtro selezionato è "Data Inizio" o "Data Fine"
-        const showDatePicker = selectedValue === "data_inizio" || selectedValue === "data_fine";
+    <label for="filter">Filtra per:</label>
+    <select id="filter">
+      <option value=""></option>
+      <option value="data_inizio">Data Inizio</option>
+      <option value="data_fine">Data Fine</option>
+      <option value="condominio_id">Condominio Id</option>
+      <option value="nome">Nome</option>
+    </select>
 
-        // Controlla se l'inputField deve essere mostrato
-        const showInputField = selectedValue === "nome" || selectedValue === "condominio_id";
+    <div id="datePicker" style="display: none;">
+      <label for="date">Seleziona una data:</label>
+      <input type="date" id="date" name="date">
+      <button id="dateSubmitButton">Invia</button>
+    </div>
 
-        // Mostra o nascondi il data picker in base alla condizione
-        datePicker.style.display = showDatePicker ? "block" : "none";
+    <div id="inputField" style="display: none;">
+      <label for="input">Inserisci valore:</label>
+      <input type="text" id="input" name="input">
+      <button id="inputSubmitButton">Invia</button>
+    </div>
 
-        // Mostra o nascondi l'inputField in base alla condizione
-        inputField.style.display = showInputField ? "block" : "none";
 
-      });
+    <table id="progetti-table">
+      <thead>
+        <tr>
+          <th>Data Inizio</th>
+          <th>Data Fine</th>
+          <th>Nome</th>
+          <th>Descrizione</th>
+          <th>Id Condominio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Aggiungi altre righe della tabella qui -->
+      </tbody>
+    </table>
+
+  </div>
+
+  <footer>
+    <a>About</a>
+    <a>Us</a>
+  </footer>
+
+</body>
+
+</html>
+
+<footer>
+  <a>About</a>
+  <a>Ciao</a>
+</footer>
+
+<script>
+  function openNavbar() {
+    document.getElementById("navbar").style.width = "250px";
+    document.getElementById("hamburger").style.display = "none";
+  }
+
+  function closeNavbar() {
+    document.getElementById("navbar").style.width = "0";
+    document.getElementById("hamburger").style.display = "";
+  }
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const filterSelect = document.getElementById("filter");
+    const datePicker = document.getElementById("datePicker");
+    const inputField = document.getElementById("inputField");
+    const dateSubmitButton = document.getElementById("dateSubmitButton");
+    const inputSubmitButton = document.getElementById("inputDateSubmitButton");
+    const table = document.getElementById("progetti-table").getElementsByTagName('tbody')[0];
+
+    filterSelect.addEventListener("change", function () {
+      const selectedValue = filterSelect.value;
+
+      // Controlla se il filtro selezionato è "Data Inizio" o "Data Fine"
+      const showDatePicker = selectedValue === "data_inizio" || selectedValue === "data_fine";
+
+      // Controlla se l'inputField deve essere mostrato
+      const showInputField = selectedValue === "nome" || selectedValue === "condominio_id";
+
+      // Mostra o nascondi il data picker in base alla condizione
+      datePicker.style.display = showDatePicker ? "block" : "none";
+
+      // Mostra o nascondi l'inputField in base alla condizione
+      inputField.style.display = showInputField ? "block" : "none";
+
     });
+  });
 
-            // Per il filtro data
-      dateSubmitButton.addEventListener("click", function () {
-        filterTableByDate();
-      });
+  // Per il filtro data
+  dateSubmitButton.addEventListener("click", function () {
+    filterTableByDate();
+  });
 
-      // Per l'input Nome o Condominio Id
-      inputSubmitButton.addEventListener("click", function () {
-        filterTableByInput();
-      });
+  // Per l'input Nome o Condominio Id
+  inputSubmitButton.addEventListener("click", function () {
+    filterTableByInput();
+  });
 
-      function filterTableByDate() {
-  const filterDate = document.getElementById("date").value; // Ottieni la data selezionata
+  function filterTableByDate() {
+    const filterDate = document.getElementById("date").value; // Ottieni la data selezionata
 
-  for (let row of table.rows) {
-    const data_inizio = row.cells[1].textContent;
-    const data_fine = row.cells[2].textContent;
+    for (let row of table.rows) {
+      const data_inizio = row.cells[1].textContent;
+      const data_fine = row.cells[2].textContent;
 
-    if (data_inizio <= filterDate && filterDate <= data_fine) {
-      row.style.display = "table-row"; // Mostra la riga se la data è compresa tra Data Inizio e Data Fine
-    } else {
-      row.style.display = "none"; // Nascondi la riga altrimenti
+      if (data_inizio <= filterDate && filterDate <= data_fine) {
+        row.style.display = "table-row"; // Mostra la riga se la data è compresa tra Data Inizio e Data Fine
+      } else {
+        row.style.display = "none"; // Nascondi la riga altrimenti
+      }
     }
   }
-}
 
-function filterTableByInput() {
-  const filterValue = document.getElementById("input").value.toLowerCase();
+  function filterTableByInput() {
+    const filterValue = document.getElementById("input").value.toLowerCase();
 
-  for (let row of table.rows) {
-    const nome = row.cells[3].textContent.toLowerCase();
-    const condominio_id = row.cells[4].textContent.toLowerCase();
+    for (let row of table.rows) {
+      const nome = row.cells[3].textContent.toLowerCase();
+      const condominio_id = row.cells[4].textContent.toLowerCase();
 
-    if (nome.includes(filterValue) || condominio_id.includes(filterValue)) {
-      row.style.display = "table-row"; // Mostra la riga se Nome o Condominio Id contiene l'input
-    } else {
-      row.style.display = "none"; // Nascondi la riga altrimenti
+      if (nome.includes(filterValue) || condominio_id.includes(filterValue)) {
+        row.style.display = "table-row"; // Mostra la riga se Nome o Condominio Id contiene l'input
+      } else {
+        row.style.display = "none"; // Nascondi la riga altrimenti
+      }
     }
   }
-}
 
+  function aggiungiRigaTabella(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
+    const tabella = document.getElementById("progetti-table");
+    const riga = tabella.insertRow();
+    const cellaId = riga.insertCell(0);
+    const cellaDataInizio = riga.insertCell(1);
+    const cellaDataFine = riga.insertCell(2);
+    const cellaNome = riga.insertCell(3);
+    const cellaDescrizione = riga.insertCell(4);
+    const cellaCondominioId = riga.insertCell(5);
 
-    function aggiungiRigaTabella(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
-      const tabella = document.getElementById("progetti-table");
-      const riga = tabella.insertRow();
-      const cellaId = riga.insertCell(0);
-      const cellaDataInizio = riga.insertCell(1);
-      const cellaDataFine = riga.insertCell(2);
-      const cellaNome = riga.insertCell(3);
-      const cellaDescrizione = riga.insertCell(4);
-      const cellaCondominioId = riga.insertCell(5);
+    cellaId.innerHTML = idProgetto;
+    cellaDataInizio.innerHTML = dataInizio;
+    cellaDataFine.innerHTML = dataFine;
+    cellaNome.innerHTML = nome;
+    cellaDescrizione.innerHTML = descrizione;
+    cellaCondominioId.innerHTML = condominioId;
+  }
 
-      cellaId.innerHTML = idProgetto;
-      cellaDataInizio.innerHTML = dataInizio;
-      cellaDataFine.innerHTML = dataFine;
-      cellaNome.innerHTML = nome;
-      cellaDescrizione.innerHTML = descrizione;
-      cellaCondominioId.innerHTML = condominioId;
-    }
-
-
-
-
-    function populateTable(datiProgetto) {
-      const table= document.querySelector('progetti-table'); // Assumi che l'elemento HTML della tabella abbia l'ID 'progetti-table'
-              // Crea l'intestazione della tabella
-      const tableHeader = `
+  function populateTable(datiProgetto) {
+    const table = document.querySelector('progetti-table'); // Assumi che l'elemento HTML della tabella abbia l'ID 'progetti-table'
+    // Crea l'intestazione della tabella
+    const tableHeader = `
         <thead>
           <tr>
             <th>Id</th>
@@ -349,8 +412,8 @@ function filterTableByInput() {
         </thead>
       `;
 
-      // Crea le righe della tabella con i dati recuperati
-      const tableRows = datiProgetto.map((progetto) => `
+    // Crea le righe della tabella con i dati recuperati
+    const tableRows = datiProgetto.map((progetto) => `
           <tr>
             <td>${progetto.id}</td>
             <td>${progetto.data_inizio}</td>
@@ -361,100 +424,29 @@ function filterTableByInput() {
           </tr>
         `).join('');
 
-      // Aggiungi l'intestazione e le righe alla tabella
-      table.innerHTML = tableHeader + tableRows;
-    }
+    // Aggiungi l'intestazione e le righe alla tabella
+    table.innerHTML = tableHeader + tableRows;
+  }
 
-    /// Richiedi i dati dei progetti futuri all'API 
-    window.addEventListener('load', () => {
-      // Nella tua pagina HTML
-      fetch('/progetti')
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Errore nella richiesta');
-          }
-          return response.json();
-        })
-        .then((datiProgetto) => {
-          // Popola la tabella con i dati recuperati
-          populateTable(datiProgetto);
-        })
-        .catch((error) => {
-          console.error('Errore durante la richiesta al server:', error);
-        });
+  /// Richiedi i dati dei progetti futuri all'API 
+  window.addEventListener('load', () => {
+    // Nella tua pagina HTML
+    fetch('/progetti')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Errore nella richiesta');
+        }
+        return response.json();
+      })
+      .then((datiProgetto) => {
+        // Popola la tabella con i dati recuperati
+        populateTable(datiProgetto);
+      })
+      .catch((error) => {
+        console.error('Errore durante la richiesta al server:', error);
+      });
 
-    });
-    </script>
-
-    <div class="container-admin">
-        <div>
-            <p class="title-page">Progetti Futuri</p>
-          </div>
-
-          <label for="filter">Filtra per:</label>
-          <select id="filter">
-            <option value=""></option>
-            <option value="data_inizio">Data Inizio</option>
-            <option value="data_fine">Data Fine</option>
-            <option value="condominio_id">Condominio Id</option>
-            <option value="nome">Nome</option>
-          </select>
-
-          <div id="datePicker" style="display: none;">
-            <label for="date">Seleziona una data:</label>
-            <input type="date" id="date" name="date">
-            <button id="dateSubmitButton">Invia</button>
-          </div>
-      
-          <div id="inputField" style="display: none;">
-            <label for="input">Inserisci valore:</label>
-            <input type="text" id="input" name="input">
-            <button id="inputSubmitButton">Invia</button>
-          </div>
-      
-
-          <table id="progetti-table">
-            <thead>
-              <tr>
-                <th>Data Inizio</th>
-                <th>Data Fine</th>
-                <th>Nome</th>
-                <th>Descrizione</th>
-                <th>Id Condominio</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Aggiungi altre righe della tabella qui -->
-            </tbody>
-          </table>
-
-    </div>
-
-    <footer>
-        <a>About</a>
-        <a>Us</a>
-      </footer>
-
-</body>
-
-</html>
-
-<footer>
-    <a>About</a>
-    <a>Ciao</a>
-</footer>
-
-<script>
-    function openNavbar() {
-        document.getElementById("navbar").style.width = "250px";
-        document.getElementById("hamburger").style.display = "none";
-    }
-
-    function closeNavbar() {
-        document.getElementById("navbar").style.width = "0";
-        document.getElementById("hamburger").style.display = "";
-    }
-
+  });
 </script>
 
 </body>
