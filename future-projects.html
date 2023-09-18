@@ -244,39 +244,73 @@
     </div>
 
     <script>
+
     document.addEventListener("DOMContentLoaded", function () {
         const filterSelect = document.getElementById("filter");
         const datePicker = document.getElementById("datePicker");
         const inputField = document.getElementById("inputField");
-        const submitButton = document.getElementById("submitButton");
+        const dateSubmitButton = document.getElementById("dateSubmitButton");
+        const inputSubmitButton = document.getElementById("inputDateSubmitButton");
         const table = document.getElementById("progetti-table").getElementsByTagName('tbody')[0];
 
       filterSelect.addEventListener("change", function () {
         const selectedValue = filterSelect.value;
 
-        datePicker.style.display = selectedValue === "data" ? "block" : "none";
-        inputField.style.display = selectedValue !== "data" && selectedValue !== "codice" ? "block" : "none";
+        // Controlla se il filtro selezionato è "Data Inizio" o "Data Fine"
+        const showDatePicker = selectedValue === "data_inizio" || selectedValue === "data_fine";
 
-        filterTable();
-      });
+        // Controlla se l'inputField deve essere mostrato
+        const showInputField = selectedValue === "nome" || selectedValue === "condominio_id";
 
-      function filterTable() {
-        const filterValue = inputField.querySelector("input").value.toLowerCase();
+        // Mostra o nascondi il data picker in base alla condizione
+        datePicker.style.display = showDatePicker ? "block" : "none";
 
-        for (let row of table.rows) {
-          const data_inizio = row.cells[1].textContent.toLowerCase();
-          const data_fine = row.cells[2].textContent.toLowerCase();
-          const nome = row.cells[3].textContent.toLowerCase();
-          const descrizione = row.cells[4].textContent.toLowerCase();
-          const condominio_id = row.cells[5].textContent.toLowerCase();
-            
-        }
-      };
+        // Mostra o nascondi l'inputField in base alla condizione
+        inputField.style.display = showInputField ? "block" : "none";
 
-      submitButton.addEventListener("click", function () {
-        filterTable();
       });
     });
+
+            // Per il filtro data
+      dateSubmitButton.addEventListener("click", function () {
+        filterTableByDate();
+      });
+
+      // Per l'input Nome o Condominio Id
+      inputSubmitButton.addEventListener("click", function () {
+        filterTableByInput();
+      });
+
+      function filterTableByDate() {
+  const filterDate = document.getElementById("date").value; // Ottieni la data selezionata
+
+  for (let row of table.rows) {
+    const data_inizio = row.cells[1].textContent;
+    const data_fine = row.cells[2].textContent;
+
+    if (data_inizio <= filterDate && filterDate <= data_fine) {
+      row.style.display = "table-row"; // Mostra la riga se la data è compresa tra Data Inizio e Data Fine
+    } else {
+      row.style.display = "none"; // Nascondi la riga altrimenti
+    }
+  }
+}
+
+function filterTableByInput() {
+  const filterValue = document.getElementById("input").value.toLowerCase();
+
+  for (let row of table.rows) {
+    const nome = row.cells[3].textContent.toLowerCase();
+    const condominio_id = row.cells[4].textContent.toLowerCase();
+
+    if (nome.includes(filterValue) || condominio_id.includes(filterValue)) {
+      row.style.display = "table-row"; // Mostra la riga se Nome o Condominio Id contiene l'input
+    } else {
+      row.style.display = "none"; // Nascondi la riga altrimenti
+    }
+  }
+}
+
 
     function aggiungiRigaTabella(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
       const tabella = document.getElementById("progetti-table");
@@ -297,28 +331,10 @@
     }
 
 
-    /// Esempio di chiamata a getPagamentiFromDatabase() all'avvio della pagina
-    window.addEventListener('load', () => {
-      // Nella tua pagina HTML
-      fetch('/progetti')
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Errore nella richiesta');
-          }
-          return response.json();
-        })
-        .then((datiProgetto) => {
-          // Popola la tabella con i dati recuperati
-          populateTable(datiProgetto);
-        })
-        .catch((error) => {
-          console.error('Errore durante la richiesta al server:', error);
-        });
 
-    });
 
     function populateTable(datiProgetto) {
-      const table = document.getElementById('progetti-table'); // Assumi che l'elemento HTML della tabella abbia l'ID 'progetti-table'
+      const table= document.querySelector('progetti-table'); // Assumi che l'elemento HTML della tabella abbia l'ID 'progetti-table'
               // Crea l'intestazione della tabella
       const tableHeader = `
         <thead>
@@ -349,6 +365,25 @@
       table.innerHTML = tableHeader + tableRows;
     }
 
+    /// Richiedi i dati dei progetti futuri all'API 
+    window.addEventListener('load', () => {
+      // Nella tua pagina HTML
+      fetch('/progetti')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Errore nella richiesta');
+          }
+          return response.json();
+        })
+        .then((datiProgetto) => {
+          // Popola la tabella con i dati recuperati
+          populateTable(datiProgetto);
+        })
+        .catch((error) => {
+          console.error('Errore durante la richiesta al server:', error);
+        });
+
+    });
     </script>
 
     <div class="container-admin">
@@ -368,13 +403,13 @@
           <div id="datePicker" style="display: none;">
             <label for="date">Seleziona una data:</label>
             <input type="date" id="date" name="date">
-            <button id="submitButton">Invia</button>
+            <button id="dateSubmitButton">Invia</button>
           </div>
       
           <div id="inputField" style="display: none;">
             <label for="input">Inserisci valore:</label>
             <input type="text" id="input" name="input">
-            <button id="submitButton">Invia</button>
+            <button id="inputSubmitButton">Invia</button>
           </div>
       
 
@@ -388,7 +423,7 @@
                 <th>Id Condominio</th>
               </tr>
             </thead>
-            <tbody id="progetti-table">
+            <tbody>
               <!-- Aggiungi altre righe della tabella qui -->
             </tbody>
           </table>
