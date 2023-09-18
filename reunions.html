@@ -188,7 +188,7 @@
             <br>
             <br>
             <div class="form-container" id="form-container">
-                <form id="meetingForm" action="/new-reunion">
+                <form id="meetingForm" action="/new-reunion" method="post">
                     <label for="meetingDate">Data:</label>
                     <input type="date" id="meetingDate" name="meetingDate" required><br><br>
 
@@ -211,20 +211,19 @@
             <!-- Campo che si aggiorna dinamicamente -->
         </div>
         <br>
-        <table>
+        <!-- <table>
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Data</th>
-                    <th>Ora</th>
+                    <th>Ora</th> 
                     <th>Titolo</th>
                     <th>Descrizione</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Qui puoi inserire le righe della tabella -->
             </tbody>
-        </table>
+        </table> -->
     </div>
 
     <footer>
@@ -257,38 +256,38 @@
 
 
 
-        // Esempio di funzione per ottenere i dati dal server
-        function fetchDataFromServer() {
-            // Fai una richiesta Ajax al server per ottenere i dati
-            // Puoi utilizzare fetch() o XMLHttpRequest per questo scopo
+        // function fetchDataFromServer() {
+        //     // Fai una richiesta Ajax al server per ottenere i dati delle riunioni
+        //     fetch('/riunioni') // Sostituisci '/api/meetings' con l'URL corretto per ottenere i dati delle riunioni dal tuo server
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             // Aggiorna il calendario con i dati delle riunioni ottenuti dal server
+        //             data.forEach(meeting => {
+        //                 calendar.addEvent({
+        //                     id: meeting.id,
+        //                     title: meeting.title,
+        //                     start: meeting.date + 'T' + meeting.time, // Unisci data e ora
+        //                 });
+        //             });
+        //         })
+        //         .catch(error => {
+        //             console.error('Errore durante il recupero dei dati delle riunioni:', error);
+        //         });
+        // }
 
-            // Dopo aver ottenuto i dati dal server, aggiorna il calendario e la tabella
-            // e inserisci le righe nella tabella e gli eventi nel calendario.
-        }
 
-        // Chiamare la funzione per ottenere i dati quando la pagina si carica
-        window.addEventListener('load', function () {
-            fetchDataFromServer();
-        });
+
+        // // Chiamare la funzione per ottenere i dati quando la pagina si carica
+        // window.addEventListener('load', function () {
+        //     fetchDataFromServer();
+        // });
 
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth', // Vista predefinita (puoi cambiarla)
-                events: [ // Esempio di eventi (sostituiscili con i tuoi dati dal server)
-                    {
-                        title: 'Evento 1',
-                        start: '2023-09-15T10:00:00',
-                        end: '2023-09-15T12:00:00'
-                    },
-                    {
-                        title: 'Evento 2',
-                        start: '2023-09-16T14:00:00',
-                        end: '2023-09-16T16:00:00'
-                    }
-                    // Aggiungi altri eventi qui...
-                ]
+                events: '/riunioni'
             });
 
             calendar.render();
@@ -300,4 +299,3 @@
 
 </html>
 <!-- calendario e tabella, se clicchi viene la descrizione della riunione e infondo alla tabella c'è scarca verbale e per l'amministratore anche un tasto dove può aggiugere il verbale -->
-
