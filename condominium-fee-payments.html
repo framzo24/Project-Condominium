@@ -316,8 +316,8 @@
       });
     });
 
-     // Funzione per formattare la data in "gg/mm/aaaa"
-  function formattaData(data) {
+    // Funzione per formattare la data in "gg/mm/aaaa"
+    function formattaData(data) {
       const dataObj = new Date(data);
       const giorno = String(dataObj.getDate()).padStart(2, '0');
       const mese = String(dataObj.getMonth() + 1).padStart(2, '0'); // Mese è 0-based
@@ -428,6 +428,8 @@
 
     });
 
+    
+
   </script>
 
   <div class="container">
@@ -465,51 +467,45 @@
 
     <div class="card-space">
       <div class="card" onclick="openFormPayment('form-container')">Nuovo Pagamento</div>
-      <div class="card" onclick="openFormPayment('form-container1')" >Modifica pagamento</div>
-      <div class="card" onclick="openFormPayment('form-container2')" >Cancella pagamento</div>
+      <div class="card" onclick="openFormPayment('form-container1')">Modifica pagamento</div>
+      <div class="card" onclick="openFormPayment('form-container2')">Cancella pagamento</div>
     </div>
 
     <div class="modify-container">
       <div class="form-container" id="form-container">
         <h3>Nuovo Pagamento</h3>
-        <form action="/insert_payment" method="post">
+        <form id="form" action="/insert_payment" method="post">
           <input type="date" name="data" placeholder="Data" required>
           <input type="text" name="descrizione" placeholder="Descrizione" required>
           <input type="text" name="codice_identificativo" placeholder="Codice identificativo" required>
           <input type="number" name="prezzo" step="0.01" placeholder="Prezzo" required>
-          <button type="submit" onclick="closenFormPayment('form-container')">Inserisci</button>
+          <button type="submit">Inserisci</button>
         </form>
       </div>
 
       <div class="form-container1" id="form-container1">
         <h3>Modifica Pagamento</h3>
-        <form action="/new_payment" method="post" id="modificaForm">
-          <input type="hidden" id="idPagamento">
+        <form id="form" action="/aggiorna-pagamento" method="post" id="modificaForm">
+          <label for="id">Inserisci ID:</label>
+          <input type="text" name="idPagamento">
           <label for="data">Data:</label>
-          <input type="text" id="data" name="data" required>
+          <input type="date" id="data" name="data" >
           <label for="descrizione">Descrizione:</label>
-          <input type="text" id="descrizione" name="descrizione" required>
+          <input type="text" id="descrizione" name="descrizione" >
           <label for="codiceIdentificativo">Codice Identificativo:</label>
-          <input type="text" id="codiceIdentificativo" name="codiceIdentificativo" required>
+          <input type="text" id="codiceIdentificativo" name="codiceIdentificativo" >
           <label for="importo">Importo:</label>
-          <input type="text" id="importo" name="importo" required>
-          <button type="button" onclick="closenFormPayment('form-container1')">Conferma</button>
+          <input type="text" id="importo" name="importo" >
+          <button type="submit">Conferma</button>
         </form>
       </div>
 
       <div class="form-container2" id="form-container2">
         <h3>Cancella pagamento</h3>
-        <form action="/delete_payment" method="post">
-          <input type="hidden" id="idPagamento">
-          <label for="data">Data:</label>
-          <input type="text" id="data" name="data" required>
-          <label for="descrizione">Descrizione:</label>
-          <input type="text" id="descrizione" name="descrizione" required>
-          <label for="codiceIdentificativo">Codice Identificativo:</label>
-          <input type="text" id="codiceIdentificativo" name="codiceIdentificativo" required>
-          <label for="importo">Importo:</label>
-          <input type="text" id="importo" name="importo" required>
-          <button type="button" onclick="closenFormPayment('form-container2')">Conferma</button>
+        <form id="form" action="/delete_payment" method="post">
+          <label for="id">Inserisci ID:</label>
+          <input type="text" name="idPagamento">
+          <button type="submit">Conferma</button>
         </form>
       </div>
     </div>
@@ -550,9 +546,15 @@
       document.getElementById(form).style.display = "block";
     }
 
-    function closenFormPayment(form) {
-      document.getElementById(form).style.display = "none";
-    }
+    document.getElementById("form").addEventListener("submit", function (e) {
+            // e.preventDefault(); // Evita l'invio del form (gestirai l'invio tramite Ajax)
+
+            // Nascondi il div "form-container"
+            document.getElementById("form-container").style.display = "none";
+            document.getElementById("form-container1").style.display = "none";
+            document.getElementById("form-container2").style.display = "none";
+            location.reload();
+        });
   </script>
 
 </body>
