@@ -499,6 +499,24 @@ document.getElementById("dateSubmitButton").addEventListener("click", function (
 
   });
 
+  function caricaDatiProgetto() {
+  fetch('/progetti')
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Errore nella richiesta');
+      }
+      return response.json();
+    })
+    .then((datiProgetto) => {
+      // Popola la tabella con i dati recuperati
+      populateTable(datiProgetto);
+    })
+    .catch((error) => {
+      console.error('Errore durante la richiesta al server:', error);
+    });
+}
+
+
   document.getElementById("openNewProjectForm").addEventListener("click", function () {
    document.getElementById("newProjectForm").style.display = "block";
 });
@@ -534,15 +552,11 @@ if(creaNuovoProgetto){
       }
       return response.json();
     })
-    .then((responseJson) => {
-      // Se l'inserimento è riuscito, chiudi il modulo e aggiungi il nuovo progetto alla tabella.
-      document.getElementById("newProjectForm").style.display = "none";
-      aggiungiRigaTabella(responseJson.id, dataInizio, dataFine, nome, descrizione, condominioId);
-    })
     .catch((error) => {
       console.error('Errore durante l\'inserimento del nuovo progetto:', error);
     });
     document.getElementById("newProjectForm").style.display = "none";
+    caricaDatiProgetto();
 });
 }
 
