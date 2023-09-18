@@ -377,6 +377,16 @@
       }
     }
   }
+  
+  function mostraModificaForm(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
+      document.getElementById("idProgetto").value = idProgetto;
+      document.getElementById("dataInizio").value = dataInizio;
+      document.getElementById("dataFine").value = dataFine;
+      document.getElementById("nome").value = nome;
+      document.getElementById("descrizione").value = descrizione;
+      document.getElementById("condominioId").value = condominioId;
+      document.getElementById("modificaProgettoForm").style.display = "block";
+    }
 
   function aggiungiRigaTabella(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
     const tabella = document.getElementById("progetti-table");
@@ -397,7 +407,7 @@
   }
 
   function populateTable(datiProgetto) {
-    const table = document.querySelector('progetti-table'); // Assumi che l'elemento HTML della tabella abbia l'ID 'progetti-table'
+    const table = document.querySelector('#progetti-table'); // Assumi che l'elemento HTML della tabella abbia l'ID 'progetti-table'
     // Crea l'intestazione della tabella
     const tableHeader = `
         <thead>
