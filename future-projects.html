@@ -348,6 +348,15 @@
     filterTableByInput();
   });
 
+  // Funzione per formattare la data in "gg/mm/aaaa"
+  function formattaData(data) {
+  const dataObj = new Date(data);
+  const giorno = String(dataObj.getDate()).padStart(2, '0');
+  const mese = String(dataObj.getMonth() + 1).padStart(2, '0'); // Mese è 0-based
+  const anno = dataObj.getFullYear();
+  return `${giorno}/${mese}/${anno}`;
+}
+
   function filterTableByDate() {
     const filterDate = document.getElementById("date").value; // Ottieni la data selezionata
 
@@ -363,6 +372,11 @@
     }
   }
 
+// Aggiungi un ascoltatore di eventi al pulsante "Filtra per Data"
+document.getElementById("dateSubmitButton").addEventListener("click", function () {
+  filterTableByDate();
+});
+
   function filterTableByInput() {
     const filterValue = document.getElementById("input").value.toLowerCase();
 
@@ -377,7 +391,7 @@
       }
     }
   }
-  
+
   function mostraModificaForm(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
       document.getElementById("idProgetto").value = idProgetto;
       document.getElementById("dataInizio").value = dataInizio;
@@ -426,8 +440,8 @@
     const tableRows = datiProgetto.map((progetto) => `
           <tr>
             <td>${progetto.id}</td>
-            <td>${progetto.data_inizio}</td>
-            <td>${progetto.data_fine}</td>
+            <td>${formattaData(progetto.data_inizio)}</td>
+            <td>${formattaData(progetto.data_fine)}</td>
             <td>${progetto.nome}</td>
             <td>${progetto.descrizione}</td>
             <td>${progetto.condominio_id}</td>
