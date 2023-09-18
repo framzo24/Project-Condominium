@@ -215,6 +215,20 @@ app.post('/aggiorna-pagamento', (req, res) => {
   });
 });
 
+app.post('/crea-progetto', (req, res) => {
+  const { dataInizio, dataFine, nome, descrizione, condominioId } = req.body;
+  const insertQuery = 'INSERT INTO Progetto_Futuro (data_inizio, data_fine, nome, descrizione, condominio_id) VALUES (?, ?, ?, ?, ?)';
+  db.query(insertQuery, [dataInizio, dataFine, nome, descrizione, condominioId], (err, result) => {
+    if (err) {
+      console.error("Errore durante l'inserimento del progetto", err);
+      return res.status(500).send("Errore durante l'inserimento del progetto");
+    }
+    console.log("Nuovo progetto inserito con successo.");
+
+  });
+
+});
+
 app.get('/condominio', (req, res) => {
   const query = 'SELECT * FROM Condominio';
   db.query(query, (err, result) => {
