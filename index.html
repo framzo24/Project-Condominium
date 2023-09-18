@@ -142,9 +142,16 @@
             align-content: stretch;
         }
 
+        .grid-item {
+            display: flex;
+        }
+
         .grid-item a {
             text-decoration: none;
             color: black;
+        }
+        h2 {
+            margin-top: 0px;
         }
     </style>
 </head>
@@ -170,7 +177,7 @@
             <a id="link" href="/home" type="button">home</a>
             <!-- <a id="link" href="/login" type="button">accedi</a>
             <a id="button" href="/registration" type="button">registrati</a> -->
-            <a id="button" href="/logout" type="button">logout</a>
+            <a id="button-logout" href="/logout" type="button">logout</a>
         </div>
 
     </div>
@@ -182,7 +189,7 @@
                 <!-- Spazio che viene aggiornato dinamicamente -->
             </div>
         </div>
-
+<br>
         <div id="grid-container">
             <!-- Spazio che viene aggiornato dinamicamente -->
         </div>
@@ -200,17 +207,16 @@
     <script>
 
         function populateProfileDetails() {
-            var nome = sessionStorage.getItem("nome");
+            var nome = sessionStorage.getItem("email");
             var cognome = sessionStorage.getItem("cognome");
             var partitaIVA = sessionStorage.getItem("partitaIVA");
-            console.log("pq3mrpq3rcem");
 
             // Ottieni il div "profile-details"
             var profileDetails = document.querySelector('.profile-details');
 
             // Crea gli elementi e inserisci i dati
             var nomeElement = document.createElement('a');
-            nomeElement.textContent = 'Nome: ' + nome;
+            nomeElement.textContent = 'Email: ' + nome;
             profileDetails.appendChild(nomeElement);
 
             var cognomeElement = document.createElement('a');
@@ -249,12 +255,14 @@
                 const imagesPath = "foto"
                 const content = `
                 <img src="./images/${imagesPath.replace('foto', condominio.nome)}.jpg" height="200px" >
+                <div style="margin-left:20px">
                 <a href="/family"><h2>${condominio.nome}</h2></a>
                 <p>Indirizzo: ${condominio.indirizzo}</p>
                 <p>Numero Piani: ${condominio.n_piani}</p>
                 <p>Numero Appartamenti: ${condominio.n_appartamenti}</p>
                 <p>Cantine: ${condominio.cantine ? 'Sì' : 'No'}</p>
                 <p>Garage: ${condominio.garage ? 'Sì' : 'No'}</p>
+                </div>
                 `;
 
                 gridItem.innerHTML = content;
@@ -278,6 +286,11 @@
                 .catch((error) => {
                     console.error('Errore durante la richiesta al server:', error);
                 });
+        });
+
+        document.getElementById('button-logout').addEventListener('submit', function (event) {
+            sessionStorage.clear();
+            console.log(sessionStorage.getItem("email"));
         });
 
     </script>
