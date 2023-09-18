@@ -113,7 +113,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      /* margin-top: 40px; */
+      margin-top: 40px; 
     }
 
     th,
@@ -158,34 +158,6 @@
       margin: 5px;
     }
 
-    .card-space {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 10px;
-      margin-top: 40px;
-      margin-bottom: 40px;
-      padding: 0px;
-    }
-
-    .card {
-      width: calc(33% - 10px);
-      /* 25% per quattro card e -10px per la spaziatura */
-      height: 50px;
-      background-color: #f0f0f0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .card:hover {
-      background-color: #e0e0e0;
-    }
-
     .modify-container {
       display: flex;
       justify-content: space-between;
@@ -213,6 +185,22 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
+
+    #openNewProjectForm {
+      font-size: 24px; /* Regola la dimensione del carattere come preferisci */
+      float: right; /* Posiziona il bottone a destra */
+      border-radius: 10px; /* Rendi i bordi tondeggianti */
+      padding: 10px 10px; /* Aggiungi spazio intorno al testo del bottone */
+      margin-top: 5px; /* Aggiungi margine superiore */
+      margin-bottom: 20px;
+    }
+
+    .filter-label {
+      margin-right: 20px;
+      margin-top: 5px;
+    }
+
+
   </style>
 </head>
 
@@ -247,7 +235,7 @@
       <p class="title-page">Progetti Futuri</p>
     </div>
 
-    <label for="filter">Filtra per:</label>
+    <label for="filter" class="filter-label">Filtra per:</label>
     <select id="filter">
       <option value=""></option>
       <option value="data_inizio">Data Inizio</option>
@@ -268,23 +256,7 @@
       <button id="inputSubmitButton">Invia</button>
     </div>
 
-
-    <table id="progetti-table">
-      <thead>
-        <tr>
-          <th>Data Inizio</th>
-          <th>Data Fine</th>
-          <th>Nome</th>
-          <th>Descrizione</th>
-          <th>Id Condominio</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Aggiungi altre righe della tabella qui -->
-      </tbody>
-    </table>
-
-    <button id="openNewProjectForm">Crea nuovo progetto</button>
+    <button id="openNewProjectForm"  style="display: block; margin-top: 20px;">Crea nuovo progetto</button>
 
     <div id="newProjectForm" style="display: none;">
       <h2>Nuovo Progetto</h2>
@@ -308,6 +280,20 @@
       </form>
     </div>
     
+    <table id="progetti-table">
+      <thead>
+        <tr>
+          <th>Data Inizio</th>
+          <th>Data Fine</th>
+          <th>Nome</th>
+          <th>Descrizione</th>
+          <th>Id Condominio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Aggiungi altre righe della tabella qui -->
+      </tbody>
+    </table>
   </div>
 
   <footer>
@@ -515,6 +501,36 @@ document.getElementById("dateSubmitButton").addEventListener("click", function (
       console.error('Errore durante la richiesta al server:', error);
     });
 }
+
+// Prima di aggiungere l'ascoltatore di eventi, ottieni gli ID condominiali disponibili
+fetch('/get-condominio-ids')
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Errore nella richiesta');
+    }
+    return response.json();
+  })
+  .then((condominioIds) => {
+    // Ora che hai gli ID condominiali disponibili, popola il menu a tendina
+    const condominioIdSelect = document.getElementById('condominioId');
+    
+    // Aggiungi un'opzione vuota come valore predefinito
+    const emptyOption = document.createElement('option');
+    emptyOption.value = '';
+    emptyOption.text = '';
+    condominioIdSelect.appendChild(emptyOption);
+
+    // Aggiungi ciascun ID condominiale come opzione nel menu a tendina
+    condominioIds.forEach((condominioId) => {
+      const option = document.createElement('option');
+      option.value = condominioId;
+      option.text = condominioId;
+      condominioIdSelect.appendChild(option);
+    });
+  })
+  .catch((error) => {
+    console.error('Errore durante il recupero degli ID condominiali:', error);
+  });
 
 
   document.getElementById("openNewProjectForm").addEventListener("click", function () {

@@ -230,6 +230,24 @@ app.post('/crea-progetto', (req, res) => {
 
 });
 
+// Definisci la route per ottenere gli ID condominiali
+app.get('/get-condominio-ids', (req, res) => {
+  const condominioId = 1;
+  const query = 'SELECT DISTINCT condominio_id FROM progetto_futuro'  // Sostituisci questo array con la vera logica di accesso al tuo database
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Errore durante l\'esecuzione della query:', err);
+      res.status(500).json({ error: 'Errore durante la query' });
+      return;
+    }
+
+    // Estrai gli ID condominiali dalla risposta del database
+    const condominioIds = results.map((row) => row.condominio_id);
+  // Invia la lista degli ID condominiali come risposta JSON
+  res.json(condominioIds);
+});
+});
+
 app.get('/condominio', (req, res) => {
   const query = 'SELECT * FROM Condominio';
   db.query(query, (err, result) => {
