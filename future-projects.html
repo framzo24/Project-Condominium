@@ -278,14 +278,22 @@
       });
     });
 
-    function mostraModificaForm(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
-      document.getElementById("idProgetto").value = idProgetto;
-      document.getElementById("dataInizio").value = dataInizio;
-      document.getElementById("dataFine").value = dataFine;
-      document.getElementById("nome").value = nome;
-      document.getElementById("descrizione").value = descrizione;
-        document.getElementById("condominioId").value = condominioId;
-      document.getElementById("modificaProgettoForm").style.display = "block";
+    function aggiungiRigaTabella(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
+      const tabella = document.getElementById("progetti-table");
+      const riga = tabella.insertRow();
+      const cellaId = riga.insertCell(0);
+      const cellaDataInizio = riga.insertCell(1);
+      const cellaDataFine = riga.insertCell(2);
+      const cellaNome = riga.insertCell(3);
+      const cellaDescrizione = riga.insertCell(4);
+      const cellaCondominioId = riga.insertCell(5);
+
+      cellaId.innerHTML = idProgetto;
+      cellaDataInizio.innerHTML = dataInizio;
+      cellaDataFine.innerHTML = dataFine;
+      cellaNome.innerHTML = nome;
+      cellaDescrizione.innerHTML = descrizione;
+      cellaCondominioId.innerHTML = condominioId;
     }
 
 
@@ -333,7 +341,7 @@
             <td>${progetto.data_fine}</td>
             <td>${progetto.nome}</td>
             <td>${progetto.descrizione}</td>
-            <td>${pagamento.condominio_id}</td>
+            <td>${progetto.condominio_id}</td>
           </tr>
         `).join('');
 
@@ -380,7 +388,7 @@
                 <th>Id Condominio</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="progetti-table">
               <!-- Aggiungi altre righe della tabella qui -->
             </tbody>
           </table>
