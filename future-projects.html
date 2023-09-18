@@ -317,7 +317,7 @@
     const datePicker = document.getElementById("datePicker");
     const inputField = document.getElementById("inputField");
     const dateSubmitButton = document.getElementById("dateSubmitButton");
-    const inputSubmitButton = document.getElementById("inputDateSubmitButton");
+    const inputSubmitButton = document.getElementById("inputSubmitButton");
     const table = document.getElementById("progetti-table").getElementsByTagName('tbody')[0];
 
     filterSelect.addEventListener("change", function () {
@@ -338,33 +338,14 @@
     });
   });
 
-  // Per il filtro data
-  dateSubmitButton.addEventListener("click", function () {
-    filterTableByDate();
-  });
-
-  // Per l'input Nome o Condominio Id
-  inputSubmitButton.addEventListener("click", function () {
-    filterTableByInput();
-  });
-
-  // Funzione per formattare la data in "gg/mm/aaaa"
-  function formattaData(data) {
-  const dataObj = new Date(data);
-  const giorno = String(dataObj.getDate()).padStart(2, '0');
-  const mese = String(dataObj.getMonth() + 1).padStart(2, '0'); // Mese è 0-based
-  const anno = dataObj.getFullYear();
-  return `${giorno}/${mese}/${anno}`;
-}
-
   function filterTableByDate() {
-    const filterDate = document.getElementById("date").value; // Ottieni la data selezionata
+    const filterDate = new Date(document.getElementById("date")).value; // Ottieni la data selezionata
 
     for (let row of table.rows) {
-      const data_inizio = row.cells[1].textContent;
-      const data_fine = row.cells[2].textContent;
+      const data_inizio = new Date(row.cells[0].textContent);
+      const data_fine = new Date(row.cells[1].textContent);
 
-      if (data_inizio <= filterDate && filterDate <= data_fine) {
+      if (filterDate >= data_inizio || filterDate <= data_fine) {
         row.style.display = "table-row"; // Mostra la riga se la data è compresa tra Data Inizio e Data Fine
       } else {
         row.style.display = "none"; // Nascondi la riga altrimenti
@@ -391,6 +372,27 @@ document.getElementById("dateSubmitButton").addEventListener("click", function (
       }
     }
   }
+  
+  // Per il filtro data
+  dateSubmitButton.addEventListener("click", function () {
+    filterTableByDate();
+  });
+
+  // Per l'input Nome o Condominio Id
+  inputSubmitButton.addEventListener("click", function () {
+    filterTableByInput();
+  });
+
+  // Funzione per formattare la data in "gg/mm/aaaa"
+  function formattaData(data) {
+    const dataObj = new Date(data);
+    const giorno = String(dataObj.getDate()).padStart(2, '0');
+    const mese = String(dataObj.getMonth() + 1).padStart(2, '0'); // Mese è 0-based
+    const anno = dataObj.getFullYear();
+    return `${giorno}/${mese}/${anno}`;
+  }
+
+
 
   function mostraModificaForm(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
       document.getElementById("idProgetto").value = idProgetto;
