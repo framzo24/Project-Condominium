@@ -216,7 +216,8 @@ app.post('/aggiorna-pagamento', (req, res) => {
 });
 
 app.post('/crea-progetto', (req, res) => {
-  const { dataInizio, dataFine, nome, descrizione, condominioId } = req.body;
+  const { dataInizio, dataFine, nome, descrizione } = req.body;
+  const condominioId = 1;
   const insertQuery = 'INSERT INTO Progetto_Futuro (data_inizio, data_fine, nome, descrizione, condominio_id) VALUES (?, ?, ?, ?, ?)';
   db.query(insertQuery, [dataInizio, dataFine, nome, descrizione, condominioId], (err, result) => {
     if (err) {

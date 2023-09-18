@@ -503,7 +503,9 @@ document.getElementById("dateSubmitButton").addEventListener("click", function (
    document.getElementById("newProjectForm").style.display = "block";
 });
 
-document.getElementById("createNewProjectForm").addEventListener("click", function () {
+const creaNuovoProgetto = document.getElementById("createNewProject");
+if(creaNuovoProgetto){
+  creaNuovoProgetto.addEventListener("click", function () {
   const dataInizio = document.getElementById("dataInizio").value;
   const dataFine = document.getElementById("dataFine").value;
   const nome = document.getElementById("nome").value;
@@ -511,15 +513,15 @@ document.getElementById("createNewProjectForm").addEventListener("click", functi
   const condominioId = document.getElementById("condominioId").value;
 
   const newProjectData = {
-    data_inizio: dataInizio,
-    data_fine: dataFine,
-    nome: nome,
-    descrizione: descrizione,
-    condominio_id: condominioId
+    dataInizio,
+    dataFine,
+    nome,
+    descrizione,
+    condominioId
   };
 
   // Invia i dati del nuovo progetto al server tramite una richiesta fetch o AJAX.
-  fetch('/crea-progettoo', {
+  fetch('/crea-progetto', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -540,7 +542,9 @@ document.getElementById("createNewProjectForm").addEventListener("click", functi
     .catch((error) => {
       console.error('Errore durante l\'inserimento del nuovo progetto:', error);
     });
+    document.getElementById("newProjectForm").style.display = "none";
 });
+}
 
 </script>
 
