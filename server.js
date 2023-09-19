@@ -231,6 +231,42 @@ app.post('/delete_payment', (req, res) => {
   });
 });
 
+app.post('/crea-progetto', (req, res) => {
+  const { dataInizio, dataFine, nome, descrizione } = req.body;
+  const condominioId = 1;
+  const insertQuery = 'INSERT INTO Progetto_Futuro (data_inizio, data_fine, nome, descrizione, condominio_id) VALUES (?, ?, ?, ?, ?)';
+  db.query(insertQuery, [dataInizio, dataFine, nome, descrizione, condominioId], (err, result) => {
+    if (err) {
+      console.error("Errore durante l'inserimento del progetto", err);
+      return res.status(500).send("Errore durante l'inserimento del progetto");
+    }
+    console.log("Nuovo progetto inserito con successo.");
+
+  });
+
+});
+
+
+app.delete('/elimina-progetto/:id', (req, res) => {
+  const projectId = req.params.id;
+  const deleteQuery = 'DELETE FROM Progetto_Futuro WHERE id = ?';
+
+  db.query(deleteQuery, [projectId], (err, result) => {
+    if (err) {
+      console.error('Errore durante l\'eliminazione del progetto:', err);
+      return res.status(500).json({ error: 'Errore durante l\'eliminazione del progetto' });
+    }
+
+    // Controlla se il progetto è stato eliminato con successo
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Progetto non trovato' });
+    }
+
+    // Invia una risposta di successo se l'eliminazione è riuscita
+    res.json({ message: 'Progetto eliminato con successo' });
+});
+});
+
 app.get('/condominio', (req, res) => {
   const query = 'SELECT * FROM Condominio';
   db.query(query, (err, result) => {

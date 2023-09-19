@@ -2,6 +2,11 @@ finire funzione logout perché per ora torna al login, ma dovrebbe anche cancell
 fare tabella dei condomini per la pagina home dell'utente
 nel calendario non ci sono gli eventi, mettere che al click si apre un alert con i dettagli dell'evento
 inserire pulsanti per modificare una riunione o cancellarla
+<<<<<<< HEAD
+=======
+fare in modo che i pannelli dei pagamenti si chiudano
+fare bottone elimina progetto
+>>>>>>> main
 
 
 
