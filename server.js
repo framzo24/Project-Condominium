@@ -230,21 +230,24 @@ app.post('/crea-progetto', (req, res) => {
 
 });
 
-// Definisci la route per ottenere gli ID condominiali
-app.get('/get-condominio-ids', (req, res) => {
-  const condominioId = 1;
-  const query = 'SELECT DISTINCT condominio_id FROM progetto_futuro'  // Sostituisci questo array con la vera logica di accesso al tuo database
-  db.query(query, (err, results) => {
+
+app.delete('/elimina-progetto/:id', (req, res) => {
+  const projectId = req.params.id;
+  const deleteQuery = 'DELETE FROM Progetto_Futuro WHERE id = ?';
+
+  db.query(deleteQuery, [projectId], (err, result) => {
     if (err) {
-      console.error('Errore durante l\'esecuzione della query:', err);
-      res.status(500).json({ error: 'Errore durante la query' });
-      return;
+      console.error('Errore durante l\'eliminazione del progetto:', err);
+      return res.status(500).json({ error: 'Errore durante l\'eliminazione del progetto' });
     }
 
-    // Estrai gli ID condominiali dalla risposta del database
-    const condominioIds = results.map((row) => row.condominio_id);
-  // Invia la lista degli ID condominiali come risposta JSON
-  res.json(condominioIds);
+    // Controlla se il progetto è stato eliminato con successo
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Progetto non trovato' });
+    }
+
+    // Invia una risposta di successo se l'eliminazione è riuscita
+    res.json({ message: 'Progetto eliminato con successo' });
 });
 });
 

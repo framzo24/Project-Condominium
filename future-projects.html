@@ -235,6 +235,7 @@
       <p class="title-page">Progetti Futuri</p>
     </div>
 
+    <div class="three-button">
     <label for="filter" class="filter-label">Filtra per:</label>
     <select id="filter">
       <option value=""></option>
@@ -258,6 +259,9 @@
 
     <button id="openNewProjectForm"  style="display: block; margin-top: 20px;">Crea nuovo progetto</button>
 
+    <button id="openDeleteProjectForm"  style="display: block; margin-top: 20px;">Elimina progetto</button>
+
+    </div>
     <div id="newProjectForm" style="display: none;">
       <h2>Nuovo Progetto</h2>
       <form id="createProjectForm">
@@ -279,7 +283,17 @@
         <button type="button" id="createNewProject">Conferma</button>
       </form>
     </div>
+
+    <div id="deleteProjectForm" style="display: none;">
+      <h2>Elimina Progetto</h2>
+      <form id="deleteProjectForm">
+        <label for="projectToDelete">Inserisci l'ID del progetto da eliminare:</label>
+        <input type="text" id="projectToDelete" required><br>
+        <button type="button" id="confirmDeleteProject">Conferma</button>
+      </form>
+    </div>
     
+
     <table id="progetti-table">
       <thead>
         <tr>
@@ -502,40 +516,9 @@ document.getElementById("dateSubmitButton").addEventListener("click", function (
     });
 }
 
-// Prima di aggiungere l'ascoltatore di eventi, ottieni gli ID condominiali disponibili
-fetch('/get-condominio-ids')
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error('Errore nella richiesta');
-    }
-    return response.json();
-  })
-  .then((condominioIds) => {
-    // Ora che hai gli ID condominiali disponibili, popola il menu a tendina
-    const condominioIdSelect = document.getElementById('condominioId');
-    
-    // Aggiungi un'opzione vuota come valore predefinito
-    const emptyOption = document.createElement('option');
-    emptyOption.value = '';
-    emptyOption.text = '';
-    condominioIdSelect.appendChild(emptyOption);
-
-    // Aggiungi ciascun ID condominiale come opzione nel menu a tendina
-    condominioIds.forEach((condominioId) => {
-      const option = document.createElement('option');
-      option.value = condominioId;
-      option.text = condominioId;
-      condominioIdSelect.appendChild(option);
-    });
-  })
-  .catch((error) => {
-    console.error('Errore durante il recupero degli ID condominiali:', error);
-  });
-
-
   document.getElementById("openNewProjectForm").addEventListener("click", function () {
    document.getElementById("newProjectForm").style.display = "block";
-});
+  });
 
 const creaNuovoProgetto = document.getElementById("createNewProject");
 if(creaNuovoProgetto){
@@ -575,6 +558,62 @@ if(creaNuovoProgetto){
     caricaDatiProgetto();
 });
 }
+
+
+const openDeleteProjectFormButton = document.getElementById("openDeleteProjectForm");
+const deleteProjectForm = document.getElementById("deleteProjectForm");
+
+if (openDeleteProjectFormButton) {
+  openDeleteProjectFormButton.addEventListener("click", function () {
+    deleteProjectForm.style.display = "block";
+  });
+}
+
+const confirmDeleteProjectButton = document.getElementById("confirmDeleteProject");
+const projectToDeleteInput = document.getElementById("projectToDelete");
+
+if (confirmDeleteProjectButton) {
+  confirmDeleteProjectButton.addEventListener("click", function () {
+    const projectToDeleteId = projectToDeleteInput.value;
+
+    // Esegui la richiesta per eliminare il progetto dal server
+    fetch(`/elimina-progetto/${projectToDeleteId}`, {
+      method: 'DELETE',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Errore nella richiesta');
+        }
+        return response.json();
+      })
+      .then((responseJson) => {
+        // Se l'eliminazione è riuscita, chiudi il modulo
+        deleteProjectForm.style.display = "none";
+        // Aggiorna la tabella rimuovendo la riga del progetto eliminato
+        rimuoviRigaProgettoDallaTabella(projectToDeleteId);
+      })
+      .catch((error) => {
+        console.error('Errore durante l\'eliminazione del progetto:', error);
+      });
+  });
+}
+
+// Funzione per rimuovere una riga del progetto dalla tabella
+function rimuoviRigaProgettoDallaTabella(idProgetto) {
+  const tabella = document.getElementById("progetti-table");
+  const righe = tabella.getElementsByTagName("tr");
+
+  for (let i = 1; i < righe.length; i++) { // Parti da 1 per evitare l'intestazione
+    const riga = righe[i];
+    const cellaId = riga.cells[0];
+    
+    if (cellaId.innerText === idProgetto) {
+      tabella.deleteRow(i); // Rimuovi la riga con l'ID del progetto corrispondente
+      break; // Esci dal ciclo una volta trovata la riga
+    }
+  }
+}
+
 
 </script>
 
