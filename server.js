@@ -78,10 +78,6 @@ app.get('/reunions', (req, res) => {
   res.sendFile(directory + '/reunions.html');
 });
 
-app.get('/verbals', (req, res) => {
-  res.sendFile(directory + '/verbals.html');
-});
-
 app.listen(port, () => {
   console.log(`Server in ascolto sulla porta ${port}`);
 });
@@ -517,6 +513,19 @@ app.post("/new-reunion", (req, res) => {
       return res.status(500).send("Errore durante l'inserimento della riunione");
     }
     console.log("Nuova riunione inserita con successo.");
+  });
+});
+
+app.post("/modify-reunion", (req, res) => {
+  const { meetingId, meetingDate, meetingTime, meetingTitle, meetingDescription } = req.body;
+  const utente_id_ = 2;
+  const updateQuery = 'UPDATE Riunione SET id = ?, data = ?, ora = ?, titolo = ?, descrizione = ?, utente_id = ? WHERE 1';
+  db.query(updateQuery, [meetingId,meetingDate,meetingTime,meetingTitle,meetingDescription, utente_id], (err, result) => {
+    if (err) {
+      console.error("Errore durante l'aggiornamento della riunione", err);
+      return res.status(500).send("Errore durante l'aggiornamento della riunione");
+    }
+    console.log("Aggiornamento della riunione riuscito.");
   });
 });
 
