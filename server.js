@@ -532,7 +532,7 @@ app.post("/modify-reunion", (req, res) => {
 
 app.post("/delete-reunion", (req, res) => {
   const { meetingId } = req.body;
-  const updateQuery = 'DELETE Riunione WHERE ?';
+  const updateQuery = 'DELETE FROM Riunione WHERE ?';
   db.query(updateQuery, [meetingId], (err, result) => {
     if (err) {
       console.error("Errore durante l'aggiornamento della riunione", err);

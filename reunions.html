@@ -309,40 +309,13 @@
         });
 
 
-
-        // function fetchDataFromServer() {
-        //     // Fai una richiesta Ajax al server per ottenere i dati delle riunioni
-        //     fetch('/riunioni') // Sostituisci '/api/meetings' con l'URL corretto per ottenere i dati delle riunioni dal tuo server
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             // Aggiorna il calendario con i dati delle riunioni ottenuti dal server
-        //             data.forEach(meeting => {
-        //                 calendar.addEvent({
-        //                     id: meeting.id,
-        //                     title: meeting.title,
-        //                     start: meeting.date + 'T' + meeting.time, // Unisci data e ora
-        //                 });
-        //             });
-        //         })
-        //         .catch(error => {
-        //             console.error('Errore durante il recupero dei dati delle riunioni:', error);
-        //         });
-        // }
-
-
-
-        // // Chiamare la funzione per ottenere i dati quando la pagina si carica
-        // window.addEventListener('load', function () {
-        //     fetchDataFromServer();
-        // });
-
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth', // Vista predefinita (puoi cambiarla)
                 events: '/riunioni'
-            });
+                });
 
             calendar.render();
         });
