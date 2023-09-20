@@ -7,6 +7,8 @@ const port = 3002;
 const config = require('./config.json');
 const directory = config.projectDirectory;
 const session = require('express-session');
+const multer = require('multer');
+
 
 // Configura express-session 
 app.use(session({
@@ -78,16 +80,26 @@ app.get('/reunions', (req, res) => {
   res.sendFile(directory + '/reunions.html');
 });
 
-<<<<<<< Updated upstream
-app.use('/upload-pdf', express.static('/Users/elena/Desktop/Github/Project-Condominium/upload-pdf'));
-=======
-app.get('/notifications-user', (req, res) => {
-  res.sendFile(directory + '/notifications-user.html');
-});
->>>>>>> Stashed changes
+//app.use('/upload-pdf', express.static('/Users/elena/Desktop/Github/Project-Condominium/upload-pdf'));
 
-app.listen(port, () => {
-  console.log(`Server in ascolto sulla porta ${port}`);
+// Configura multer per gestire l'upload dei file
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, './uploads'); // Specifica la cartella di destinazione dove i file verranno salvati
+  },
+  filename: function (req, file, cb) {
+      // Genera un nome univoco per il file
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, file.fieldname + '-' + uniqueSuffix + '.pdf');
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Definisci l'endpoint per l'upload del PDF
+app.post('/upload-pdf', upload.single('pdfFile'), (req, res) => {
+  // L'upload del file è stato completato con successo
+  res.json({ message: 'File PDF caricato con successo' });
 });
 
 app.post('/login', (req, res) => {
