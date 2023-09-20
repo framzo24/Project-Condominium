@@ -110,13 +110,29 @@
 </body>
 <script>
     document.getElementById('loginForm').addEventListener('submit', function (event) {
+        // event.preventDefault(); // Evita che il modulo venga inviato normalmente
 
         // Recupera il valore dell'email inserita nel form
         var email = document.getElementById('email').value;
 
-        // Salva l'email in sessionStorage
-        sessionStorage.setItem('email', email);
+        // Esegui una richiesta GET al server per ottenere le informazioni dell'utente
+        fetch('/getUserIdByEmail?email=' + email)
+            .then(response => response.json())
+            .then(data => {
+                // Puoi fare qualcosa con i dati dell'utente, ad esempio salvarli in sessionStorage
+                sessionStorage.setItem('user', JSON.stringify(data));
+
+                // Esegui il reindirizzamento o altre azioni necessarie
+                // ...
+
+            })
+            .catch(error => {
+                console.error('Errore nella richiesta al server:', error);
+            });
     });
+
+
+
 </script>
 
 </html>

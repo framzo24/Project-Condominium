@@ -398,6 +398,39 @@ function getRiunioniFromDatabase(callback) {
   });
 }
 
+// funzione per recuperare i dati degli utenti dal database
+function getUtentiFromDatabase(callback) {
+  const query = 'SELECT * FROM Utente';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Errore durante la query al database:', err);
+      return callback(err, null);
+    }
+
+    // Crea un array per memorizzare tutti i condomini
+    const utentiArray = [];
+
+    // Itera attraverso i risultati e crea un oggetto per ciascun condominio
+    results.forEach((row) => {
+      const utente = { 
+        id: row.id,
+        nome: row.nome,
+        cognome: row.cognome,
+        email: row.email,
+        p_iva: row.p_iva,
+        ruolo: row.ruolo,
+      };
+
+      // Aggiungi l'oggetto condominio all'array dei condomini
+      utentiArray.push(utente);
+    });
+
+    // Passa l'array dei condomini come risultato
+    callback(null, utentiArray);
+  });
+}
+
 function convertiFormatoData(dataString) {
   // Crea un oggetto Data a partire dalla stringa della data
   const data = new Date(dataString);
@@ -455,8 +488,6 @@ app.get('/riunioni', (req, res) => {
       // Invia i dati delle riunioni come risposta JSON
       const eventiFullCalendar = riunioniArray.map(convertiPerFullCalendar);
       res.json(eventiFullCalendar);
-      console.log(riunioniArray);
-      console.log(eventiFullCalendar);
     }
   });
 });
@@ -489,6 +520,19 @@ app.get('/progetti', (req, res) => {
   });
 });
 
+app.get('/getUserIdByEmail', (req, res) => {
+  getUtentiFromDatabase((err, datiUtente) => {
+    if (err) {
+      // Gestisci l'errore
+      console.error('Errore durante il recupero degli:', err);
+      res.status(500).send('Errore durante il recupero degli utenti');
+    } else {
+      // Invia i dati degli utenti come risposta JSON
+      res.json(datiUtente);
+    }
+  });
+});
+
 //route per la pagina dei condomini
 app.get('/condomini', (req, res) => {
   getCondominiFromDatabase((err, condominiArray) => {
@@ -506,7 +550,6 @@ app.get('/condomini', (req, res) => {
 app.post("/new-reunion", (req, res) => {
   const { meetingDate, meetingTime, meetingTitle, meetingDescription } = req.body;
   const utente_id = 2;
-  console.log(meetingDate);
   const insertQuery = 'INSERT INTO Riunione (data, ora, titolo, descrizione, utente_id) VALUES (?,?,?,?,?)';
   db.query(insertQuery, [meetingDate,meetingTime,meetingTitle,meetingDescription, utente_id], (err, result) => {
     if (err) {
@@ -538,7 +581,7 @@ app.post("/delete-reunion", (req, res) => {
       console.error("Errore durante l'aggiornamento della riunione", err);
       return res.status(500).send("Errore durante l'aggiornamento della riunione");
     }
-    console.log("Aggiornamento della riunione riuscito.");
+    console.log("Cancellazione della riunione riuscito.");
   });
 });
 
