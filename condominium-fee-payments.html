@@ -265,7 +265,7 @@
 
     <div class="button-header">
       <a id="link" href="/home" type="button">home</a>
-      <a id="button-logout" href="/logout" type="button">logout</a>
+      <a id="button-logout" href="/logout" onclick="doLogout()" type="button">logout</a>
     </div>
 
   </div>
@@ -288,25 +288,25 @@
     <div id="datePicker" style="display: none;">
       <label for="date">Seleziona una data:</label>
       <input type="date" id="date" name="date">
-      <button id="submitButton">Invia</button>
+      <button id="submitButtonDate">Invia</button>
     </div>
 
     <div id="inputField" style="display: none;">
       <label for="input">Inserisci valore:</label>
       <input type="text" id="input" name="input">
-      <button id="submitButton">Invia</button>
+      <button id="submitButtonValore">Invia</button>
     </div>
 
     <div id="codeInput" style="display: none;">
       <label for="code">Inserisci codice identificativo:</label>
       <input type="text" id="code" name="code">
-      <button id="submitButton">Invia</button>
+      <button id="submitButtonCodIdent">Invia</button>
     </div>
 
     <div class="card-space">
-      <div class="card" onclick="openFormPayment('form-container')">Nuovo Pagamento</div>
-      <div class="card" onclick="openFormPayment('form-container1')">Modifica pagamento</div>
-      <div class="card" onclick="openFormPayment('form-container2')">Cancella pagamento</div>
+      <div class="card" onclick="openFormPayment()">Nuovo Pagamento</div>
+      <div class="card" onclick="openForm1Payment()">Modifica pagamento</div>
+      <div class="card" onclick="openForm2Payment()">Cancella pagamento</div>
     </div>
 
     <div class="modify-container">
@@ -359,7 +359,6 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Aggiungi altre righe della tabella qui -->
       </tbody>
     </table>
   </div>
@@ -380,8 +379,22 @@
       document.getElementById("hamburger").style.display = "";
     }
 
-    function openFormPayment(form) {
-      document.getElementById(form).style.display = "block";
+    function openFormPayment() {
+      document.getElementById("form-container").style.display = "block";
+      document.getElementById("form-container1").style.display = "none";
+      document.getElementById("form-container2").style.display = "none";
+    }
+
+    function openForm1Payment() {
+      document.getElementById("form-container").style.display = "none";
+      document.getElementById("form-container1").style.display = "block";
+      document.getElementById("form-container2").style.display = "none";
+    }
+
+    function openForm2Payment() {
+      document.getElementById("form-container").style.display = "none";
+      document.getElementById("form-container1").style.display = "none";
+      document.getElementById("form-container2").style.display = "block";
     }
 
 
@@ -389,7 +402,6 @@
       const filterSelect = document.getElementById("filter");
       const datePicker = document.getElementById("datePicker");
       const inputField = document.getElementById("inputField");
-      const submitButton = document.getElementById("submitButton");
       const codeInput = document.getElementById("codeInput");
       const table = document.getElementById("pagamenti-table").getElementsByTagName('tbody')[0];
 
@@ -399,33 +411,55 @@
         datePicker.style.display = selectedValue === "data" ? "block" : "none";
         inputField.style.display = selectedValue !== "data" && selectedValue !== "codice" ? "block" : "none";
         codeInput.style.display = selectedValue === "codice" ? "block" : "none";
-
-        filterTable();
       });
 
       function filterTable() {
         const filterValue = inputField.querySelector("input").value.toLowerCase();
         const codeValue = codeInput.querySelector("input").value.toLowerCase();
+        const dateValue = datePicker.querySelector("input").value;
+        console.log("controllo");
 
         for (let row of table.rows) {
-          const data = row.cells[0].textContent.toLowerCase();
-          const description = row.cells[1].textContent.toLowerCase();
-          const code = row.cells[2].textContent.toLowerCase();
-          const sender = row.cells[3].textContent.toLowerCase();
-          const price = row.cells[4].textContent.toLowerCase();
 
-          if (description.includes(filterValue) && code.includes(codeValue)) {
-            row.style.display = "";
+          const ID = row.cells[0].textContent.toLowerCase();
+          const Data = row.cells[1].textContent.toLowerCase();
+          const Descrizione = row.cells[2].textContent.toLowerCase();
+          const CodiceIdentificativo = row.cells[3].textContent.toLowerCase();
+          const Importo = row.cells[4].textContent.toLowerCase();
+          const CondominioID = row.cells[5].textContent.toLowerCase();
+          const UtenteID = row.cells[6].textContent.toLowerCase();
+
+
+          if (
+            (description.includes(filterValue) || sender.includes(filterValue)) &&
+            code.includes(codeValue) &&
+            (dateValue === "" || data === dateValue)
+          ) {
+            row.style.display = "block";
           } else {
             row.style.display = "none";
           }
         }
-      };
+      }
 
-      submitButton.addEventListener("click", function () {
+      // Associa gli eventi ai pulsanti di invio
+      const submitButtonDate = document.getElementById("submitButtonDate");
+      const submitButtonValore = document.getElementById("submitButtonValore");
+      const submitButtonCodIdent = document.getElementById("submitButtonCodIdent");
+
+      submitButtonDate.addEventListener("click", function () {
+        filterTable();
+      });
+
+      submitButtonValore.addEventListener("click", function () {
+        filterTable();
+      });
+
+      submitButtonCodIdent.addEventListener("click", function () {
         filterTable();
       });
     });
+
 
     // Funzione per formattare la data in "gg/mm/aaaa"
     function formattaData(data) {
@@ -494,10 +528,10 @@
             <th>ID</th>
             <th>Data</th>
             <th>Descrizione</th>
-            <th>Codice Identificativo</th>
+            <th>CodiceIdentificativo</th>
             <th>Importo</th>
-            <th>Condominio ID</th>
-            <th>Utente ID</th>
+            <th>CondominioID</th>
+            <th>UtenteID</th>
           </tr>
         </thead>
       `;
@@ -542,17 +576,16 @@
     document.getElementById("form").addEventListener("submit", function (e) {
       // e.preventDefault(); // Evita l'invio del form (gestirai l'invio tramite Ajax)
 
-      // Nascondi il div "form-container"
       document.getElementById("form-container").style.display = "none";
       document.getElementById("form-container1").style.display = "none";
       document.getElementById("form-container2").style.display = "none";
       location.reload();
     });
 
-    document.getElementById('button-logout').addEventListener('submit', function (event) {
+    function doLogout() {
       sessionStorage.clear();
-      console.log(sessionStorage.getItem("email"));
-    });
+      console.log("ECCO: "+sessionStorage.getItem("user"));
+    };
   </script>
 
 </body>
