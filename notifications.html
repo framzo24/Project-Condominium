@@ -205,13 +205,16 @@
         </div>
 
         <div class="button-header">
-            <a id="link" href="/login" type="button">accedi</a>
-            <a id="button" href="/registration" type="button">registrati</a>
+            <a id="link" href="/home" type="button">home</a>
+            <a id="button-logout" href="/logout" type="button">logout</a>
         </div>
     </div>
 
 
     <div class="container" id="container">
+        <div id="table">
+
+        </div>
 
     </div>
 
@@ -243,21 +246,24 @@
         }
 
         function populateTable(datiNotifiche) {
-            const table = document.getElementById('container'); // Assumi che l'elemento HTML della tabella abbia l'ID 'pagamenti-table'
+
+
+            const table = document.getElementById('table'); // Assumi che l'elemento HTML della tabella abbia l'ID 'pagamenti-table'
 
             // Crea l'intestazione della tabella
             const tableHeader = `
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>tipologia</th>
-                        <th>Data</th>
-                        <th>Descrizione</th>
-                        <th>Utente id</th>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>tipologia</th>
+                    <th>Data</th>
+                    <th>Descrizione</th>
+                    <th>Utente id</th>
                     </tr>
                     </thead>
-                `;
+                    `;
 
+            console.log("controllo");
             // Crea le righe della tabella con i dati recuperati
             const tableRows = datiNotifiche.map((notifica) => `
                     <tr>
@@ -290,6 +296,11 @@
                     console.error('Errore durante la richiesta al server:', error);
                 });
 
+        });
+
+        document.getElementById('button-logout').addEventListener('submit', function (event) {
+            sessionStorage.clear;
+            console.log(sessionStorage.getItem("email"));
         });
     </script>
 
