@@ -88,7 +88,7 @@
 
         }
 
-        .container {
+        #user-list {
             margin: 20px;
             padding: 20px;
             background-color: white;
@@ -127,14 +127,14 @@
         </div>
 
         <div class="button-header">
-            <a id="link" href="/login" type="button">accedi</a>
-            <a id="button" href="/registration" type="button">registrati</a>
+            <a id="link" href="/home" type="button">home</a>
+            <a id="button-logout" href="/logout" type="button">logout</a>
         </div>
     </div>
 
 
-    <div class="famiglie-container">
-
+    <div id="user-list">
+        <!-- In questo div verranno visualizzati gli utenti -->
     </div>
 
     <footer>
@@ -152,6 +152,39 @@
             document.getElementById("navbar").style.width = "0";
             document.getElementById("hamburger").style.display = "";
         }
+
+        window.addEventListener('load', () => {
+            // Recupera l'ID del condominio dalla query string
+            const urlParams = new URLSearchParams(window.location.search);
+            const condominioId = urlParams.get('condominio_id');
+
+            if (condominioId) {
+                // Effettua una richiesta AJAX per ottenere gli utenti nel condominio
+                fetch(`/get-users-by-condominio?condominio_id=${condominioId}`)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Errore nella richiesta');
+                        }
+                        return response.json();
+                    })
+                    .then((users) => {
+                        // Popola la lista degli utenti nel condominio
+                        const userList = document.getElementById('user-list');
+                        users.forEach((user) => {
+                            const userElement = document.createElement('div');
+                            userElement.innerHTML = `
+                                <p>Nome: ${user.nome}</p>
+                                <p>Cognome: ${user.cognome}</p>
+                                <p>Email: ${user.email}</p>
+                            `;
+                            userList.appendChild(userElement);
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Errore durante la richiesta al server:', error);
+                    });
+            }
+        });
 
     </script>
 
