@@ -135,11 +135,10 @@
 
         <div id="hamburger" class="hamburger" onclick="openNavbar()">
             &#9776;
-
         </div>
         <div class="button-header">
             <a id="link" href="/home" type="button">home</a>
-            <a id="button-logout" href="/logout" type="button">logout</a>
+            <a id="button-logout" href="/logout" type="button" onclick="logout()">logout</a>
         </div>
 
     </div>
@@ -149,7 +148,13 @@
             <p class="title-page">Bilanci</p>
         </div>
 
-        <ul id="bilanci-list">
+        <div>
+            <h2>Crea nuovo bilancio</h2>
+            <input type="file" id="pdfInput" accept=".pdf">
+            <button id="uploadPdfButton">Carica PDF</button>
+        </div>
+
+        <ul id="bilanci-list" data-next-id="2021">
             <li id="bilancio-2010">Bilancio anno 2010</li>
             <li id="bilancio-2011">Bilancio anno 2011</li>
             <li id="bilancio-2012">Bilancio anno 2012</li>
@@ -200,13 +205,98 @@
             document.getElementById("hamburger").style.display = "none";
         }
 
-        document.getElementById('button-logout').addEventListener('submit', function (event) {
+        function logout() {
             sessionStorage.clear();
             console.log(sessionStorage.getItem("email"));
-        });
+        }
+
+        const pdfInput = document.getElementById("pdfInput");
+        const uploadPdfButton = document.getElementById("uploadPdfButton");
+
+         // Aggiungi un gestore di eventi per l'elemento input file per catturare la selezione di un file
+         pdfInput.addEventListener("change", function () {
+            // Qui puoi gestire l'evento di selezione del file, ad esempio, visualizzare il nome del file selezionato
+            const selectedFile = pdfInput.files[0];
+            if (selectedFile) {
+                console.log("File selezionato:", selectedFile.name);
+            }
+        }); 
+        
+        if (uploadPdfButton) {
+            uploadPdfButton.addEventListener("click", function () {
+                // Verifica se è stato selezionato un file
+                if (pdfInput.files.length > 0) {
+                    const selectedPdfFile = pdfInput.files[0];
+
+                    // Puoi utilizzare "selectedPdfFile" per ottenere il file selezionato e inviarlo al server tramite una richiesta AJAX o una fetch.
+                    // Ad esempio:
+                    const formData = new FormData();
+                    formData.append("pdfFile", selectedPdfFile);
+
+                    fetch("/upload-pdf", {
+                        method: "POST",
+                        body: formData,
+                    })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error("Errore nell'upload del PDF");
+                            }
+                            return response.json();
+                        })
+                        .then((responseJson) => {
+                            // Il PDF è stato caricato con successo, puoi fare qualcos'altro qui se necessario
+                            console.log("PDF caricato con successo:", responseJson);
+                            // Aggiungi il nuovo bilancio all'elenco
+                            const nextId = bilanciList.getAttribute("data-next-id");
+                            const newBilancio = document.createElement('li');
+                            newBilancio.id = `bilancio-${nextId}`;
+                            newBilancio.textContent = `Bilancio anno ${nextId}`;
+                            bilanciList.appendChild(newBilancio);
+
+                            // Aggiorna l'ID del prossimo bilancio
+                            bilanciList.setAttribute("data-next-id", parseInt(nextId) + 1);
+
+                            // Visualizza il PDF nell'anteprima
+                            const pdfPath = `./pdf/${nextId}.pdf`;
+                            pdfPreview.innerHTML = `<embed src="${pdfPath}" type="application/pdf" width="100%" height="600px" />`;
+                        })
+                        .catch((error) => {
+                            console.error("Errore durante l'upload del PDF:", error);
+                        });
+                } else {
+                    alert("Seleziona un file PDF prima di caricare.");
+                }
+            });
+        }
+
+            // Aggiungi un gestore di eventi per l'elemento input file per catturare la selezione di un file
+    pdfInput.addEventListener("change", function () {
+        // Verifica se è stato selezionato un file
+        if (pdfInput.files.length > 0) {
+            const selectedPdfFile = pdfInput.files[0];
+
+            // Puoi utilizzare "selectedPdfFile" per ottenere il file selezionato e visualizzarlo nell'anteprima
+            const pdfPath = URL.createObjectURL(selectedPdfFile);
+            pdfPreview.innerHTML = `<embed src="${pdfPath}" type="application/pdf" width="100%" height="600px" />`;
+
+            // Aggiungi il nuovo bilancio all'elenco
+            const nextId = bilanciList.getAttribute("data-next-id");
+            const newBilancio = document.createElement('li');
+            newBilancio.id = `bilancio-${nextId}`;
+            newBilancio.textContent = `Bilancio anno ${nextId}`;
+            bilanciList.appendChild(newBilancio);
+
+            // Aggiorna l'ID del prossimo bilancio
+            bilanciList.setAttribute("data-next-id", parseInt(nextId) + 1);
+
+            // Resetta l'input file in modo che sia possibile selezionare lo stesso file più volte
+            pdfInput.value = "";
+        }
+    });
+
+       
 
     </script>
-
 
 </body>
 
