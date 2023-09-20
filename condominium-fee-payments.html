@@ -15,10 +15,9 @@
     .header {
       background-color: rgb(51, 51, 51);
       color: white;
-      height: 45px;
+      height: 50px;
       padding: 20px;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-      /* display: flex; */
     }
 
     .button-header {
@@ -30,6 +29,7 @@
       justify-content: center;
       align-items: center;
       transition: background-color 0.3s;
+      font-size: 30px;
     }
 
     .button-header a {
@@ -265,13 +265,125 @@
 
     <div class="button-header">
       <a id="link" href="/home" type="button">home</a>
-      <a id="link" href="/login" type="button">accedi</a>
-      <a id="button" href="/registration" type="button">registrati</a>
+      <a id="button-logout" href="/logout" type="button">logout</a>
     </div>
 
   </div>
 
+  <div class="container">
+
+    <div>
+      <p class="title-page">Pagamenti rette condominiali</p>
+    </div>
+
+    <label for="filter">Filtra per:</label>
+    <select id="filter">
+      <option value=""></option>
+      <option value="data">Data</option>
+      <option value="prezzo">Prezzo</option>
+      <option value="descrizione">Descrizione</option>
+      <option value="codice">Codice Identificativo</option>
+    </select>
+
+    <div id="datePicker" style="display: none;">
+      <label for="date">Seleziona una data:</label>
+      <input type="date" id="date" name="date">
+      <button id="submitButton">Invia</button>
+    </div>
+
+    <div id="inputField" style="display: none;">
+      <label for="input">Inserisci valore:</label>
+      <input type="text" id="input" name="input">
+      <button id="submitButton">Invia</button>
+    </div>
+
+    <div id="codeInput" style="display: none;">
+      <label for="code">Inserisci codice identificativo:</label>
+      <input type="text" id="code" name="code">
+      <button id="submitButton">Invia</button>
+    </div>
+
+    <div class="card-space">
+      <div class="card" onclick="openFormPayment('form-container')">Nuovo Pagamento</div>
+      <div class="card" onclick="openFormPayment('form-container1')">Modifica pagamento</div>
+      <div class="card" onclick="openFormPayment('form-container2')">Cancella pagamento</div>
+    </div>
+
+    <div class="modify-container">
+      <div class="form-container" id="form-container">
+        <h3>Nuovo Pagamento</h3>
+        <form id="form" action="/insert_payment" method="post">
+          <input type="date" name="data" placeholder="Data" required>
+          <input type="text" name="descrizione" placeholder="Descrizione" required>
+          <input type="text" name="codice_identificativo" placeholder="Codice identificativo" required>
+          <input type="number" name="prezzo" step="0.01" placeholder="Prezzo" required>
+          <button type="submit">Inserisci</button>
+        </form>
+      </div>
+
+      <div class="form-container1" id="form-container1">
+        <h3>Modifica Pagamento</h3>
+        <form id="form" action="/aggiorna-pagamento" method="post" id="modificaForm">
+          <label for="id">Inserisci ID:</label>
+          <input type="text" name="idPagamento">
+          <label for="data">Data:</label>
+          <input type="date" id="data" name="data">
+          <label for="descrizione">Descrizione:</label>
+          <input type="text" id="descrizione" name="descrizione">
+          <label for="codiceIdentificativo">Codice Identificativo:</label>
+          <input type="text" id="codiceIdentificativo" name="codiceIdentificativo">
+          <label for="importo">Importo:</label>
+          <input type="text" id="importo" name="importo">
+          <button type="submit">Conferma</button>
+        </form>
+      </div>
+
+      <div class="form-container2" id="form-container2">
+        <h3>Cancella pagamento</h3>
+        <form id="form" action="/delete_payment" method="post">
+          <label for="id">Inserisci ID:</label>
+          <input type="text" name="idPagamento">
+          <button type="submit">Conferma</button>
+        </form>
+      </div>
+    </div>
+
+    <table id="pagamenti-table">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Descrizione</th>
+          <th>Codice Identificativo</th>
+          <th>Mittente</th>
+          <th>Prezzo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Aggiungi altre righe della tabella qui -->
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    <a>About</a>
+    <a>Us</a>
+  </footer>
+
   <script>
+    function openNavbar() {
+      document.getElementById("navbar").style.width = "250px";
+      document.getElementById("hamburger").style.display = "none";
+    }
+
+    function closeNavbar() {
+      document.getElementById("navbar").style.width = "0";
+      document.getElementById("hamburger").style.display = "";
+    }
+
+    function openFormPayment(form) {
+      document.getElementById(form).style.display = "block";
+    }
+
 
     document.addEventListener("DOMContentLoaded", function () {
       const filterSelect = document.getElementById("filter");
@@ -427,133 +539,20 @@
 
     });
 
-    
-
-  </script>
-
-  <div class="container">
-
-    <div>
-      <p class="title-page">Pagamenti rette condominiali</p>
-    </div>
-
-    <label for="filter">Filtra per:</label>
-    <select id="filter">
-      <option value=""></option>
-      <option value="data">Data</option>
-      <option value="prezzo">Prezzo</option>
-      <option value="descrizione">Descrizione</option>
-      <option value="codice">Codice Identificativo</option>
-    </select>
-
-    <div id="datePicker" style="display: none;">
-      <label for="date">Seleziona una data:</label>
-      <input type="date" id="date" name="date">
-      <button id="submitButton">Invia</button>
-    </div>
-
-    <div id="inputField" style="display: none;">
-      <label for="input">Inserisci valore:</label>
-      <input type="text" id="input" name="input">
-      <button id="submitButton">Invia</button>
-    </div>
-
-    <div id="codeInput" style="display: none;">
-      <label for="code">Inserisci codice identificativo:</label>
-      <input type="text" id="code" name="code">
-      <button id="submitButton">Invia</button>
-    </div>
-
-    <div class="card-space">
-      <div class="card" onclick="openFormPayment('form-container')">Nuovo Pagamento</div>
-      <div class="card" onclick="openFormPayment('form-container1')">Modifica pagamento</div>
-      <div class="card" onclick="openFormPayment('form-container2')">Cancella pagamento</div>
-    </div>
-
-    <div class="modify-container">
-      <div class="form-container" id="form-container">
-        <h3>Nuovo Pagamento</h3>
-        <form id="form" action="/insert_payment" method="post">
-          <input type="date" name="data" placeholder="Data" required>
-          <input type="text" name="descrizione" placeholder="Descrizione" required>
-          <input type="text" name="codice_identificativo" placeholder="Codice identificativo" required>
-          <input type="number" name="prezzo" step="0.01" placeholder="Prezzo" required>
-          <button type="submit">Inserisci</button>
-        </form>
-      </div>
-
-      <div class="form-container1" id="form-container1">
-        <h3>Modifica Pagamento</h3>
-        <form id="form" action="/aggiorna-pagamento" method="post" id="modificaForm">
-          <label for="id">Inserisci ID:</label>
-          <input type="text" name="idPagamento">
-          <label for="data">Data:</label>
-          <input type="date" id="data" name="data" >
-          <label for="descrizione">Descrizione:</label>
-          <input type="text" id="descrizione" name="descrizione" >
-          <label for="codiceIdentificativo">Codice Identificativo:</label>
-          <input type="text" id="codiceIdentificativo" name="codiceIdentificativo" >
-          <label for="importo">Importo:</label>
-          <input type="text" id="importo" name="importo" >
-          <button type="submit">Conferma</button>
-        </form>
-      </div>
-
-      <div class="form-container2" id="form-container2">
-        <h3>Cancella pagamento</h3>
-        <form id="form" action="/delete_payment" method="post">
-          <label for="id">Inserisci ID:</label>
-          <input type="text" name="idPagamento">
-          <button type="submit">Conferma</button>
-        </form>
-      </div>
-    </div>
-
-    <table id="pagamenti-table">
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Descrizione</th>
-          <th>Codice Identificativo</th>
-          <th>Mittente</th>
-          <th>Prezzo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Aggiungi altre righe della tabella qui -->
-      </tbody>
-    </table>
-  </div>
-
-  <footer>
-    <a>About</a>
-    <a>Us</a>
-  </footer>
-
-  <script>
-    function openNavbar() {
-      document.getElementById("navbar").style.width = "250px";
-      document.getElementById("hamburger").style.display = "none";
-    }
-
-    function closeNavbar() {
-      document.getElementById("navbar").style.width = "0";
-      document.getElementById("hamburger").style.display = "";
-    }
-
-    function openFormPayment(form) {
-      document.getElementById(form).style.display = "block";
-    }
-
     document.getElementById("form").addEventListener("submit", function (e) {
-            // e.preventDefault(); // Evita l'invio del form (gestirai l'invio tramite Ajax)
+      // e.preventDefault(); // Evita l'invio del form (gestirai l'invio tramite Ajax)
 
-            // Nascondi il div "form-container"
-            document.getElementById("form-container").style.display = "none";
-            document.getElementById("form-container1").style.display = "none";
-            document.getElementById("form-container2").style.display = "none";
-            location.reload();
-        });
+      // Nascondi il div "form-container"
+      document.getElementById("form-container").style.display = "none";
+      document.getElementById("form-container1").style.display = "none";
+      document.getElementById("form-container2").style.display = "none";
+      location.reload();
+    });
+
+    document.getElementById('button-logout').addEventListener('submit', function (event) {
+      sessionStorage.clear();
+      console.log(sessionStorage.getItem("email"));
+    });
   </script>
 
 </body>

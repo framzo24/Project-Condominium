@@ -437,8 +437,8 @@ function convertiPerFullCalendar(riunione) {
   const dataFormattata = convertiFormatoData(riunione.data);
   const dataFinale = calcolaDataFinale(riunione.data);
   const fullCalendarEvento = {
-    title: riunione.titolo,
-    start: `${dataFormattata}T${riunione.ora}:00`,
+    title: riunione.id + " " + riunione.titolo,
+    start: `${dataFormattata}T${riunione.ora}`,
     end: `${dataFinale}`,
   };
   return fullCalendarEvento;
@@ -455,6 +455,7 @@ app.get('/riunioni', (req, res) => {
       // Invia i dati delle riunioni come risposta JSON
       const eventiFullCalendar = riunioniArray.map(convertiPerFullCalendar);
       res.json(eventiFullCalendar);
+      console.log(riunioniArray);
       console.log(eventiFullCalendar);
     }
   });
@@ -519,8 +520,20 @@ app.post("/new-reunion", (req, res) => {
 app.post("/modify-reunion", (req, res) => {
   const { meetingId, meetingDate, meetingTime, meetingTitle, meetingDescription } = req.body;
   const utente_id_ = 2;
-  const updateQuery = 'UPDATE Riunione SET id = ?, data = ?, ora = ?, titolo = ?, descrizione = ?, utente_id = ? WHERE 1';
-  db.query(updateQuery, [meetingId,meetingDate,meetingTime,meetingTitle,meetingDescription, utente_id], (err, result) => {
+  const updateQuery = 'UPDATE Riunione SET data = ?, ora = ?, titolo = ?, descrizione = ?, utente_id = ? WHERE id = ?';
+  db.query(updateQuery, [meetingDate,meetingTime,meetingTitle,meetingDescription, utente_id_,meetingId], (err, result) => {
+    if (err) {
+      console.error("Errore durante l'aggiornamento della riunione", err);
+      return res.status(500).send("Errore durante l'aggiornamento della riunione");
+    }
+    console.log("Aggiornamento della riunione riuscito.");
+  });
+});
+
+app.post("/delete-reunion", (req, res) => {
+  const { meetingId } = req.body;
+  const updateQuery = 'DELETE Riunione WHERE ?';
+  db.query(updateQuery, [meetingId], (err, result) => {
     if (err) {
       console.error("Errore durante l'aggiornamento della riunione", err);
       return res.status(500).send("Errore durante l'aggiornamento della riunione");

@@ -15,7 +15,7 @@
     .header {
       background-color: rgb(51, 51, 51);
       color: white;
-      height: 45px;
+      height: 50px;
       padding: 20px;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
     }
@@ -113,7 +113,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 40px; 
+      margin-top: 40px;
     }
 
     th,
@@ -130,6 +130,7 @@
     .hamburger {
       font-size: 50px;
       cursor: pointer;
+      position: fixed;
       top: 5px;
       left: 10px;
       z-index: 2;
@@ -186,20 +187,30 @@
       border-radius: 5px;
     }
 
-    #openNewProjectForm {
-      font-size: 24px; /* Regola la dimensione del carattere come preferisci */
-      float: right; /* Posiziona il bottone a destra */
-      border-radius: 10px; /* Rendi i bordi tondeggianti */
-      padding: 10px 10px; /* Aggiungi spazio intorno al testo del bottone */
-      margin-top: 5px; /* Aggiungi margine superiore */
-      margin-bottom: 20px;
-    }
-
     .filter-label {
       margin-right: 20px;
       margin-top: 5px;
+
     }
 
+    .three-button {
+      display: flex;
+      justify-content: space-between;
+    }
+    #filter {
+      height: fit-content;
+    }
+
+    #openNewProjectForm {
+      padding: 5px;
+      font-size: 15px;
+      margin: 0px;
+    }
+    #openDeleteProjectForm {
+      padding: 5px;
+      font-size: 15px;
+      margin: 0px;
+    }
 
   </style>
 </head>
@@ -222,9 +233,7 @@
     </div>
     <div class="button-header">
       <a id="link" href="/home" type="button">home</a>
-      <a id="link" href="/login" type="button">accedi</a>
-      <a id="button" href="/registration" type="button">registrati</a>
-      <a id="button" href="/logout" type="button">logout</a>
+      <a id="button-logout" href="/logout" type="button">logout</a>
     </div>
 
   </div>
@@ -235,15 +244,23 @@
     </div>
 
     <div class="three-button">
-    <label for="filter" class="filter-label">Filtra per:</label>
-    <select id="filter">
-      <option value=""></option>
-      <option value="data_inizio">Data Inizio</option>
-      <option value="data_fine">Data Fine</option>
-      <option value="condominio_id">Condominio Id</option>
-      <option value="nome">Nome</option>
-    </select>
+      <div>
+      <label for="filter" class="filter-label">Filtra per:</label>
+      <select id="filter">
+        <option value=""></option>
+        <option value="data_inizio">Data Inizio</option>
+        <option value="data_fine">Data Fine</option>
+        <option value="condominio_id">Condominio Id</option>
+        <option value="nome">Nome</option>
+      </select>
+    </div>
+      
 
+      <button id="openNewProjectForm">Crea nuovo progetto</button>
+
+      <button id="openDeleteProjectForm">Elimina progetto</button>
+
+    </div>
     <div id="datePicker" style="display: none;">
       <label for="date">Seleziona una data:</label>
       <input type="date" id="date" name="date">
@@ -255,30 +272,24 @@
       <input type="text" id="input" name="input">
       <button id="inputSubmitButton">Invia</button>
     </div>
-
-    <button id="openNewProjectForm"  style="display: block; margin-top: 20px;">Crea nuovo progetto</button>
-
-    <button id="openDeleteProjectForm"  style="display: block; margin-top: 20px;">Elimina progetto</button>
-
-    </div>
     <div id="newProjectForm" style="display: none;">
       <h2>Nuovo Progetto</h2>
       <form id="createProjectForm">
         <label for="dataInizio">Data Inizio:</label>
         <input type="date" id="dataInizio" required><br>
-    
+
         <label for="dataFine">Data Fine:</label>
         <input type="date" id="dataFine" required><br>
-    
+
         <label for="nome">Nome:</label>
         <input type="text" id="nome" required><br>
-    
+
         <label for="descrizione">Descrizione:</label>
         <input type="text" id="descrizione" required><br>
-    
+
         <label for="condominioId">Condominio ID:</label>
         <input type="text" id="condominioId" required><br>
-    
+
         <button type="button" id="createNewProject">Conferma</button>
       </form>
     </div>
@@ -291,7 +302,7 @@
         <button type="button" id="confirmDeleteProject">Conferma</button>
       </form>
     </div>
-    
+
 
     <table id="progetti-table">
       <thead>
@@ -376,10 +387,10 @@
     }
   }
 
-// Aggiungi un ascoltatore di eventi al pulsante "Filtra per Data"
-document.getElementById("dateSubmitButton").addEventListener("click", function () {
-  filterTableByDate();
-});
+  // Aggiungi un ascoltatore di eventi al pulsante "Filtra per Data"
+  document.getElementById("dateSubmitButton").addEventListener("click", function () {
+    filterTableByDate();
+  });
 
 
   function filterTableByInput() {
@@ -396,7 +407,7 @@ document.getElementById("dateSubmitButton").addEventListener("click", function (
       }
     }
   }
-  
+
   // Per il filtro data
   dateSubmitButton.addEventListener("click", function () {
     filterTableByDate();
@@ -419,14 +430,14 @@ document.getElementById("dateSubmitButton").addEventListener("click", function (
 
 
   function mostraModificaForm(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
-      document.getElementById("idProgetto").value = idProgetto;
-      document.getElementById("dataInizio").value = dataInizio;
-      document.getElementById("dataFine").value = dataFine;
-      document.getElementById("nome").value = nome;
-      document.getElementById("descrizione").value = descrizione;
-      document.getElementById("condominioId").value = condominioId;
-      document.getElementById("modificaProgettoForm").style.display = "block";
-    }
+    document.getElementById("idProgetto").value = idProgetto;
+    document.getElementById("dataInizio").value = dataInizio;
+    document.getElementById("dataFine").value = dataFine;
+    document.getElementById("nome").value = nome;
+    document.getElementById("descrizione").value = descrizione;
+    document.getElementById("condominioId").value = condominioId;
+    document.getElementById("modificaProgettoForm").style.display = "block";
+  }
 
   function aggiungiRigaTabella(idProgetto, dataInizio, dataFine, nome, descrizione, condominioId) {
     const tabella = document.getElementById("progetti-table");
@@ -499,119 +510,124 @@ document.getElementById("dateSubmitButton").addEventListener("click", function (
   });
 
   function caricaDatiProgetto() {
-  fetch('/progetti')
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Errore nella richiesta');
-      }
-      return response.json();
-    })
-    .then((datiProgetto) => {
-      // Popola la tabella con i dati recuperati
-      populateTable(datiProgetto);
-    })
-    .catch((error) => {
-      console.error('Errore durante la richiesta al server:', error);
-    });
-}
-
-  document.getElementById("openNewProjectForm").addEventListener("click", function () {
-   document.getElementById("newProjectForm").style.display = "block";
-  });
-
-const creaNuovoProgetto = document.getElementById("createNewProject");
-if(creaNuovoProgetto){
-  creaNuovoProgetto.addEventListener("click", function () {
-  const dataInizio = document.getElementById("dataInizio").value;
-  const dataFine = document.getElementById("dataFine").value;
-  const nome = document.getElementById("nome").value;
-  const descrizione = document.getElementById("descrizione").value;
-  const condominioId = document.getElementById("condominioId").value;
-
-  const newProjectData = {
-    dataInizio,
-    dataFine,
-    nome,
-    descrizione,
-    condominioId
-  };
-
-  // Invia i dati del nuovo progetto al server tramite una richiesta fetch o AJAX.
-  fetch('/crea-progetto', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(newProjectData)
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Errore nella richiesta');
-      }
-      return response.json();
-    })
-    .catch((error) => {
-      console.error('Errore durante l\'inserimento del nuovo progetto:', error);
-    });
-    document.getElementById("newProjectForm").style.display = "none";
-    caricaDatiProgetto();
-});
-}
-
-
-const openDeleteProjectFormButton = document.getElementById("openDeleteProjectForm");
-const deleteProjectForm = document.getElementById("deleteProjectForm");
-
-if (openDeleteProjectFormButton) {
-  openDeleteProjectFormButton.addEventListener("click", function () {
-    deleteProjectForm.style.display = "block";
-  });
-}
-
-const confirmDeleteProjectButton = document.getElementById("confirmDeleteProject");
-const projectToDeleteInput = document.getElementById("projectToDelete");
-
-if (confirmDeleteProjectButton) {
-  confirmDeleteProjectButton.addEventListener("click", function () {
-    const projectToDeleteId = projectToDeleteInput.value;
-
-    // Esegui la richiesta per eliminare il progetto dal server
-    fetch(`/elimina-progetto/${projectToDeleteId}`, {
-      method: 'DELETE',
-    })
+    fetch('/progetti')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Errore nella richiesta');
         }
         return response.json();
       })
-      .then((responseJson) => {
-        // Se l'eliminazione è riuscita, chiudi il modulo
-        deleteProjectForm.style.display = "none";
-        // Aggiorna la tabella rimuovendo la riga del progetto eliminato
-        rimuoviRigaProgettoDallaTabella(projectToDeleteId);
+      .then((datiProgetto) => {
+        // Popola la tabella con i dati recuperati
+        populateTable(datiProgetto);
       })
       .catch((error) => {
-        console.error('Errore durante l\'eliminazione del progetto:', error);
+        console.error('Errore durante la richiesta al server:', error);
       });
+  }
+
+  document.getElementById("openNewProjectForm").addEventListener("click", function () {
+    document.getElementById("newProjectForm").style.display = "block";
   });
-}
 
-// Funzione per rimuovere una riga del progetto dalla tabella
-function rimuoviRigaProgettoDallaTabella(idProgetto) {
-  const tabella = document.getElementById("progetti-table");
-  const righe = tabella.getElementsByTagName("tr");
+  const creaNuovoProgetto = document.getElementById("createNewProject");
+  if (creaNuovoProgetto) {
+    creaNuovoProgetto.addEventListener("click", function () {
+      const dataInizio = document.getElementById("dataInizio").value;
+      const dataFine = document.getElementById("dataFine").value;
+      const nome = document.getElementById("nome").value;
+      const descrizione = document.getElementById("descrizione").value;
+      const condominioId = document.getElementById("condominioId").value;
 
-  for (let i = 1; i < righe.length; i++) { // Parti da 1 per evitare l'intestazione
-    const riga = righe[i];
-    const cellaId = riga.cells[0];
-    
-    if (cellaId.innerText === idProgetto) {
-      tabella.deleteRow(i); // Rimuovi la riga con l'ID del progetto corrispondente
-      break; // Esci dal ciclo una volta trovata la riga
+      const newProjectData = {
+        dataInizio,
+        dataFine,
+        nome,
+        descrizione,
+        condominioId
+      };
+
+      // Invia i dati del nuovo progetto al server tramite una richiesta fetch o AJAX.
+      fetch('/crea-progetto', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newProjectData)
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Errore nella richiesta');
+          }
+          return response.json();
+        })
+        .catch((error) => {
+          console.error('Errore durante l\'inserimento del nuovo progetto:', error);
+        });
+      document.getElementById("newProjectForm").style.display = "none";
+      caricaDatiProgetto();
+    });
+  }
+
+
+  const openDeleteProjectFormButton = document.getElementById("openDeleteProjectForm");
+  const deleteProjectForm = document.getElementById("deleteProjectForm");
+
+  if (openDeleteProjectFormButton) {
+    openDeleteProjectFormButton.addEventListener("click", function () {
+      deleteProjectForm.style.display = "block";
+    });
+  }
+
+  const confirmDeleteProjectButton = document.getElementById("confirmDeleteProject");
+  const projectToDeleteInput = document.getElementById("projectToDelete");
+
+  if (confirmDeleteProjectButton) {
+    confirmDeleteProjectButton.addEventListener("click", function () {
+      const projectToDeleteId = projectToDeleteInput.value;
+
+      // Esegui la richiesta per eliminare il progetto dal server
+      fetch(`/elimina-progetto/${projectToDeleteId}`, {
+        method: 'DELETE',
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Errore nella richiesta');
+          }
+          return response.json();
+        })
+        .then((responseJson) => {
+          // Se l'eliminazione è riuscita, chiudi il modulo
+          deleteProjectForm.style.display = "none";
+          // Aggiorna la tabella rimuovendo la riga del progetto eliminato
+          rimuoviRigaProgettoDallaTabella(projectToDeleteId);
+        })
+        .catch((error) => {
+          console.error('Errore durante l\'eliminazione del progetto:', error);
+        });
+    });
+  }
+
+  // Funzione per rimuovere una riga del progetto dalla tabella
+  function rimuoviRigaProgettoDallaTabella(idProgetto) {
+    const tabella = document.getElementById("progetti-table");
+    const righe = tabella.getElementsByTagName("tr");
+
+    for (let i = 1; i < righe.length; i++) { // Parti da 1 per evitare l'intestazione
+      const riga = righe[i];
+      const cellaId = riga.cells[0];
+
+      if (cellaId.innerText === idProgetto) {
+        tabella.deleteRow(i); // Rimuovi la riga con l'ID del progetto corrispondente
+        break; // Esci dal ciclo una volta trovata la riga
+      }
     }
   }
-}
+
+  document.getElementById('button-logout').addEventListener('submit', function (event) {
+    sessionStorage.clear();
+    console.log(sessionStorage.getItem("email"));
+  });
 
 
 </script>
