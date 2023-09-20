@@ -153,6 +153,16 @@
             background-color: navy;
             color: white;
         }
+
+        .form-modify-reunion {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -163,7 +173,6 @@
             <a id="link" href="/budget-previous-years" type="button">Bilancio anni precedenti</a>
             <a id="link" href="/future-projects" type="button">Progetti futuri</a>
             <a id="link" href="/family" type="button">Famiglie</a>
-            <a id="link" href="/verbals" type="button">Verbali</a>
             <a id="link" href="/reunions" type="button">Riunioni</a>
             <a id="link" href="/notifications" type="button">Notifiche</a>
             <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
@@ -175,8 +184,6 @@
 
         <div class="button-header">
             <a id="link" href="/home" type="button">home</a>
-            <a id="link" href="/login" type="button">accedi</a>
-            <a id="button" href="/registration" type="button">registrati</a>
             <a id="button" href="/logout" type="button">logout</a>
         </div>
 
@@ -184,7 +191,11 @@
 
     <div class="container-admin">
         <div class="reunion-tools">
-            <a id="link" onclick="openNewReunion()" type="button">Nuova riunione</a>
+            <div class="three-reunion">
+                <a id="link" onclick="openNewReunion()" type="button">Nuova riunione</a>
+                <a id="link" onclick="openModifyReunion()" type="button">Modifica riunione</a>
+                <a id="link" onclick="openNewReunion()" type="button">Elimina riunione</a>
+            </div>
             <br>
             <br>
             <div class="form-container" id="form-container">
@@ -205,25 +216,33 @@
                     <button type="submit">Aggiungi Riunione</button>
                 </form>
             </div>
+            <div class="form-modify-reunion" id="form-modify-reunion">
+                <form id="modifymeetingForm" action="/modify-reunion" method="post">
+
+                    <label for="meetingId">Id:</label>
+                    <input type="text" id="meetingId" name="meetingId" required><br><br>
+
+                    <label for="meetingDate">Data:</label>
+                    <input type="date" id="meetingDate" name="meetingDate" required><br><br>
+
+                    <label for="meetingTime">Ora:</label>
+                    <input type="time" id="meetingTime" name="meetingTime" required><br><br>
+
+                    <label for="meetingTitle">Titolo:</label>
+                    <input type="text" id="meetingTitle" name="meetingTitle" required><br><br>
+
+                    <label for="meetingDescription">Descrizione:</label><br>
+                    <textarea id="meetingDescription" name="meetingDescription" rows="4" cols="50"
+                        required></textarea><br><br>
+
+                    <button type="submit">Modifica Riunione</button>
+                </form>
+            </div>
             <br>
         </div>
         <div id="calendar">
             <!-- Campo che si aggiorna dinamicamente -->
         </div>
-        <br>
-        <!-- <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Data</th>
-                    <th>Ora</th> 
-                    <th>Titolo</th>
-                    <th>Descrizione</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table> -->
     </div>
 
     <footer>
@@ -232,6 +251,7 @@
     </footer>
 
     <script>
+
 
         function openNavbar() {
             document.getElementById("navbar").style.width = "250px";
@@ -248,10 +268,15 @@
         }
 
         document.getElementById("meetingForm").addEventListener("submit", function (e) {
-            // e.preventDefault(); // Evita l'invio del form (gestirai l'invio tramite Ajax)
-
-            // Nascondi il div "form-container"
             document.getElementById("form-container").style.display = "none";
+        });
+
+        function openModifyReunion() {
+            document.getElementById("form-modify-reunion").style.display = "block";
+        }
+
+        document.getElementById("modifymeetingForm").addEventListener("submit", function (e) {
+            document.getElementById("form-modify-reunion").style.display = "none";
         });
 
 
@@ -292,7 +317,6 @@
 
             calendar.render();
         });
-
     </script>
 
 </body>
