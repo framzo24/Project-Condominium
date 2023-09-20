@@ -84,6 +84,10 @@ app.get('/reunions', (req, res) => {
   res.sendFile(directory + '/reunions.html');
 });
 
+app.listen(port, () => {
+  console.log("Server in ascolto sulla porta ", port);
+})
+
 //app.use('/upload-pdf', express.static('/Users/elena/Desktop/Github/Project-Condominium/upload-pdf'));
 
 // Configura multer per gestire l'upload dei file
@@ -195,7 +199,6 @@ app.post('/registration', (req, res) => {
 app.get('/logout', (req, res) => {
   // Reindirizza l'utente alla pagina di login o a una pagina di benvenuto
   res.sendFile(directory + '/login.html'); // Modifica di conseguenza il percorso di reindirizzamento
-  sessionStorage.clear();
 });
 
 app.post('/insert_payment', (req, res) => {
@@ -650,3 +653,21 @@ app.post("/delete-reunion", (req, res) => {
   });
 });
 
+// API per ottenere gli utenti in base all'ID del condominio
+app.get('/get-users-by-condominio', (req, res) => {
+  const condominioId = req.query.condominio_id; // Leggi l'ID del condominio dalla query string
+  if (!condominioId) {
+      return res.status(400).json({ error: 'ID del condominio mancante' });
+  }
+
+  // Esegui la query per ottenere gli utenti nel condominio specificato
+  const sql = `SELECT * FROM Utente WHERE id IN (SELECT utente_id FROM Associazione WHERE condominio_id = ?)`;
+  db.query(sql, [condominioId], (err, results) => {
+      if (err) {
+          console.error('Errore nella query SQL:', err);
+          return res.status(500).json({ error: 'Errore nel recupero degli utenti' });
+      }
+      console.log();
+      res.json(results);
+  });
+});
