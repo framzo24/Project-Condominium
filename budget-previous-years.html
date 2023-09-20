@@ -110,6 +110,7 @@
 
         .container .container ul li {
             cursor: pointer;
+            margin-bottom: 10px;
         }
 
         .title-page {
@@ -117,6 +118,11 @@
             font-family: Arial, Helvetica, sans-serif;
             font-size: 35px;
         }
+
+        #pdfInput {
+            padding: 10px; /* Aggiungi spazio intorno al pulsante */
+            font-size: 18px; /* Aumenta la dimensione del testo */
+                }
     </style>
 </head>
 
@@ -149,8 +155,8 @@
         </div>
 
         <div>
-            <input type="file" id="pdfInput" accept=".pdf">
-            <button id="uploadPdfButton">Carica PDF</button>
+            <input type="file" id="pdfInput" name="pdfFile" accept=".pdf">
+            <button id="uploadPdfButton" >Carica PDF</button>
         </div>
 
         <ul id="bilanci-list" data-next-id="2021">
