@@ -78,7 +78,13 @@ app.get('/reunions', (req, res) => {
   res.sendFile(directory + '/reunions.html');
 });
 
+<<<<<<< Updated upstream
 app.use('/upload-pdf', express.static('/Users/elena/Desktop/Github/Project-Condominium/upload-pdf'));
+=======
+app.get('/notifications-user', (req, res) => {
+  res.sendFile(directory + '/notifications-user.html');
+});
+>>>>>>> Stashed changes
 
 app.listen(port, () => {
   console.log(`Server in ascolto sulla porta ${port}`);
