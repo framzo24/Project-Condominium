@@ -193,6 +193,40 @@
 
     </div>
     <script>
+        
+        function populateProfileDetails() {
+            // Recupera i dati dell'utente dalla sessionStorage
+            var userData = JSON.parse(sessionStorage.getItem("user"));
+
+            if (userData) {
+                var email = userData.email;
+                var cognome = userData.cognome;
+                var p_iva = userData.p_iva;
+
+                // Ottieni il div "profile-details"
+                var profileDetails = document.querySelector('.profile-details');
+
+                // Crea gli elementi e inserisci i dati
+                var emailElement = document.createElement('p');
+                emailElement.textContent = 'Email: ' + email;
+                profileDetails.appendChild(emailElement);
+
+                var cognomeElement = document.createElement('p');
+                cognomeElement.textContent = 'Cognome: ' + cognome;
+                profileDetails.appendChild(cognomeElement);
+
+                var p_ivaElement = document.createElement('p');
+                p_ivaElement.textContent = 'P. IVA: ' + p_iva;
+                profileDetails.appendChild(p_ivaElement);
+            }
+        }
+
+
+        // Chiama la funzione per popolare i dati del profilo quando la pagina si carica
+        window.addEventListener('load', function () {
+            populateProfileDetails();
+        });
+
         function openNavbar() {
             document.getElementById("navbar").style.width = "250px";
             document.getElementById("hamburger").style.display = "none";
@@ -231,8 +265,6 @@
                 Foto
             </div>
             <div class="profile-details">
-                <a>Nome: </a>
-                <a>Cognome: </a>
             </div>
             <img src="elon.jpg" alt="Amministratore">
 

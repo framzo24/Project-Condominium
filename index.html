@@ -17,7 +17,7 @@
             height: 50px;
             padding: 20px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-            
+
         }
 
         .header .hamburger {
@@ -151,6 +151,7 @@
             text-decoration: none;
             color: black;
         }
+
         h2 {
             margin-top: 0px;
         }
@@ -187,7 +188,7 @@
                 <!-- Spazio che viene aggiornato dinamicamente -->
             </div>
         </div>
-<br>
+        <br>
         <div id="grid-container">
             <!-- Spazio che viene aggiornato dinamicamente -->
         </div>
@@ -205,26 +206,32 @@
     <script>
 
         function populateProfileDetails() {
-            var nome = sessionStorage.getItem("email");
-            var cognome = sessionStorage.getItem("cognome");
-            var partitaIVA = sessionStorage.getItem("p_iva");
+            // Recupera i dati dell'utente dalla sessionStorage
+            var userData = JSON.parse(sessionStorage.getItem("user"));
 
-            // Ottieni il div "profile-details"
-            var profileDetails = document.querySelector('.profile-details');
+            if (userData) {
+                var email = userData.email;
+                var cognome = userData.cognome;
+                var p_iva = userData.p_iva;
 
-            // Crea gli elementi e inserisci i dati
-            var nomeElement = document.createElement('a');
-            nomeElement.textContent = 'Email: ' + nome;
-            profileDetails.appendChild(nomeElement);
+                // Ottieni il div "profile-details"
+                var profileDetails = document.querySelector('.profile-details');
 
-            var cognomeElement = document.createElement('a');
-            cognomeElement.textContent = 'Cognome: ' + cognome;
-            profileDetails.appendChild(cognomeElement);
+                // Crea gli elementi e inserisci i dati
+                var emailElement = document.createElement('p');
+                emailElement.textContent = 'Email: ' + email;
+                profileDetails.appendChild(emailElement);
 
-            var partitaIVAElement = document.createElement('a');
-            partitaIVAElement.textContent = 'P. IVA: ' + partitaIVA;
-            profileDetails.appendChild(partitaIVAElement);
+                var cognomeElement = document.createElement('p');
+                cognomeElement.textContent = 'Cognome: ' + cognome;
+                profileDetails.appendChild(cognomeElement);
+
+                var p_ivaElement = document.createElement('p');
+                p_ivaElement.textContent = 'P. IVA: ' + p_iva;
+                profileDetails.appendChild(p_ivaElement);
+            }
         }
+
 
         // Chiama la funzione per popolare i dati del profilo quando la pagina si carica
         window.addEventListener('load', function () {

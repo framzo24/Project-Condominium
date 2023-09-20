@@ -74,17 +74,15 @@ app.get('/notifications', (req, res) => {
   res.sendFile(directory + '/notifications.html');
 });
 
+app.get('/notifications-user', (req, res) => {
+  res.sendFile(directory + '/notifications-user.html');
+});
+
 app.get('/reunions', (req, res) => {
   res.sendFile(directory + '/reunions.html');
 });
 
-<<<<<<< Updated upstream
 app.use('/upload-pdf', express.static('/Users/elena/Desktop/Github/Project-Condominium/upload-pdf'));
-=======
-app.get('/notifications-user', (req, res) => {
-  res.sendFile(directory + '/notifications-user.html');
-});
->>>>>>> Stashed changes
 
 app.listen(port, () => {
   console.log(`Server in ascolto sulla porta ${port}`);
@@ -179,12 +177,13 @@ app.post('/registration', (req, res) => {
 app.get('/logout', (req, res) => {
   // Reindirizza l'utente alla pagina di login o a una pagina di benvenuto
   res.sendFile(directory + '/login.html'); // Modifica di conseguenza il percorso di reindirizzamento
+  sessionStorage.clear();
 });
 
 app.post('/insert_payment', (req, res) => {
   const { data, descrizione, codice_identificativo, prezzo } = req.body;
   const condominio_id = 3;
-  const utente_id = 2;
+  const utente_id = (JSON.parse(sessionStorage.getItem("user")).id);
   const insertQuery = 'INSERT INTO Pagamento (data, descrizione, codice_identificativo, importo, condominio_id, utente_id) VALUES (?, ?, ?, ?, ?, ?)';
   db.query(insertQuery, [data, descrizione, codice_identificativo, prezzo, condominio_id, utente_id], (err, result) => {
     if (err) {
@@ -306,6 +305,33 @@ function getPagamentiFromDatabase(callback) {
     });
     //ritornare i dati della funzione
     callback(null, datiPagamenti);
+  })
+}
+
+function getNotificheFromDatabase(callback) {
+  const query = 'SELECT * FROM Notifica';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Errore durante la query al database:', err);
+      return callback(err, null);
+    }
+    //creaione array di popolamento
+    const datiNotifiche = [];
+    //popolamento dell'array dal risultato della query
+    results.forEach((row) => {
+      const notifica = {
+        id: row.id,
+        tipologia: row.tipologia,
+        data: row.data,
+        descrizione: row.descrizione,
+        utente_id: row.utente_id,
+      };
+      //inserire il singolo dato nell'array
+      datiNotifiche.push(notifica);
+    });
+    //ritornare i dati della funzione
+    callback(null, datiNotifiche);
   })
 }
 
@@ -510,6 +536,19 @@ app.get('/pagamenti', (req, res) => {
     } else {
       // Invia i dati dei pagamenti come risposta JSON
       res.json(datiPagamenti);
+    }
+  });
+});
+
+app.get('/notifiche', (req, res) => {
+  getNotificheFromDatabase((err, datiNotifiche) => {
+    if (err) {
+      // Gestisci l'errore
+      console.error('Errore durante il recupero dei pagamenti:', err);
+      res.status(500).send('Errore durante il recupero dei pagamenti');
+    } else {
+      // Invia i dati dei pagamenti come risposta JSON
+      res.json(datiNotifiche);
     }
   });
 });
