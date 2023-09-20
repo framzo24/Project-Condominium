@@ -10,6 +10,14 @@ fare bottone elimina progetto
 
 
 
+fare i bottoni in progetti futuri tondi e più grandi
+fare bottono crea Bilancio
+fare caricamento automatico in pagamenti, ma anceh in riunioni 
+guardare nuova riunione e aggiornamento calendario 
+implementare bene la session
+icona notifiche 
+in notifiche deve essere possibile scrivere all'amministratoer e al condomine
+
 
 
 
