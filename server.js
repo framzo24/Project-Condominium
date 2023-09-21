@@ -219,8 +219,10 @@ app.get('/logout', (req, res) => {
 
 app.post('/insert_payment', (req, res) => {
   const { data, descrizione, codice_identificativo, prezzo } = req.body;
-  const condominio_id = 3;
-  const utente_id = (JSON.parse(sessionStorage.getItem("user")).id);
+  const condominio_id = 1;
+  console.log(req.body);
+  //const utente_id = (JSON.parse(sessionStorage.getItem("user")).id);
+  const utente_id=1;
   const insertQuery = 'INSERT INTO Pagamento (data, descrizione, codice_identificativo, importo, condominio_id, utente_id) VALUES (?, ?, ?, ?, ?, ?)';
   db.query(insertQuery, [data, descrizione, codice_identificativo, prezzo, condominio_id, utente_id], (err, result) => {
     if (err) {
@@ -228,6 +230,8 @@ app.post('/insert_payment', (req, res) => {
       return res.status(500).send("Errore durante l'inserimento del pagamento");
     }
     console.log("Nuovo pagamento inserito con successo.");
+    return res.status(201)
+    
 
   });
 });

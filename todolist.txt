@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 fare caricamento tabelle automatico in pagamenti, ma anceh in riunioni 
+=======
+IMPLEMENTARE SESSIONE PER TUTTO
+>>>>>>> Stashed changes
 guardare il bottone carica pdf
 tabella notifiche in amiinisitratore 
 
