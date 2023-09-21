@@ -1,16 +1,15 @@
-fare tabella dei condomini per la pagina home dell'utente
-fare in modo che i pannelli dei pagamenti si chiudano
-fare bottone elimina progetto
+IMPLEMENTARE SESSIONE PER TUTTO
+togliere famiglie da hamburger
+fare caricamento tabelle automatico in pagamenti, ma anceh in riunioni 
+guardare il bottone carica pdf
+tabella notifiche in amiinisitratore 
 
 
 
-fare i bottoni in progetti futuri tondi e più grandi
-fare bottono crea Bilancio
-fare caricamento automatico in pagamenti, ma anceh in riunioni 
-guardare nuova riunione e aggiornamento calendario 
-implementare bene la session
-icona notifiche 
-in notifiche deve essere possibile scrivere all'amministratoer e al condomine
+icona notifiche (se si riesce)
+fare in modo che quando viene aggiunta una riunione viene messa la notifica ai condomini (se si riesce)
+amministratore che può rispondere a notifiche (se si riesce)
+
 
 
 
