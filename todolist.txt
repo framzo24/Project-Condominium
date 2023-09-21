@@ -19,14 +19,3 @@ amministratore che può rispondere a notifiche (se si riesce)
 
 
 
-SELECT * 
-FROM ProgettO_Futuro, Associazione, Condominio
-WHERE pf.condominio_id=ass.condominio_id
-AND ass.condominio_id=condominio.condominio_id
-
-DATO DAL PROGETTO UTENTE_ID
-FILTRO
-SELECT condominio.nome
-FROM condominio, Associazione
-WHERE condominio.id=ass.condominio_id
-AND ass.condominio_id=UTENTE_ID

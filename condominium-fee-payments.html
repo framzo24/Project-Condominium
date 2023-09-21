@@ -350,13 +350,7 @@
 
     <table id="pagamenti-table">
       <thead>
-        <tr>
-          <th>Data</th>
-          <th>Descrizione</th>
-          <th>Codice Identificativo</th>
-          <th>Mittente</th>
-          <th>Prezzo</th>
-        </tr>
+      
       </thead>
       <tbody>
       </tbody>
@@ -506,7 +500,21 @@
             if (response.ok) {
               // Aggiornamento riuscito, chiudi il form di modifica
               document.getElementById("modificaPagamentoForm").style.display = "none";
-              // Esegui altre azioni, ad esempio aggiornare la visualizzazione dei pagamenti
+              // Esegui una nuova richiesta per ottenere i dati aggiornati dei pagamenti
+            fetch('/pagamenti')  // Utilizza lo stesso endpoint
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Errore nella richiesta per ottenere i dati aggiornati');
+                }
+                return response.json();
+              })
+              .then(datiPagamenti => {
+                // Aggiorna la tabella con i nuovi dati
+                populateTable(datiPagamenti);
+              })
+              .catch(error => {
+                console.error('Errore durante la richiesta per ottenere i dati aggiornati:', error);
+              });
             } else {
               // Gestisci un errore nell'aggiornamento
               console.error('Errore nell\'aggiornamento del pagamento');
@@ -518,9 +526,59 @@
       });
     }
 
-    function populateTable(datiPagamenti) {
-      const table = document.getElementById('pagamenti-table'); // Assumi che l'elemento HTML della tabella abbia l'ID 'pagamenti-table'
+    function caricaDatiPagamenti(){
+      fetch('/pagamenti')
+      .then((reponse)=> {
+        if(!reponse.ok){
+          throw new Error('errore nella richiesta');
+        }
+        return reponse.json();
+      })
+      .then((datiPagamenti)=> {
+        populateTable(datiPagamenti);
+      })
+      .catch((error) => {
+        console.error('errore durante la richiesta al server', error);
+      })
+    }
 
+    // Aggiungi un evento di ascolto al modulo di inserimento del pagamento
+  document.getElementById("form").addEventListener("submit", function (e) {
+  e.preventDefault(); // Evita l'invio del modulo (gestirai l'invio tramite AJAX)
+
+  const data = document.getElementById("data").value;
+  const descrizione = document.getElementById("descrizione").value;
+  const codice_identificativo = document.getElementById("codice_identificativo").value;
+  const prezzo = document.getElementById("prezzo").value;
+
+  // Invia i dati al server per l'inserimento del pagamento
+  fetch('/insert_payment', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+      data,
+      descrizione,
+      codice_identificativo,
+      prezzo
+    )
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Errore nella richiesta')
+      }
+      return reponse.json();
+    })
+    .catch(error => {
+      console.error('Errore durante la richiesta al server:', error);
+    });
+    caricaDatiPagamenti();
+});
+
+    function populateTable(datiPagamenti) {
+      const table = document.getElementById('pagamenti-table').getElementsByTagName('tbody')[0]; // Assumi che l'elemento HTML della tabella abbia l'ID 'pagamenti-table'
+      let tableRows = '';
       // Crea l'intestazione della tabella
       const tableHeader = `
         <thead>
@@ -537,7 +595,8 @@
       `;
 
       // Crea le righe della tabella con i dati recuperati
-      const tableRows = datiPagamenti.map((pagamento) => `
+      datiPagamenti.map(pagamento =>{
+        const rowdata= `
           <tr>
             <td>${pagamento.id}</td>
             <td>${formattaData(pagamento.data)}</td>
@@ -547,7 +606,9 @@
             <td>${pagamento.condominio_id}</td>
             <td>${pagamento.utente_id}</td>
           </tr>
-        `).join('');
+        `;
+        tableRows += rowdata;
+       });
 
       // Aggiungi l'intestazione e le righe alla tabella
       table.innerHTML = tableHeader + tableRows;
