@@ -189,7 +189,7 @@
         </div>
         <div class="button-header">
             <a id="link" href="/home" type="button">home</a>
-            <a id="button" href="/logout" type="button">logout</a>
+            <a id="button-logout" href="/logout" type="button">logout</a>
         </div>
 
     </div>
@@ -292,6 +292,9 @@
                 .catch((error) => {
                     console.error('Errore durante la richiesta al server:', error);
                 });
+        });
+        document.getElementById('button-logout').addEventListener('submit', function (event) {
+            sessionStorage.clear();
         });
     </script>
 </body>

@@ -198,7 +198,7 @@
             <div class="card" onclick="showForm('altroForm')">Altro</div>
         </div>
         <div id="lamentelaForm" style="display: none;">
-            <form>
+            <form id="formLamentela" action="/nuova-notifica-lamentela" method="POST">
                 <label for="data">Data:</label>
                 <input type="date" name="data" id="data" required>
             
@@ -208,13 +208,12 @@
                 <label for="utente_id">ID Utente:</label>
                 <input type="number" name="utente_id" id="utente_id" required>
             
-                <input type="submit" value="Inserisci">
-                <button type="submit">Aggiungi</button>
+                <input type="submit" value="Inserisci" onclick="sendForm()">
             </form>
         </div>
         <div id="revisioneForm" style="display: none;">
             <!-- Form per Revisione -->
-            <form>
+            <form id="formRevisione" action="/nuova-notifica-revisione" method="POST">
                 <label for="data">Data:</label>
                 <input type="date" name="data" id="data" required>
             
@@ -224,13 +223,12 @@
                 <label for="utente_id">ID Utente:</label>
                 <input type="number" name="utente_id" id="utente_id" required>
             
-                <input type="submit" value="Inserisci">
-                <button type="submit">Aggiungi</button>
+                <input type="submit" value="Inserisci" onclick="sendForm()">
             </form>
         </div>
         <div id="altroForm" style="display: none;">
             <!-- Form per Altro -->
-            <form>
+            <form id="formAltro" action="/nuova-notifica-altro" method="POST">
                 <label for="data">Data:</label>
                 <input type="date" name="data" id="data" required>
             
@@ -240,8 +238,7 @@
                 <label for="utente_id">ID Utente:</label>
                 <input type="number" name="utente_id" id="utente_id" required>
             
-                <input type="submit" value="Inserisci">
-                <button type="submit">Aggiungi</button>
+                <input type="submit" value="Inserisci" onclick="sendForm()">
             </form>
         </div>
     </div>
@@ -272,6 +269,15 @@
             // Mostra il form desiderato
             document.getElementById(formId).style.display = "block";
         }
+        
+        function sendForm() {
+            // Nascondi tutti i form
+            document.getElementById("lamentelaForm").style.display = "none";
+            document.getElementById("revisioneForm").style.display = "none";
+            document.getElementById("altroForm").style.display = "none";
+        }
+
+
 
 
     </script>

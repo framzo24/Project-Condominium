@@ -647,3 +647,42 @@ function getUtenteByEmailFromDatabase(email, callback) {
     }
   });
 }
+
+app.post("/nuova-notifica-lamentela", (req, res) => {
+  const { data, descrizione, utente_id } = req.body;
+  const tipologia = "Lamentela"
+  const insertQuery = 'INSERT INTO Notifica (tipologia, data, descrizione, utente_id) VALUES (?,?,?,?)';
+  db.query(insertQuery, [tipologia,data,descrizione, utente_id], (err, result) => {
+    if (err) {
+      console.error("Errore durante l'inserimento della lamentela", err);
+      return res.status(500).send("Errore durante l'inserimento della lamentela");
+    }
+    console.log("Nuova notifica inserita con successo.");
+  });
+});
+
+app.post("/nuova-notifica-revisione", (req, res) => {
+  const { data, descrizione, utente_id } = req.body;
+  const tipologia = "Revisione"
+  const insertQuery = 'INSERT INTO Notifica (tipologia, data, descrizione, utente_id) VALUES (?,?,?,?)';
+  db.query(insertQuery, [tipologia,data,descrizione, utente_id], (err, result) => {
+    if (err) {
+      console.error("Errore durante l'inserimento della revisione", err);
+      return res.status(500).send("Errore durante l'inserimento della revisione");
+    }
+    console.log("Nuova notifica inserita con successo.");
+  });
+});
+
+app.post("/nuova-notifica-altro", (req, res) => {
+  const { data, descrizione, utente_id } = req.body;
+  const tipologia = "Altro"
+  const insertQuery = 'INSERT INTO Notifica (tipologia, data, descrizione, utente_id) VALUES (?,?,?,?)';
+  db.query(insertQuery, [tipologia,data,descrizione, utente_id], (err, result) => {
+    if (err) {
+      console.error("Errore durante l'inserimento della notifica", err);
+      return res.status(500).send("Errore durante l'inserimento della notifica");
+    }
+    console.log("Nuova notifica inserita con successo.");
+  });
+});

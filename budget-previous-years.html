@@ -122,7 +122,7 @@
         #pdfInput {
             padding: 10px;
             font-size: 18px;
-                }
+        }
     </style>
 </head>
 
@@ -143,7 +143,7 @@
         </div>
         <div class="button-header">
             <a id="link" href="/home" type="button">home</a>
-            <a id="button-logout" href="/logout" type="button" onclick="logout()">logout</a>
+            <a id="button-logout" href="/logout" type="button">logout</a>
         </div>
 
     </div>
@@ -155,7 +155,7 @@
 
         <div>
             <input type="file" id="pdfInput" name="pdfFile" accept=".pdf">
-            <button id="uploadPdfButton" >Carica PDF</button>
+            <button id="uploadPdfButton">Carica PDF</button>
         </div>
 
         <ul id="bilanci-list" data-next-id="2021">
@@ -215,15 +215,15 @@
         const pdfInput = document.getElementById("pdfInput");
         const uploadPdfButton = document.getElementById("uploadPdfButton");
 
-         // Gestore di eventi per l'elemento input file per catturare la selezione di un file
-         pdfInput.addEventListener("change", function () {
+        // Gestore di eventi per l'elemento input file per catturare la selezione di un file
+        pdfInput.addEventListener("change", function () {
             // Gestione dell'evento di selezione del file
             const selectedFile = pdfInput.files[0];
             if (selectedFile) {
                 console.log("File selezionato:", selectedFile.name);
             }
-        }); 
-        
+        });
+
         if (uploadPdfButton) {
             uploadPdfButton.addEventListener("click", function () {
                 // Verifica se è stato selezionato un file
@@ -269,31 +269,33 @@
             });
         }
 
-    pdfInput.addEventListener("change", function () {
-        // Verifica se è stato selezionato un file
-        if (pdfInput.files.length > 0) {
-            const selectedPdfFile = pdfInput.files[0];
+        pdfInput.addEventListener("change", function () {
+            // Verifica se è stato selezionato un file
+            if (pdfInput.files.length > 0) {
+                const selectedPdfFile = pdfInput.files[0];
 
-            // Utilizziamo "selectedPdfFile" per ottenere il file selezionato e visualizzarlo nell'anteprima
-            const pdfPath = URL.createObjectURL(selectedPdfFile);
-            pdfPreview.innerHTML = `<embed src="${pdfPath}" type="application/pdf" width="100%" height="600px" />`;
+                // Utilizziamo "selectedPdfFile" per ottenere il file selezionato e visualizzarlo nell'anteprima
+                const pdfPath = URL.createObjectURL(selectedPdfFile);
+                pdfPreview.innerHTML = `<embed src="${pdfPath}" type="application/pdf" width="100%" height="600px" />`;
 
-            // Aggiungi il nuovo bilancio all'elenco
-            const nextId = bilanciList.getAttribute("data-next-id");
-            const newBilancio = document.createElement('li');
-            newBilancio.id = `bilancio-${nextId}`;
-            newBilancio.textContent = `Bilancio anno ${nextId}`;
-            bilanciList.appendChild(newBilancio);
+                // Aggiungi il nuovo bilancio all'elenco
+                const nextId = bilanciList.getAttribute("data-next-id");
+                const newBilancio = document.createElement('li');
+                newBilancio.id = `bilancio-${nextId}`;
+                newBilancio.textContent = `Bilancio anno ${nextId}`;
+                bilanciList.appendChild(newBilancio);
 
-            // Aggiorna l'ID del prossimo bilancio
-            bilanciList.setAttribute("data-next-id", parseInt(nextId) + 1);
+                // Aggiorna l'ID del prossimo bilancio
+                bilanciList.setAttribute("data-next-id", parseInt(nextId) + 1);
 
-            // Resetta l'input file in modo che sia possibile selezionare lo stesso file più volte
-            pdfInput.value = "";
-        }
-    });
+                // Resetta l'input file in modo che sia possibile selezionare lo stesso file più volte
+                pdfInput.value = "";
+            }
+        });
 
-       
+        document.getElementById('button-logout').addEventListener('submit', function (event) {
+            sessionStorage.clear();
+        });
 
     </script>
 

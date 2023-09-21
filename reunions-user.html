@@ -191,7 +191,7 @@
 
         <div class="button-header">
             <a id="link" href="/home" type="button">home</a>
-            <a id="button" href="/logout" type="button">logout</a>
+            <a id="button-logout" href="/logout" type="button">logout</a>
         </div>
 
     </div>
@@ -314,6 +314,9 @@
                 });
 
             calendar.render();
+        });
+        document.getElementById('button-logout').addEventListener('submit', function (event) {
+            sessionStorage.clear();
         });
     </script>
 </body>

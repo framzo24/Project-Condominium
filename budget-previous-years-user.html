@@ -122,7 +122,7 @@
         #pdfInput {
             padding: 10px;
             font-size: 18px;
-                }
+        }
     </style>
 </head>
 
@@ -143,7 +143,7 @@
         </div>
         <div class="button-header">
             <a id="link" href="/home" type="button">home</a>
-            <a id="button-logout" href="/logout" type="button" onclick="logout()">logout</a>
+            <a id="button-logout" href="/logout" type="button">logout</a>
         </div>
 
     </div>
@@ -223,80 +223,82 @@
         //         console.log("File selezionato:", selectedFile.name);
         //     }
         // }); 
-        
-    //     if (uploadPdfButton) {
-    //         uploadPdfButton.addEventListener("click", function () {
-    //             // Verifica se è stato selezionato un file
-    //             if (pdfInput.files.length > 0) {
-    //                 const selectedPdfFile = pdfInput.files[0];
 
-    //                 // Puoi utilizzare "selectedPdfFile" per ottenere il file selezionato e inviarlo al server tramite una richiesta AJAX o una fetch.
-    //                 // Ad esempio:
-    //                 const formData = new FormData();
-    //                 formData.append("pdfFile", selectedPdfFile);
+        //     if (uploadPdfButton) {
+        //         uploadPdfButton.addEventListener("click", function () {
+        //             // Verifica se è stato selezionato un file
+        //             if (pdfInput.files.length > 0) {
+        //                 const selectedPdfFile = pdfInput.files[0];
 
-    //                 fetch("/upload-pdf", {
-    //                     method: "POST",
-    //                     body: formData,
-    //                 })
-    //                     .then((response) => {
-    //                         if (!response.ok) {
-    //                             throw new Error("Errore nell'upload del PDF");
-    //                         }
-    //                         return response.json();
-    //                     })
-    //                     .then((responseJson) => {
-    //                         // Il PDF è stato caricato con successo, puoi fare qualcos'altro qui se necessario
-    //                         console.log("PDF caricato con successo:", responseJson);
-    //                         // Aggiungi il nuovo bilancio all'elenco
-    //                         const nextId = bilanciList.getAttribute("data-next-id");
-    //                         const newBilancio = document.createElement('li');
-    //                         newBilancio.id = `bilancio-${nextId}`;
-    //                         newBilancio.textContent = `Bilancio anno ${nextId}`;
-    //                         bilanciList.appendChild(newBilancio);
+        //                 // Puoi utilizzare "selectedPdfFile" per ottenere il file selezionato e inviarlo al server tramite una richiesta AJAX o una fetch.
+        //                 // Ad esempio:
+        //                 const formData = new FormData();
+        //                 formData.append("pdfFile", selectedPdfFile);
 
-    //                         // Aggiorna l'ID del prossimo bilancio
-    //                         bilanciList.setAttribute("data-next-id", parseInt(nextId) + 1);
+        //                 fetch("/upload-pdf", {
+        //                     method: "POST",
+        //                     body: formData,
+        //                 })
+        //                     .then((response) => {
+        //                         if (!response.ok) {
+        //                             throw new Error("Errore nell'upload del PDF");
+        //                         }
+        //                         return response.json();
+        //                     })
+        //                     .then((responseJson) => {
+        //                         // Il PDF è stato caricato con successo, puoi fare qualcos'altro qui se necessario
+        //                         console.log("PDF caricato con successo:", responseJson);
+        //                         // Aggiungi il nuovo bilancio all'elenco
+        //                         const nextId = bilanciList.getAttribute("data-next-id");
+        //                         const newBilancio = document.createElement('li');
+        //                         newBilancio.id = `bilancio-${nextId}`;
+        //                         newBilancio.textContent = `Bilancio anno ${nextId}`;
+        //                         bilanciList.appendChild(newBilancio);
 
-    //                         // Visualizza il PDF nell'anteprima
-    //                         const pdfPath = `./pdf/${nextId}.pdf`;
-    //                         pdfPreview.innerHTML = `<embed src="${pdfPath}" type="application/pdf" width="100%" height="600px" />`;
-    //                     })
-    //                     .catch((error) => {
-    //                         console.error("Errore durante l'upload del PDF:", error);
-    //                     });
-    //             } else {
-    //                 alert("Seleziona un file PDF prima di caricare.");
-    //             }
-    //         });
-    //     }
+        //                         // Aggiorna l'ID del prossimo bilancio
+        //                         bilanciList.setAttribute("data-next-id", parseInt(nextId) + 1);
 
-    //         // Aggiungi un gestore di eventi per l'elemento input file per catturare la selezione di un file
-    // pdfInput.addEventListener("change", function () {
-    //     // Verifica se è stato selezionato un file
-    //     if (pdfInput.files.length > 0) {
-    //         const selectedPdfFile = pdfInput.files[0];
+        //                         // Visualizza il PDF nell'anteprima
+        //                         const pdfPath = `./pdf/${nextId}.pdf`;
+        //                         pdfPreview.innerHTML = `<embed src="${pdfPath}" type="application/pdf" width="100%" height="600px" />`;
+        //                     })
+        //                     .catch((error) => {
+        //                         console.error("Errore durante l'upload del PDF:", error);
+        //                     });
+        //             } else {
+        //                 alert("Seleziona un file PDF prima di caricare.");
+        //             }
+        //         });
+        //     }
 
-    //         // Puoi utilizzare "selectedPdfFile" per ottenere il file selezionato e visualizzarlo nell'anteprima
-    //         const pdfPath = URL.createObjectURL(selectedPdfFile);
-    //         pdfPreview.innerHTML = `<embed src="${pdfPath}" type="application/pdf" width="100%" height="600px" />`;
+        //         // Aggiungi un gestore di eventi per l'elemento input file per catturare la selezione di un file
+        // pdfInput.addEventListener("change", function () {
+        //     // Verifica se è stato selezionato un file
+        //     if (pdfInput.files.length > 0) {
+        //         const selectedPdfFile = pdfInput.files[0];
 
-    //         // Aggiungi il nuovo bilancio all'elenco
-    //         const nextId = bilanciList.getAttribute("data-next-id");
-    //         const newBilancio = document.createElement('li');
-    //         newBilancio.id = `bilancio-${nextId}`;
-    //         newBilancio.textContent = `Bilancio anno ${nextId}`;
-    //         bilanciList.appendChild(newBilancio);
+        //         // Puoi utilizzare "selectedPdfFile" per ottenere il file selezionato e visualizzarlo nell'anteprima
+        //         const pdfPath = URL.createObjectURL(selectedPdfFile);
+        //         pdfPreview.innerHTML = `<embed src="${pdfPath}" type="application/pdf" width="100%" height="600px" />`;
 
-    //         // Aggiorna l'ID del prossimo bilancio
-    //         bilanciList.setAttribute("data-next-id", parseInt(nextId) + 1);
+        //         // Aggiungi il nuovo bilancio all'elenco
+        //         const nextId = bilanciList.getAttribute("data-next-id");
+        //         const newBilancio = document.createElement('li');
+        //         newBilancio.id = `bilancio-${nextId}`;
+        //         newBilancio.textContent = `Bilancio anno ${nextId}`;
+        //         bilanciList.appendChild(newBilancio);
 
-    //         // Resetta l'input file in modo che sia possibile selezionare lo stesso file più volte
-    //         pdfInput.value = "";
-    //     }
-    // });
+        //         // Aggiorna l'ID del prossimo bilancio
+        //         bilanciList.setAttribute("data-next-id", parseInt(nextId) + 1);
 
-       
+        //         // Resetta l'input file in modo che sia possibile selezionare lo stesso file più volte
+        //         pdfInput.value = "";
+        //     }
+        // });
+
+        document.getElementById('button-logout').addEventListener('submit', function (event) {
+            sessionStorage.clear();
+        });
 
     </script>
 

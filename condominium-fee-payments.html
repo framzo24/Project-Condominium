@@ -259,7 +259,7 @@
 
     <div class="button-header">
       <a id="link" href="/home" type="button">home</a>
-      <a id="button-logout" href="/logout" onclick="doLogout()" type="button">logout</a>
+      <a id="button-logout" href="/logout" type="button">logout</a>
     </div>
 
   </div>
@@ -309,7 +309,8 @@
         <form id="form" action="/insert_payment" method="post">
           <input type="date" id="data" name="data" placeholder="Data" required>
           <input type="text" id="descrizione" name="descrizione" placeholder="Descrizione" required>
-          <input type="text" id="codiceIdentificativo" name="codice_identificativo" placeholder="Codice identificativo" required>
+          <input type="text" id="codiceIdentificativo" name="codice_identificativo" placeholder="Codice identificativo"
+            required>
           <input type="number" name="prezzo" step="0.01" placeholder="Prezzo" required>
           <button type="submit">Inserisci</button>
         </form>
@@ -344,7 +345,7 @@
 
     <table id="pagamenti-table">
       <thead>
-      
+
       </thead>
       <tbody>
       </tbody>
@@ -450,7 +451,7 @@
 
     function populateTable(datiPagamenti) {
       // Assumiamo che l'elemento HTML della tabella abbia l'ID 'pagamenti-table'
-      const table = document.getElementById('pagamenti-table').getElementsByTagName('tbody')[0]; 
+      const table = document.getElementById('pagamenti-table').getElementsByTagName('tbody')[0];
       let tableRows = '';
       const tableHeader = `
         <thead>
@@ -466,8 +467,8 @@
         </thead>
       `;
 
-      datiPagamenti.map(pagamento =>{
-        const rowdata= `
+      datiPagamenti.map(pagamento => {
+        const rowdata = `
           <tr>
             <td>${pagamento.id}</td>
             <td>${formattaData(pagamento.data)}</td>
@@ -479,12 +480,12 @@
           </tr>
         `;
         tableRows += rowdata;
-       });
+      });
 
       table.innerHTML = tableHeader + tableRows;
     }
 
-    
+
     /// Chiamata a getPagamentiFromDatabase() all'avvio della pagina
     window.addEventListener('load', () => {
       fetch('/pagamenti')
@@ -547,19 +548,19 @@
             if (response.ok) {
               document.getElementById("modificaPagamentoForm").style.display = "none";
               // Esegue una nuova richiesta per ottenere i dati aggiornati dei pagamenti
-            fetch('/pagamenti')
-              .then(response => {
-                if (!response.ok) {
-                  throw new Error('Errore nella richiesta per ottenere i dati aggiornati');
-                }
-                return response.json();
-              })
-              .then(datiPagamenti => {
-                populateTable(datiPagamenti);
-              })
-              .catch(error => {
-                console.error('Errore durante la richiesta per ottenere i dati aggiornati:', error);
-              });
+              fetch('/pagamenti')
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Errore nella richiesta per ottenere i dati aggiornati');
+                  }
+                  return response.json();
+                })
+                .then(datiPagamenti => {
+                  populateTable(datiPagamenti);
+                })
+                .catch(error => {
+                  console.error('Errore durante la richiesta per ottenere i dati aggiornati:', error);
+                });
             } else {
               console.error('Errore nell\'aggiornamento del pagamento');
             }
@@ -570,58 +571,58 @@
       });
     }
 
-    function caricaDatiPagamenti(){
+    function caricaDatiPagamenti() {
       fetch('/pagamenti')
-      .then((reponse)=> {
-        if(!reponse.ok){
-          throw new Error('errore nella richiesta');
-        }
-        return reponse.json();
-      })
-      .then((datiPagamenti)=> {
-        populateTable(datiPagamenti);
-      })
-      .catch((error) => {
-        console.error('errore durante la richiesta al server', error);
-      })
+        .then((reponse) => {
+          if (!reponse.ok) {
+            throw new Error('errore nella richiesta');
+          }
+          return reponse.json();
+        })
+        .then((datiPagamenti) => {
+          populateTable(datiPagamenti);
+        })
+        .catch((error) => {
+          console.error('errore durante la richiesta al server', error);
+        })
     }
 
 
-  document.getElementById("form").addEventListener("submit", function (e) {
+    document.getElementById("form").addEventListener("submit", function (e) {
 
-  const data = document.getElementById("data").value;
-  const descrizione = document.getElementById("descrizione").value;
-  const codice_identificativo = document.getElementById("codiceIdentificativo").value;
-  const prezzo = document.getElementById("prezzo").value;
+      const data = document.getElementById("data").value;
+      const descrizione = document.getElementById("descrizione").value;
+      const codice_identificativo = document.getElementById("codiceIdentificativo").value;
+      const prezzo = document.getElementById("prezzo").value;
 
-    // Crea un oggetto con i dati da inviare al server
-    const paymentData = {
-      data:data,
-      descrizione:descrizione,
-      codice_identificativo: codice_identificativo,
-      prezzo:prezzo
-    }
+      // Crea un oggetto con i dati da inviare al server
+      const paymentData = {
+        data: data,
+        descrizione: descrizione,
+        codice_identificativo: codice_identificativo,
+        prezzo: prezzo
+      }
 
-fetch('/insert_payment', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(paymentData)
-})
-  .then((response) => {
-    if (!reponse.ok) {
-      throw new Error('Errore nella richiesta');
-    }
-  })
-  .catch(error => {
-    console.error('Errore durante la richiesta al server:', error);
-  });
-  document.getElementById("form").style.display="none";
-  caricaDatiPagamenti();
-});
+      fetch('/insert_payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(paymentData)
+      })
+        .then((response) => {
+          if (!reponse.ok) {
+            throw new Error('Errore nella richiesta');
+          }
+        })
+        .catch(error => {
+          console.error('Errore durante la richiesta al server:', error);
+        });
+      document.getElementById("form").style.display = "none";
+      caricaDatiPagamenti();
+    });
 
-   
+
 
 
     document.getElementById("form").addEventListener("submit", function (e) {
@@ -632,9 +633,9 @@ fetch('/insert_payment', {
       location.reload();
     });
 
-    function doLogout() {
+    document.getElementById('button-logout').addEventListener('submit', function (event) {
       sessionStorage.clear();
-    };
+    });
   </script>
 
 </body>
