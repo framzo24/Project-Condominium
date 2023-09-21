@@ -454,6 +454,64 @@
       });
     });
 
+    function populateTable(datiPagamenti) {
+      const table = document.getElementById('pagamenti-table').getElementsByTagName('tbody')[0]; // Assumi che l'elemento HTML della tabella abbia l'ID 'pagamenti-table'
+      let tableRows = '';
+      // Crea l'intestazione della tabella
+      const tableHeader = `
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Data</th>
+            <th>Descrizione</th>
+            <th>CodiceIdentificativo</th>
+            <th>Importo</th>
+            <th>CondominioID</th>
+            <th>UtenteID</th>
+          </tr>
+        </thead>
+      `;
+
+      // Crea le righe della tabella con i dati recuperati
+      datiPagamenti.map(pagamento =>{
+        const rowdata= `
+          <tr>
+            <td>${pagamento.id}</td>
+            <td>${formattaData(pagamento.data)}</td>
+            <td>${pagamento.descrizione}</td>
+            <td>${pagamento.codice_identificativo}</td>
+            <td>${pagamento.importo}</td>
+            <td>${pagamento.condominio_id}</td>
+            <td>${pagamento.utente_id}</td>
+          </tr>
+        `;
+        tableRows += rowdata;
+       });
+
+      // Aggiungi l'intestazione e le righe alla tabella
+      table.innerHTML = tableHeader + tableRows;
+    }
+
+    
+    /// Esempio di chiamata a getPagamentiFromDatabase() all'avvio della pagina
+    window.addEventListener('load', () => {
+      // Nella tua pagina HTML
+      fetch('/pagamenti')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Errore nella richiesta');
+          }
+          return response.json();
+        })
+        .then((datiPagamenti) => {
+          // Popola la tabella con i dati recuperati
+          populateTable(datiPagamenti);
+        })
+        .catch((error) => {
+          console.error('Errore durante la richiesta al server:', error);
+        });
+
+    });
 
     // Funzione per formattare la data in "gg/mm/aaaa"
     function formattaData(data) {
@@ -542,97 +600,47 @@
       })
     }
 
+
     // Aggiungi un evento di ascolto al modulo di inserimento del pagamento
   document.getElementById("form").addEventListener("submit", function (e) {
-  e.preventDefault(); // Evita l'invio del modulo (gestirai l'invio tramite AJAX)
+  //e.preventDefault(); // Evita l'invio del modulo (gestirai l'invio tramite AJAX)
 
   const data = document.getElementById("data").value;
   const descrizione = document.getElementById("descrizione").value;
   const codice_identificativo = document.getElementById("codice_identificativo").value;
   const prezzo = document.getElementById("prezzo").value;
 
-  // Invia i dati al server per l'inserimento del pagamento
-  fetch('/insert_payment', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(
-      data,
-      descrizione,
-      codice_identificativo,
-      prezzo
-    )
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Errore nella richiesta')
-      }
-      return reponse.json();
-    })
-    .catch(error => {
-      console.error('Errore durante la richiesta al server:', error);
-    });
-    caricaDatiPagamenti();
-});
-
-    function populateTable(datiPagamenti) {
-      const table = document.getElementById('pagamenti-table').getElementsByTagName('tbody')[0]; // Assumi che l'elemento HTML della tabella abbia l'ID 'pagamenti-table'
-      let tableRows = '';
-      // Crea l'intestazione della tabella
-      const tableHeader = `
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Data</th>
-            <th>Descrizione</th>
-            <th>CodiceIdentificativo</th>
-            <th>Importo</th>
-            <th>CondominioID</th>
-            <th>UtenteID</th>
-          </tr>
-        </thead>
-      `;
-
-      // Crea le righe della tabella con i dati recuperati
-      datiPagamenti.map(pagamento =>{
-        const rowdata= `
-          <tr>
-            <td>${pagamento.id}</td>
-            <td>${formattaData(pagamento.data)}</td>
-            <td>${pagamento.descrizione}</td>
-            <td>${pagamento.codice_identificativo}</td>
-            <td>${pagamento.importo}</td>
-            <td>${pagamento.condominio_id}</td>
-            <td>${pagamento.utente_id}</td>
-          </tr>
-        `;
-        tableRows += rowdata;
-       });
-
-      // Aggiungi l'intestazione e le righe alla tabella
-      table.innerHTML = tableHeader + tableRows;
+    // Crea un oggetto con i dati da inviare al server
+    const paymentData = {
+      data:data,
+      descrizione:descrizione,
+      codice_identificativo: codice_identificativo,
+      prezzo:prezzo
     }
 
-    /// Esempio di chiamata a getPagamentiFromDatabase() all'avvio della pagina
-    window.addEventListener('load', () => {
-      // Nella tua pagina HTML
-      fetch('/pagamenti')
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Errore nella richiesta');
-          }
-          return response.json();
-        })
-        .then((datiPagamenti) => {
-          // Popola la tabella con i dati recuperati
-          populateTable(datiPagamenti);
-        })
-        .catch((error) => {
-          console.error('Errore durante la richiesta al server:', error);
-        });
+  // Invia i dati al server per l'inserimento del pagamento
+ // Invia i dati al server per l'inserimento del pagamento
+fetch('/insert_payment', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(paymentData)
+})
+  .then((response) => {
+    if (!reponse.ok) {
+      throw new Error('Errore nella richiesta');
+    }
+  })
+  .catch(error => {
+    console.error('Errore durante la richiesta al server:', error);
+  });
+  document.getElementById("form").style.display="none";
+  caricaDatiPagamenti();
+});
 
-    });
+   
+
 
     document.getElementById("form").addEventListener("submit", function (e) {
       // e.preventDefault(); // Evita l'invio del form (gestirai l'invio tramite Ajax)
