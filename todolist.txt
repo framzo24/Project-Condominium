@@ -1,4 +1,3 @@
-IMPLEMENTARE SESSIONE PER TUTTO
 fare caricamento tabelle automatico in pagamenti, ma anceh in riunioni 
 guardare il bottone carica pdf
 tabella notifiche in amiinisitratore 

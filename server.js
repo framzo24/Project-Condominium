@@ -60,8 +60,16 @@ app.get('/condominium-fee-payments', (req, res) => {
   res.sendFile(directory + '/condominium-fee-payments.html');
 });
 
+app.get('/condominium-fee-payments-user', (req, res) => {
+  res.sendFile(directory + '/condominium-fee-payments-user.html');
+});
+
 app.get('/budget-previous-years', (req, res) => {
   res.sendFile(directory + '/budget-previous-years.html');
+});
+
+app.get('/budget-previous-years-user', (req, res) => {
+  res.sendFile(directory + '/budget-previous-years-user.html');
 });
 
 app.get('/family', (req, res) => {
@@ -70,6 +78,10 @@ app.get('/family', (req, res) => {
 
 app.get('/future-projects', (req, res) => {
   res.sendFile(directory + '/future-projects.html');
+});
+
+app.get('/future-projects-user', (req, res) => {
+  res.sendFile(directory + '/future-projects-user.html');
 });
 
 app.get('/notifications', (req, res) => {
@@ -82,6 +94,10 @@ app.get('/notifications-user', (req, res) => {
 
 app.get('/reunions', (req, res) => {
   res.sendFile(directory + '/reunions.html');
+});
+
+app.get('/reunions-user', (req, res) => {
+  res.sendFile(directory + '/reunions-user.html');
 });
 
 app.listen(port, () => {
@@ -590,36 +606,24 @@ app.get('/progetti', (req, res) => {
 
 app.get('/getUserIdByEmail', (req, res) => {
   const email = req.query.email; // Recupera l'email dalla query string
-  console.log("la mail in input è: "+email);
+  // console.log("la mail in input è: " + email);
   getUtenteByEmailFromDatabase(email, (err, datiUtente) => {
     if (err) {
       // Gestisci l'errore
       console.error('Errore durante il recupero dell\'utente:', err);
       res.status(500).send('Errore durante il recupero dell\'utente');
-      console.log("entra nel if err");
+      // console.log("entra nel if err");
     } else if (datiUtente) {
       // Invia l'utente trovato come risposta JSON
+      console.log("utente trovato con questi dati" + datiUtente.cognome);
       res.json(datiUtente);
-      console.log("utente trovato con questi dati"+res.json(datiUtente).cognome);
-      console.log("entra nel else if");
+      // console.log("restituisce i datiUtente finalmente");
     } else {
-      console.log("entra nel else");
+      // console.log("Nessun utente trovato con questa email nel server");
       // Se l'utente non è stato trovato, restituisci una risposta vuota o un messaggio di errore
-      res.status(404).send('Nessun utente trovato con questa email. server');
+      res.status(404).send('Nessun utente trovato con questa email nel server');
     }
   });
-  
-
-  // getUtentiFromDatabase((err, datiUtente) => {
-  //   if (err) {
-  //     // Gestisci l'errore
-  //     console.error('Errore durante il recupero degli:', err);
-  //     res.status(500).send('Errore durante il recupero degli utenti');
-  //   } else {
-  //     // Invia i dati degli utenti come risposta JSON
-  //     res.json(datiUtente);
-  //   }
-  // });
 });
 
 //route per la pagina dei condomini
@@ -702,11 +706,11 @@ function getUtenteByEmailFromDatabase(email, callback) {
     if (err) {
       callback(err, null);
     } else {
-       console.log("Se l'utente è stato trovato, results conterrà l'array degli utenti corrispondenti")
+      //  console.log("Se l'utente è stato trovato, results conterrà l'array degli utenti corrispondenti")
       // Poiché email dovrebbe essere unico, dovresti avere solo 0 o 1 risultato
       if (results.length === 1) {
         const utente = results[0];
-        console.log("utente è "+results[0].cognome);
+        // console.log("utente è "+results[0].cognome);
         callback(null, utente);
       } else {
         console.log("utente non trovato");

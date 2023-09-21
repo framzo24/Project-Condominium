@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.js"></script>
+<html>
+
+<head>
+    <title>Pagina delle riunioni</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(116, 116, 116);
+        }
+
+        .header {
+            background-color: rgb(51, 51, 51);
+            color: white;
+            height: 50px;
+            padding: 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+
+        }
+
+        .header .hamburger {
+            font-size: 50px;
+            cursor: pointer;
+            top: 5px;
+            left: 10px;
+            z-index: 2;
+            border-right: 5cm;
+            position: fixed;
+        }
+
+        .button-header {
+            justify-content: end;
+            float: right;
+            height: auto;
+            padding: 5px;
+            border-radius: 5px;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+            font-size: 30px;
+        }
+
+        .button-header a {
+            text-decoration: none;
+            font-size: 25px;
+            color: black;
+            transition: 0.3s;
+            background-color: white;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .reunion-tools a {
+            text-decoration: none;
+            font-size: 25px;
+            color: white;
+            transition: 0.3s;
+            background-color: rgb(6, 30, 63);
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: rgb(51, 51, 51);
+            color: white;
+            height: 20px;
+            position: fixed;
+            padding: 10px;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .navbar {
+            background-color: grey;
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .navbar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: black;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            color: white;
+        }
+
+        .navbar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .container-admin {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 0px rgb(101, 101, 101, 0.5);
+            max-width: 200px auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            /* margin-top: 40px; */
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .form-container {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            background-color: navy;
+            color: white;
+        }
+
+        .form-modify-reunion {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-delete-reunion {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="navbar" id="navbar">
+            <a id="link" href="/condominium-fee-payments-user" type="button">Pagamenti rette condominiali</a>
+            <a id="link" href="/budget-previous-years-user" type="button">Bilancio anni precedenti</a>
+            <a id="link" href="/future-projects-user" type="button">Progetti futuri</a>
+            <a id="link" href="/notifications-user" type="button">Notifiche</a>
+            <a id="link" href="/reunions-user" type="button">Riunioni</a>
+            <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
+        </div>
+
+        <div class="hamburger" id="hamburger" onclick="openNavbar()">
+            &#9776;
+        </div>
+
+        <div class="button-header">
+            <a id="link" href="/home" type="button">home</a>
+            <a id="button" href="/logout" type="button">logout</a>
+        </div>
+
+    </div>
+
+    <div class="container-admin">
+        <div class="reunion-tools">
+            <!-- <div class="three-reunion">
+                <a id="link" onclick="openNewReunion()" type="button">Nuova riunione</a>
+                <a id="link" onclick="openModifyReunion()" type="button">Modifica riunione</a>
+                <a id="link" onclick="openDeleteReunion()" type="button">Elimina riunione</a>
+            </div> -->
+            <br>
+            <br>
+            <div class="form-container" id="form-container">
+                <form id="meetingForm" action="/new-reunion" method="post">
+                    <label for="meetingDate">Data:</label>
+                    <input type="date" id="meetingDate" name="meetingDate" required><br><br>
+
+                    <label for="meetingTime">Ora:</label>
+                    <input type="time" id="meetingTime" name="meetingTime" required><br><br>
+
+                    <label for="meetingTitle">Titolo:</label>
+                    <input type="text" id="meetingTitle" name="meetingTitle" required><br><br>
+
+                    <label for="meetingDescription">Descrizione:</label><br>
+                    <textarea id="meetingDescription" name="meetingDescription" rows="4" cols="50"
+                        required></textarea><br><br>
+
+                    <button type="submit">Aggiungi Riunione</button>
+                </form>
+            </div>
+            <div class="form-modify-reunion" id="form-modify-reunion">
+                <form id="modifymeetingForm" action="/modify-reunion" method="post">
+
+                    <label for="meetingId">Id:</label>
+                    <input type="text" id="meetingId" name="meetingId" required><br><br>
+
+                    <label for="meetingDate">Data:</label>
+                    <input type="date" id="meetingDate" name="meetingDate" required><br><br>
+
+                    <label for="meetingTime">Ora:</label>
+                    <input type="time" id="meetingTime" name="meetingTime" required><br><br>
+
+                    <label for="meetingTitle">Titolo:</label>
+                    <input type="text" id="meetingTitle" name="meetingTitle" required><br><br>
+
+                    <label for="meetingDescription">Descrizione:</label><br>
+                    <textarea id="meetingDescription" name="meetingDescription" rows="4" cols="50"
+                        required></textarea><br><br>
+
+                    <button type="submit">Modifica Riunione</button>
+                </form>
+            </div>
+            <div class="form-delete-reunion" id="form-delete-reunion">
+                <form id="deletemeetingForm" action="/delete-reunion" method="post">
+
+                    <label for="meetingId">Id:</label>
+                    <input type="text" id="meetingId" name="meetingId" required><br><br>
+
+                    <button type="submit">Elimina Riunione</button>
+                </form>
+            </div>
+            <br>
+        </div>
+        <div id="calendar">
+            <!-- Campo che si aggiorna dinamicamente -->
+        </div>
+    </div>
+
+    <footer>
+        <a>About</a>
+        <a>Ciao</a>
+    </footer>
+
+    <script>
+
+
+        function openNavbar() {
+            document.getElementById("navbar").style.width = "250px";
+            document.getElementById("hamburger").style.display = "none";
+        }
+
+        function closeNavbar() {
+            document.getElementById("navbar").style.width = "0";
+            document.getElementById("hamburger").style.display = "";
+        }
+
+        function openNewReunion() {
+            document.getElementById("form-container").style.display = "block";
+            document.getElementById("form-modify-reunion").style.display = "none";
+            document.getElementById("form-delete-reunion").style.display = "none";
+        }
+
+        document.getElementById("meetingForm").addEventListener("submit", function (e) {
+            document.getElementById("form-container").style.display = "none";
+        });
+
+        function openModifyReunion() {
+            document.getElementById("form-container").style.display = "none";
+            document.getElementById("form-modify-reunion").style.display = "block";
+            document.getElementById("form-delete-reunion").style.display = "none";
+        }
+
+        function openDeleteReunion() {
+            document.getElementById("form-container").style.display = "none";
+            document.getElementById("form-modify-reunion").style.display = "none";
+            document.getElementById("form-delete-reunion").style.display = "flex";
+        }
+
+        document.getElementById("modifymeetingForm").addEventListener("submit", function (e) {
+            document.getElementById("form-modify-reunion").style.display = "none";
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth', // Vista predefinita (puoi cambiarla)
+                events: '/riunioni'
+                });
+
+            calendar.render();
+        });
+    </script>
+
+</body>
+
+</html>
+<!-- calendario e tabella, se clicchi viene la descrizione della riunione e infondo alla tabella c'è scarca verbale e per l'amministratore anche un tasto dove può aggiugere il verbale -->
