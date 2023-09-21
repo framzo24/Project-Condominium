@@ -589,16 +589,37 @@ app.get('/progetti', (req, res) => {
 });
 
 app.get('/getUserIdByEmail', (req, res) => {
-  getUtentiFromDatabase((err, datiUtente) => {
+  const email = req.query.email; // Recupera l'email dalla query string
+  console.log("la mail in input è: "+email);
+  getUtenteByEmailFromDatabase(email, (err, datiUtente) => {
     if (err) {
       // Gestisci l'errore
-      console.error('Errore durante il recupero degli:', err);
-      res.status(500).send('Errore durante il recupero degli utenti');
-    } else {
-      // Invia i dati degli utenti come risposta JSON
+      console.error('Errore durante il recupero dell\'utente:', err);
+      res.status(500).send('Errore durante il recupero dell\'utente');
+      console.log("entra nel if err");
+    } else if (datiUtente) {
+      // Invia l'utente trovato come risposta JSON
       res.json(datiUtente);
+      console.log("utente trovato con questi dati"+res.json(datiUtente).cognome);
+      console.log("entra nel else if");
+    } else {
+      console.log("entra nel else");
+      // Se l'utente non è stato trovato, restituisci una risposta vuota o un messaggio di errore
+      res.status(404).send('Nessun utente trovato con questa email. server');
     }
   });
+  
+
+  // getUtentiFromDatabase((err, datiUtente) => {
+  //   if (err) {
+  //     // Gestisci l'errore
+  //     console.error('Errore durante il recupero degli:', err);
+  //     res.status(500).send('Errore durante il recupero degli utenti');
+  //   } else {
+  //     // Invia i dati degli utenti come risposta JSON
+  //     res.json(datiUtente);
+  //   }
+  // });
 });
 
 //route per la pagina dei condomini
@@ -671,3 +692,27 @@ app.get('/get-users-by-condominio', (req, res) => {
       res.json(results);
   });
 });
+
+function getUtenteByEmailFromDatabase(email, callback) {
+  // Query SQL per cercare l'utente per email
+  const query = 'SELECT * FROM Utente WHERE email = ?';
+
+  // Esegui la query con l'email come parametro
+  db.query(query, [email], (err, results) => {
+    if (err) {
+      callback(err, null);
+    } else {
+       console.log("Se l'utente è stato trovato, results conterrà l'array degli utenti corrispondenti")
+      // Poiché email dovrebbe essere unico, dovresti avere solo 0 o 1 risultato
+      if (results.length === 1) {
+        const utente = results[0];
+        console.log("utente è "+results[0].cognome);
+        callback(null, utente);
+      } else {
+        console.log("utente non trovato");
+        // Nessun utente trovato con questa email
+        callback(null, null);
+      }
+    }
+  });
+}

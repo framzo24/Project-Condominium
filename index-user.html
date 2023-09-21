@@ -175,9 +175,8 @@
             <a id="link" href="/condominium-fee-payments" type="button">Pagamenti rette condominiali</a>
             <a id="link" href="/budget-previous-years" type="button">Bilancio anni precedenti</a>
             <a id="link" href="/future-projects" type="button">Progetti futuri</a>
-            <a id="link" href="/family" type="button">Famiglie</a>
-            <a id="link" href="/reunions" type="button">Riunioni</a>
             <a id="link" href="/notifications" type="button">Notifiche</a>
+            <a id="link" href="/reunions" type="button">Riunioni</a>
             <a href="javascript:void(0);" class="closebtn" onclick="closeNavbar()">&times;</a>
         </div>
 
@@ -192,13 +191,35 @@
         </div>
 
     </div>
+
+    <div class="container-admin">
+        <div class="profile-section">
+            <div class="photo" style="text-align: center;align-items: center;">
+                Foto
+            </div>
+            <div class="profile-details">
+            </div>
+
+        </div>
+
+        <div class="data-table">
+            <h2>Utente familiare</h2>
+        </div>
+
+        <div class="charts">
+            <!-- Grafici a torta e cartesiani -->
+        </div>
+    </div>
+
     <script>
         
         function populateProfileDetails() {
             // Recupera i dati dell'utente dalla sessionStorage
             var userData = JSON.parse(sessionStorage.getItem("user"));
-
+            console.log(userData);
+            console.log(sessionStorage.getItem("user"));
             if (userData) {
+                console.log("userdata c'è");
                 var email = userData.email;
                 var cognome = userData.cognome;
                 var p_iva = userData.p_iva;
@@ -258,27 +279,6 @@
             })
             .catch(error => console.error('Error fetching data:', error));
     </script>
-
-    <div class="container-admin">
-        <div class="profile-section">
-            <div class="photo" style="text-align: center;align-items: center;">
-                Foto
-            </div>
-            <div class="profile-details">
-            </div>
-            <img src="elon.jpg" alt="Amministratore">
-
-        </div>
-
-        <div class="data-table">
-            <h2>Utente familiare</h2>
-        </div>
-
-        <div class="charts">
-            <!-- Grafici a torta e cartesiani -->
-        </div>
-    </div>
-
 </body>
 
 </html>

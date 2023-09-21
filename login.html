@@ -110,33 +110,49 @@
 </body>
 <script>
     document.getElementById('loginForm').addEventListener('submit', function (event) {
-        // event.preventDefault(); // Evita che il modulo venga inviato normalmente
+        event.preventDefault(); // Evita che il modulo venga inviato normalmente
 
         // Recupera il valore dell'email inserita nel form
         var email = document.getElementById('email').value;
 
         // Esegui una richiesta GET al server per ottenere le informazioni dell'utente
+
         fetch('/getUserIdByEmail?email=' + email)
             .then(response => response.json())
             .then(data => {
-                if (data.length > 0) {
-                // Prendi solo il primo elemento dell'array (o il risultato desiderato)
-                var user = data[0];
-
-                // Puoi fare qualcosa con i dati dell'utente, ad esempio salvarli in sessionStorage
-                sessionStorage.setItem('user', JSON.stringify(user));
-
-                console.log(sessionStorage.getItem("user"));
-                // Esegui il reindirizzamento o altre azioni necessarie
-                // ...
-            } else {
-                console.log('Nessun utente trovato con questa email.');
-            }
+                if (data.length > 0 && data[0].email === email) {
+                    sessionStorage.setItem("user", JSON.stringify(data[0]));
+                    console.log(sessionStorage.getItem("user"));
+                    
+                } else {
+                    console.log('Nessun utente trovato con questa email.');
+                }
             })
             .catch(error => {
                 console.error('Errore nella richiesta al server:', error);
             });
-            alert("Login effettuato");
+
+        // fetch('/getUserIdByEmail?email=' + email)
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         if (data.length > 0) {
+        //         // Prendi solo il primo elemento dell'array (o il risultato desiderato)
+        //         var user = data[0];
+
+        //         // Puoi fare qualcosa con i dati dell'utente, ad esempio salvarli in sessionStorage
+        //         sessionStorage.setItem('user', JSON.stringify(user));
+
+        //         console.log(sessionStorage.getItem("user"));
+        //         // Esegui il reindirizzamento o altre azioni necessarie
+        //         // ...
+        //     } else {
+        //         console.log('Nessun utente trovato con questa email.');
+        //     }
+        //     })
+        //     .catch(error => {
+        //         console.error('Errore nella richiesta al server:', error);
+        //     });
+        //     alert("Login effettuato");
     });
 
 
