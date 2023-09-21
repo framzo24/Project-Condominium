@@ -219,7 +219,7 @@
                      <!-- Aggiungi altre righe della tabella qui -->
                 </tbody>
             </table>
-            
+
     </div>
 
 
@@ -249,6 +249,15 @@
             document.getElementById(formId).style.display = "block";
         }
 
+        // Funzione per formattare la data in "gg/mm/aaaa"
+        function formattaData(data) {
+            const dataObj = new Date(data);
+            const giorno = String(dataObj.getDate()).padStart(2, '0');
+            const mese = String(dataObj.getMonth() + 1).padStart(2, '0'); // Mese è 0-based
+            const anno = dataObj.getFullYear();
+            return `${giorno}/${mese}/${anno}`;
+        }
+
         function populateTable(datiNotifiche) {
 
 
@@ -273,7 +282,7 @@
                     <tr>
                         <td>${notifica.id}</td>
                         <td>${notifica.tipologia}</td>
-                        <td>${notifica.data}</td>
+                        <td>${formattaData(notifica.data)}</td>
                         <td>${notifica.descrizione}</td>
                         <td>${notifica.utente_id}</td>
                     </tr>
