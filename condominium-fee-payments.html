@@ -115,7 +115,6 @@
     }
 
     select {
-      /* Sezione del filtraggio */
       padding: 5px;
     }
 
@@ -129,11 +128,9 @@
     }
 
     .button-header a {
-      /* padding: 8px 8px 8px 32px; */
       text-decoration: none;
       font-size: 25px;
       color: black;
-      /* display: block; */
       transition: 0.3s;
       background-color: white;
       border-radius: 10px;
@@ -162,14 +159,12 @@
       justify-content: space-between;
       align-items: center;
       height: 100%;
-      /* margin-top: 20px; */
       margin-bottom: 20px;
       padding: 0px;
     }
 
     .card {
       width: calc(33% - 10px);
-      /* 25% per quattro card e -10px per la spaziatura */
       height: 50px;
       background-color: #f0f0f0;
       border: 1px solid #ccc;
@@ -454,9 +449,9 @@
     });
 
     function populateTable(datiPagamenti) {
-      const table = document.getElementById('pagamenti-table').getElementsByTagName('tbody')[0]; // Assumi che l'elemento HTML della tabella abbia l'ID 'pagamenti-table'
+      // Assumiamo che l'elemento HTML della tabella abbia l'ID 'pagamenti-table'
+      const table = document.getElementById('pagamenti-table').getElementsByTagName('tbody')[0]; 
       let tableRows = '';
-      // Crea l'intestazione della tabella
       const tableHeader = `
         <thead>
           <tr>
@@ -471,7 +466,6 @@
         </thead>
       `;
 
-      // Crea le righe della tabella con i dati recuperati
       datiPagamenti.map(pagamento =>{
         const rowdata= `
           <tr>
@@ -487,14 +481,12 @@
         tableRows += rowdata;
        });
 
-      // Aggiungi l'intestazione e le righe alla tabella
       table.innerHTML = tableHeader + tableRows;
     }
 
     
-    /// Esempio di chiamata a getPagamentiFromDatabase() all'avvio della pagina
+    /// Chiamata a getPagamentiFromDatabase() all'avvio della pagina
     window.addEventListener('load', () => {
-      // Nella tua pagina HTML
       fetch('/pagamenti')
         .then((response) => {
           if (!response.ok) {
@@ -503,7 +495,6 @@
           return response.json();
         })
         .then((datiPagamenti) => {
-          // Popola la tabella con i dati recuperati
           populateTable(datiPagamenti);
         })
         .catch((error) => {
@@ -512,7 +503,7 @@
 
     });
 
-    // Funzione per formattare la data in "gg/mm/aaaa"
+    // Formattare la data in "gg/mm/aaaa"
     function formattaData(data) {
       const dataObj = new Date(data);
       const giorno = String(dataObj.getDate()).padStart(2, '0');
@@ -533,7 +524,6 @@
     const confermaModifica = document.getElementById('confermaModifica');
     if (confermaModifica) {
       confermaModifica.addEventListener("click", function () {
-        // Raccogli i dati dal form
         const idPagamento = document.getElementById("idPagamento").value;
         const data = document.getElementById("data").value;
         const descrizione = document.getElementById("descrizione").value;
@@ -555,10 +545,9 @@
         })
           .then(response => {
             if (response.ok) {
-              // Aggiornamento riuscito, chiudi il form di modifica
               document.getElementById("modificaPagamentoForm").style.display = "none";
-              // Esegui una nuova richiesta per ottenere i dati aggiornati dei pagamenti
-            fetch('/pagamenti')  // Utilizza lo stesso endpoint
+              // Esegue una nuova richiesta per ottenere i dati aggiornati dei pagamenti
+            fetch('/pagamenti')
               .then(response => {
                 if (!response.ok) {
                   throw new Error('Errore nella richiesta per ottenere i dati aggiornati');
@@ -566,14 +555,12 @@
                 return response.json();
               })
               .then(datiPagamenti => {
-                // Aggiorna la tabella con i nuovi dati
                 populateTable(datiPagamenti);
               })
               .catch(error => {
                 console.error('Errore durante la richiesta per ottenere i dati aggiornati:', error);
               });
             } else {
-              // Gestisci un errore nell'aggiornamento
               console.error('Errore nell\'aggiornamento del pagamento');
             }
           })
@@ -600,9 +587,7 @@
     }
 
 
-    // Aggiungi un evento di ascolto al modulo di inserimento del pagamento
   document.getElementById("form").addEventListener("submit", function (e) {
-  //e.preventDefault(); // Evita l'invio del modulo (gestirai l'invio tramite AJAX)
 
   const data = document.getElementById("data").value;
   const descrizione = document.getElementById("descrizione").value;
@@ -617,8 +602,6 @@
       prezzo:prezzo
     }
 
-  // Invia i dati al server per l'inserimento del pagamento
- // Invia i dati al server per l'inserimento del pagamento
 fetch('/insert_payment', {
   method: 'POST',
   headers: {
@@ -642,7 +625,6 @@ fetch('/insert_payment', {
 
 
     document.getElementById("form").addEventListener("submit", function (e) {
-      // e.preventDefault(); // Evita l'invio del form (gestirai l'invio tramite Ajax)
 
       document.getElementById("form-container").style.display = "none";
       document.getElementById("form-container1").style.display = "none";
@@ -652,7 +634,6 @@ fetch('/insert_payment', {
 
     function doLogout() {
       sessionStorage.clear();
-      console.log("ECCO: "+sessionStorage.getItem("user"));
     };
   </script>
 

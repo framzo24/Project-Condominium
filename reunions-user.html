@@ -5,7 +5,7 @@
 <html>
 
 <head>
-    <title>Pagina delle riunioni</title>
+    <title>Riunioni</title>
     <style>
         body {
             margin: 0;
@@ -20,7 +20,6 @@
             height: 50px;
             padding: 20px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-
         }
 
         .header .hamburger {
@@ -125,7 +124,6 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            /* margin-top: 40px; */
         }
 
         th,
@@ -312,15 +310,12 @@
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth', // Vista predefinita (puoi cambiarla)
+                initialView: 'dayGridMonth',
                 events: '/riunioni'
                 });
 
             calendar.render();
         });
     </script>
-
 </body>
-
 </html>
-<!-- calendario e tabella, se clicchi viene la descrizione della riunione e infondo alla tabella c'è scarca verbale e per l'amministratore anche un tasto dove può aggiugere il verbale -->

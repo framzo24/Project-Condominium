@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Pagina con Footer, Header e Navbar</title>
+    <title>Bilanci</title>
     <style>
         body {
             margin: 0;
@@ -120,8 +120,8 @@
         }
 
         #pdfInput {
-            padding: 10px; /* Aggiungi spazio intorno al pulsante */
-            font-size: 18px; /* Aumenta la dimensione del testo */
+            padding: 10px;
+            font-size: 18px;
                 }
     </style>
 </head>
@@ -170,7 +170,6 @@
             <li id="bilancio-2018">Bilancio anno 2018</li>
             <li id="bilancio-2019">Bilancio anno 2019</li>
             <li id="bilancio-2020">Bilancio anno 2020</li>
-            <!-- Aggiungi altri anni qui -->
         </ul>
     </div>
 
@@ -184,15 +183,14 @@
     </footer>
 
     <script>
-        // Aggiungi un gestore di eventi a ciascun elemento dell'elenco dei bilanci
         const bilanciList = document.getElementById('bilanci-list');
         const pdfPreview = document.getElementById('pdf-preview');
 
         bilanciList.addEventListener('click', (event) => {
-            // Ottieni l'ID dell'elemento cliccato
+            // ID dell'elemento cliccato
             const clickedId = event.target.id;
 
-            // Costruisci il percorso del file PDF in base all'ID
+            // Percorso del file PDF in base all'ID
             const pdfPath = `./pdf/${clickedId.replace('bilancio-', '')}.pdf`;
 
             // Visualizza l'anteprima del PDF nell'elemento di anteprima
@@ -217,9 +215,9 @@
         const pdfInput = document.getElementById("pdfInput");
         const uploadPdfButton = document.getElementById("uploadPdfButton");
 
-         // Aggiungi un gestore di eventi per l'elemento input file per catturare la selezione di un file
+         // Gestore di eventi per l'elemento input file per catturare la selezione di un file
          pdfInput.addEventListener("change", function () {
-            // Qui puoi gestire l'evento di selezione del file, ad esempio, visualizzare il nome del file selezionato
+            // Gestione dell'evento di selezione del file
             const selectedFile = pdfInput.files[0];
             if (selectedFile) {
                 console.log("File selezionato:", selectedFile.name);
@@ -232,9 +230,8 @@
                 if (pdfInput.files.length > 0) {
                     const selectedPdfFile = pdfInput.files[0];
 
-                    // Puoi utilizzare "selectedPdfFile" per ottenere il file selezionato e inviarlo al server tramite una richiesta AJAX o una fetch.
-                    // Ad esempio:
                     const formData = new FormData();
+                    // Utilizziamo "selectedPdfFile" per ottenere il file selezionato e inviarlo al server tramite una richiesta fetch.
                     formData.append("pdfFile", selectedPdfFile);
 
                     fetch("/upload-pdf", {
@@ -248,9 +245,8 @@
                             return response.json();
                         })
                         .then((responseJson) => {
-                            // Il PDF è stato caricato con successo, puoi fare qualcos'altro qui se necessario
                             console.log("PDF caricato con successo:", responseJson);
-                            // Aggiungi il nuovo bilancio all'elenco
+                            // Aggiunge il nuovo bilancio all'elenco
                             const nextId = bilanciList.getAttribute("data-next-id");
                             const newBilancio = document.createElement('li');
                             newBilancio.id = `bilancio-${nextId}`;
@@ -273,13 +269,12 @@
             });
         }
 
-            // Aggiungi un gestore di eventi per l'elemento input file per catturare la selezione di un file
     pdfInput.addEventListener("change", function () {
         // Verifica se è stato selezionato un file
         if (pdfInput.files.length > 0) {
             const selectedPdfFile = pdfInput.files[0];
 
-            // Puoi utilizzare "selectedPdfFile" per ottenere il file selezionato e visualizzarlo nell'anteprima
+            // Utilizziamo "selectedPdfFile" per ottenere il file selezionato e visualizzarlo nell'anteprima
             const pdfPath = URL.createObjectURL(selectedPdfFile);
             pdfPreview.innerHTML = `<embed src="${pdfPath}" type="application/pdf" width="100%" height="600px" />`;
 

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Pagina con Footer, Header e Navbar</title>
+    <title>Bilanci</title>
     <style>
         body {
             margin: 0;
@@ -120,8 +120,8 @@
         }
 
         #pdfInput {
-            padding: 10px; /* Aggiungi spazio intorno al pulsante */
-            font-size: 18px; /* Aumenta la dimensione del testo */
+            padding: 10px;
+            font-size: 18px;
                 }
     </style>
 </head>
@@ -170,7 +170,6 @@
             <li id="bilancio-2018">Bilancio anno 2018</li>
             <li id="bilancio-2019">Bilancio anno 2019</li>
             <li id="bilancio-2020">Bilancio anno 2020</li>
-            <!-- Aggiungi altri anni qui -->
         </ul>
     </div>
 
@@ -184,15 +183,14 @@
     </footer>
 
     <script>
-        // Aggiungi un gestore di eventi a ciascun elemento dell'elenco dei bilanci
         const bilanciList = document.getElementById('bilanci-list');
         const pdfPreview = document.getElementById('pdf-preview');
 
         bilanciList.addEventListener('click', (event) => {
-            // Ottieni l'ID dell'elemento cliccato
+            // l'ID dell'elemento cliccato
             const clickedId = event.target.id;
 
-            // Costruisci il percorso del file PDF in base all'ID
+            // Ppercorso del file PDF in base all'ID
             const pdfPath = `./pdf/${clickedId.replace('bilancio-', '')}.pdf`;
 
             // Visualizza l'anteprima del PDF nell'elemento di anteprima

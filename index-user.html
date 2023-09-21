@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Pagina principale</title>
+    <title>Pagina principale Utente</title>
     <style>
         body {
             margin: 0;
@@ -141,11 +141,7 @@
         .button-header {
             justify-content: end;
             float: right;
-            /* color: white; */
             height: auto;
-            /* padding: 5px; */
-            /* background-color: white; */
-            /* border: 1px solid #ccc; */
             border-radius: 5px;
             justify-content: center;
             align-items: center;
@@ -156,7 +152,6 @@
         .profile-section {
             display: flex;
             width: 100%;
-            /* border: 1px solid black; */
         }
 
         .profile-details {
@@ -185,8 +180,6 @@
         </div>
         <div class="button-header">
             <a id="link" href="/home" type="button">home</a>
-            <!-- <a id="link" href="/login" type="button">accedi</a>
-            <a id="button" href="/registration" type="button">registrati</a> -->
             <a id="button" href="/logout" type="button">logout</a>
         </div>
 
@@ -205,10 +198,6 @@
         <div class="data-table">
             <h2>Utente familiare</h2>
         </div>
-
-        <div class="charts">
-            <!-- Grafici a torta e cartesiani -->
-        </div>
     </div>
 
     <script>
@@ -216,18 +205,15 @@
         function populateProfileDetails() {
             // Recupera i dati dell'utente dalla sessionStorage
             var userData = JSON.parse(sessionStorage.getItem("user"));
-            console.log(userData);
-            console.log(sessionStorage.getItem("user"));
             if (userData) {
                 console.log("userdata c'è");
                 var email = userData.email;
                 var cognome = userData.cognome;
                 var p_iva = userData.p_iva;
 
-                // Ottieni il div "profile-details"
                 var profileDetails = document.querySelector('.profile-details');
 
-                // Crea gli elementi e inserisci i dati
+                // Crea gli elementi e inserisce i dati
                 var emailElement = document.createElement('p');
                 emailElement.textContent = 'Email: ' + email;
                 profileDetails.appendChild(emailElement);
@@ -291,5 +277,3 @@
 </body>
 
 </html>
-
-<!-- vede icone dei suoi appartamenti e se clicca vede info famiglie dentro ci sarà un tasto aggiungifamiglia/modifica -->
