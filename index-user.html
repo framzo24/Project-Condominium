@@ -150,15 +150,24 @@
         }
 
         .profile-section {
-            display: flex;
             width: 100%;
         }
 
         .profile-details {
-            padding-left: 50px;
-            padding-top: 10px;
             display: grid;
             align-content: stretch;
+        }
+        .grid-item {
+            display: flex;
+        }
+
+        .grid-item a {
+            text-decoration: none;
+            color: black;
+        }
+
+        h2 {
+            margin-top: 0px;
         }
     </style>
 </head>
@@ -187,16 +196,16 @@
 
     <div class="container-admin">
         <div class="profile-section">
-            <div class="photo" style="text-align: center;align-items: center;">
-                Foto
+            <div class="titolo">
+                <h1>Informazioni personali</h1>
             </div>
             <div class="profile-details">
             </div>
 
         </div>
-
-        <div class="data-table">
-            <h2>Utente familiare</h2>
+        <br>
+        <div id="grid-container">
+            <!-- Spazio che viene aggiornato dinamicamente -->
         </div>
     </div>
 
@@ -206,7 +215,6 @@
             // Recupera i dati dell'utente dalla sessionStorage
             var userData = JSON.parse(sessionStorage.getItem("user"));
             if (userData) {
-                console.log("userdata c'è");
                 var email = userData.email;
                 var cognome = userData.cognome;
                 var p_iva = userData.p_iva;
@@ -244,26 +252,47 @@
             document.getElementById("hamburger").style.display = "";
         }
 
-        fetch('/condominio')
-            .then(Response => Response.json())
-            .then(data => {
-                const tableBody = document.getElementById('table-body');
+        function populateGrid(condominiArray) {
+            const gridContainer = document.getElementById('grid-container');
 
-                data.forEach(condominio => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                    <td>${condominio.id}</td>
-                    <td>${condominio.nome}</td>
-                    <td>${condominio.indirizzo}</td>
-                    <td>${condominio.n_piani}</td>
-                    <td>${condominio.n_appartamenti}</td>
-                    <td>${condominio.cantine ? 'Si' : 'No'}</td>
-                    <td>${condominio.garage ? 'Si' : 'No'}</td>
-                    `;
-                    tableBody.appendChild(row);
+            condominiArray.forEach((condominio) => {
+                const gridItem = document.createElement('div');
+                gridItem.classList.add('grid-item');
+
+                // Creazione del contenuto del singolo elemento della griglia
+                const imagesPath = "foto"
+                const content = `
+                <img src="./images/${imagesPath.replace('foto', condominio.nome)}.jpg" height="200px" >
+                <div style="margin-left:20px">
+                <a href="/family?condominio_id=${condominio.id}"><h2>${condominio.nome}</h2></a>
+                <p>Indirizzo: ${condominio.indirizzo}</p>
+                <p>Numero Piani: ${condominio.n_piani}</p>
+                <p>Numero Appartamenti: ${condominio.n_appartamenti}</p>
+                <p>Cantine: ${condominio.cantine ? 'Sì' : 'No'}</p>
+                <p>Garage: ${condominio.garage ? 'Sì' : 'No'}</p>
+                </div>
+                `;
+
+                gridItem.innerHTML = content;
+                gridContainer.appendChild(gridItem);
+            });
+        }
+
+        window.addEventListener('load', () => {
+            fetch('/condomini')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Errore nella richiesta');
+                    }
+                    return response.json();
+                })
+                .then((condominiArray) => {
+                    populateGrid(condominiArray);
+                })
+                .catch((error) => {
+                    console.error('Errore durante la richiesta al server:', error);
                 });
-            })
-            .catch(error => console.error('Error fetching data:', error));
+        });
     </script>
 </body>
 

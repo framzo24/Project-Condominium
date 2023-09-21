@@ -307,9 +307,9 @@
       <div class="form-container" id="form-container">
         <h3>Nuovo Pagamento</h3>
         <form id="form" action="/insert_payment" method="post">
-          <input type="date" name="data" placeholder="Data" required>
-          <input type="text" name="descrizione" placeholder="Descrizione" required>
-          <input type="text" name="codice_identificativo" placeholder="Codice identificativo" required>
+          <input type="date" id="data" name="data" placeholder="Data" required>
+          <input type="text" id="descrizione" name="descrizione" placeholder="Descrizione" required>
+          <input type="text" id="codiceIdentificativo" name="codice_identificativo" placeholder="Codice identificativo" required>
           <input type="number" name="prezzo" step="0.01" placeholder="Prezzo" required>
           <button type="submit">Inserisci</button>
         </form>
@@ -591,7 +591,7 @@
 
   const data = document.getElementById("data").value;
   const descrizione = document.getElementById("descrizione").value;
-  const codice_identificativo = document.getElementById("codice_identificativo").value;
+  const codice_identificativo = document.getElementById("codiceIdentificativo").value;
   const prezzo = document.getElementById("prezzo").value;
 
     // Crea un oggetto con i dati da inviare al server

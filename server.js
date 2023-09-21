@@ -205,10 +205,8 @@ app.get('/logout', (req, res) => {
 
 app.post('/insert_payment', (req, res) => {
   const { data, descrizione, codice_identificativo, prezzo } = req.body;
-  const condominio_id = 1;
-  console.log(req.body);
-  //const utente_id = (JSON.parse(sessionStorage.getItem("user")).id);
-  const utente_id=1;
+  const condominio_id = 4;
+  const utente_id = 2;
   const insertQuery = 'INSERT INTO Pagamento (data, descrizione, codice_identificativo, importo, condominio_id, utente_id) VALUES (?, ?, ?, ?, ?, ?)';
   db.query(insertQuery, [data, descrizione, codice_identificativo, prezzo, condominio_id, utente_id], (err, result) => {
     if (err) {
@@ -261,7 +259,7 @@ app.post('/delete_payment', (req, res) => {
 
 app.post('/crea-progetto', (req, res) => {
   const { dataInizio, dataFine, nome, descrizione } = req.body;
-  const condominioId = 1;
+  const condominioId = 3;
   const insertQuery = 'INSERT INTO Progetto_Futuro (data_inizio, data_fine, nome, descrizione, condominio_id) VALUES (?, ?, ?, ?, ?)';
   db.query(insertQuery, [dataInizio, dataFine, nome, descrizione, condominioId], (err, result) => {
     if (err) {
@@ -558,7 +556,6 @@ app.get('/getUserIdByEmail', (req, res) => {
       console.error('Errore durante il recupero dell\'utente:', err);
       res.status(500).send('Errore durante il recupero dell\'utente');
     } else if (datiUtente) {
-      console.log("utente trovato con questi dati" + datiUtente.cognome);
       res.json(datiUtente);
     } else {
       res.status(404).send('Nessun utente trovato con questa email nel server');

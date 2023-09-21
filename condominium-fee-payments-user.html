@@ -268,7 +268,7 @@
     <div>
       <p class="title-page">Pagamenti rette condominiali</p>
     </div>
-<!-- 
+
     <label for="filter">Filtra per:</label>
     <select id="filter">
       <option value=""></option>
@@ -339,7 +339,7 @@
           <button type="submit">Conferma</button>
         </form>
       </div>
-    </div> -->
+    </div>
 
     <table id="pagamenti-table">
       <thead>
@@ -366,86 +366,86 @@
       document.getElementById("hamburger").style.display = "";
     }
 
-    // function openFormPayment() {
-    //   document.getElementById("form-container").style.display = "block";
-    //   document.getElementById("form-container1").style.display = "none";
-    //   document.getElementById("form-container2").style.display = "none";
-    // }
+    function openFormPayment() {
+      document.getElementById("form-container").style.display = "block";
+      document.getElementById("form-container1").style.display = "none";
+      document.getElementById("form-container2").style.display = "none";
+    }
 
-    // function openForm1Payment() {
-    //   document.getElementById("form-container").style.display = "none";
-    //   document.getElementById("form-container1").style.display = "block";
-    //   document.getElementById("form-container2").style.display = "none";
-    // }
+    function openForm1Payment() {
+      document.getElementById("form-container").style.display = "none";
+      document.getElementById("form-container1").style.display = "block";
+      document.getElementById("form-container2").style.display = "none";
+    }
 
-    // function openForm2Payment() {
-    //   document.getElementById("form-container").style.display = "none";
-    //   document.getElementById("form-container1").style.display = "none";
-    //   document.getElementById("form-container2").style.display = "block";
-    // }
-
-
-    // document.addEventListener("DOMContentLoaded", function () {
-    //   const filterSelect = document.getElementById("filter");
-    //   const datePicker = document.getElementById("datePicker");
-    //   const inputField = document.getElementById("inputField");
-    //   const codeInput = document.getElementById("codeInput");
-    //   const table = document.getElementById("pagamenti-table").getElementsByTagName('tbody')[0];
-
-    //   filterSelect.addEventListener("change", function () {
-    //     const selectedValue = filterSelect.value;
-
-    //     datePicker.style.display = selectedValue === "data" ? "block" : "none";
-    //     inputField.style.display = selectedValue !== "data" && selectedValue !== "codice" ? "block" : "none";
-    //     codeInput.style.display = selectedValue === "codice" ? "block" : "none";
-    //   });
-
-    //   function filterTable() {
-    //     const filterValue = inputField.querySelector("input").value.toLowerCase();
-    //     const codeValue = codeInput.querySelector("input").value.toLowerCase();
-    //     const dateValue = datePicker.querySelector("input").value;
-    //     console.log("controllo");
-
-    //     for (let row of table.rows) {
-
-    //       const ID = row.cells[0].textContent.toLowerCase();
-    //       const Data = row.cells[1].textContent.toLowerCase();
-    //       const Descrizione = row.cells[2].textContent.toLowerCase();
-    //       const CodiceIdentificativo = row.cells[3].textContent.toLowerCase();
-    //       const Importo = row.cells[4].textContent.toLowerCase();
-    //       const CondominioID = row.cells[5].textContent.toLowerCase();
-    //       const UtenteID = row.cells[6].textContent.toLowerCase();
+    function openForm2Payment() {
+      document.getElementById("form-container").style.display = "none";
+      document.getElementById("form-container1").style.display = "none";
+      document.getElementById("form-container2").style.display = "block";
+    }
 
 
-    //       if (
-    //         (description.includes(filterValue) || sender.includes(filterValue)) &&
-    //         code.includes(codeValue) &&
-    //         (dateValue === "" || data === dateValue)
-    //       ) {
-    //         row.style.display = "block";
-    //       } else {
-    //         row.style.display = "none";
-    //       }
-    //     }
-    //   }
+    document.addEventListener("DOMContentLoaded", function () {
+      const filterSelect = document.getElementById("filter");
+      const datePicker = document.getElementById("datePicker");
+      const inputField = document.getElementById("inputField");
+      const codeInput = document.getElementById("codeInput");
+      const table = document.getElementById("pagamenti-table").getElementsByTagName('tbody')[0];
 
-    //   // Associa gli eventi ai pulsanti di invio
-    //   const submitButtonDate = document.getElementById("submitButtonDate");
-    //   const submitButtonValore = document.getElementById("submitButtonValore");
-    //   const submitButtonCodIdent = document.getElementById("submitButtonCodIdent");
+      filterSelect.addEventListener("change", function () {
+        const selectedValue = filterSelect.value;
 
-    //   submitButtonDate.addEventListener("click", function () {
-    //     filterTable();
-    //   });
+        datePicker.style.display = selectedValue === "data" ? "block" : "none";
+        inputField.style.display = selectedValue !== "data" && selectedValue !== "codice" ? "block" : "none";
+        codeInput.style.display = selectedValue === "codice" ? "block" : "none";
+      });
 
-    //   submitButtonValore.addEventListener("click", function () {
-    //     filterTable();
-    //   });
+      function filterTable() {
+        const filterValue = inputField.querySelector("input").value.toLowerCase();
+        const codeValue = codeInput.querySelector("input").value.toLowerCase();
+        const dateValue = datePicker.querySelector("input").value;
+        console.log("controllo");
 
-    //   submitButtonCodIdent.addEventListener("click", function () {
-    //     filterTable();
-    //   });
-    // });
+        for (let row of table.rows) {
+
+          const ID = row.cells[0].textContent.toLowerCase();
+          const Data = row.cells[1].textContent.toLowerCase();
+          const Descrizione = row.cells[2].textContent.toLowerCase();
+          const CodiceIdentificativo = row.cells[3].textContent.toLowerCase();
+          const Importo = row.cells[4].textContent.toLowerCase();
+          const CondominioID = row.cells[5].textContent.toLowerCase();
+          const UtenteID = row.cells[6].textContent.toLowerCase();
+
+
+          if (
+            (description.includes(filterValue) || sender.includes(filterValue)) &&
+            code.includes(codeValue) &&
+            (dateValue === "" || data === dateValue)
+          ) {
+            row.style.display = "block";
+          } else {
+            row.style.display = "none";
+          }
+        }
+      }
+
+      // Associa gli eventi ai pulsanti di invio
+      const submitButtonDate = document.getElementById("submitButtonDate");
+      const submitButtonValore = document.getElementById("submitButtonValore");
+      const submitButtonCodIdent = document.getElementById("submitButtonCodIdent");
+
+      submitButtonDate.addEventListener("click", function () {
+        filterTable();
+      });
+
+      submitButtonValore.addEventListener("click", function () {
+        filterTable();
+      });
+
+      submitButtonCodIdent.addEventListener("click", function () {
+        filterTable();
+      });
+    });
 
     function populateTable(datiPagamenti) {
       // Assumiamo che l'elemento HTML della tabella abbia l'ID 'pagamenti-table'
@@ -520,58 +520,58 @@
       document.getElementById("modificaPagamentoForm").style.display = "block";
     }
 
-    // const confermaModifica = document.getElementById('confermaModifica');
-    // if (confermaModifica) {
-    //   confermaModifica.addEventListener("click", function () {
-    //     // Raccogli i dati dal form
-    //     const idPagamento = document.getElementById("idPagamento").value;
-    //     const data = document.getElementById("data").value;
-    //     const descrizione = document.getElementById("descrizione").value;
-    //     const codiceIdentificativo = document.getElementById("codiceIdentificativo").value;
-    //     const importo = document.getElementById("importo").value;
-    //     // Invia i dati al server per l'aggiornamento
-    //     fetch('/aggiorna-pagamento', {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       },
-    //       body: JSON.stringify({
-    //         idPagamento,
-    //         data,
-    //         descrizione,
-    //         codiceIdentificativo,
-    //         importo
-    //       })
-    //     })
-    //       .then(response => {
-    //         if (response.ok) {
-    //           // Aggiornamento riuscito, chiudi il form di modifica
-    //           document.getElementById("modificaPagamentoForm").style.display = "none";
-    //           // Esegui una nuova richiesta per ottenere i dati aggiornati dei pagamenti
-    //         fetch('/pagamenti')  // Utilizza lo stesso endpoint
-    //           .then(response => {
-    //             if (!response.ok) {
-    //               throw new Error('Errore nella richiesta per ottenere i dati aggiornati');
-    //             }
-    //             return response.json();
-    //           })
-    //           .then(datiPagamenti => {
-    //             // Aggiorna la tabella con i nuovi dati
-    //             populateTable(datiPagamenti);
-    //           })
-    //           .catch(error => {
-    //             console.error('Errore durante la richiesta per ottenere i dati aggiornati:', error);
-    //           });
-    //         } else {
-    //           // Gestisci un errore nell'aggiornamento
-    //           console.error('Errore nell\'aggiornamento del pagamento');
-    //         }
-    //       })
-    //       .catch(error => {
-    //         console.error('Errore di rete:', error);
-    //       });
-    //   });
-    // }
+    const confermaModifica = document.getElementById('confermaModifica');
+    if (confermaModifica) {
+      confermaModifica.addEventListener("click", function () {
+        // Raccogli i dati dal form
+        const idPagamento = document.getElementById("idPagamento").value;
+        const data = document.getElementById("data").value;
+        const descrizione = document.getElementById("descrizione").value;
+        const codiceIdentificativo = document.getElementById("codiceIdentificativo").value;
+        const importo = document.getElementById("importo").value;
+        // Invia i dati al server per l'aggiornamento
+        fetch('/aggiorna-pagamento', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            idPagamento,
+            data,
+            descrizione,
+            codiceIdentificativo,
+            importo
+          })
+        })
+          .then(response => {
+            if (response.ok) {
+              // Aggiornamento riuscito, chiudi il form di modifica
+              document.getElementById("modificaPagamentoForm").style.display = "none";
+              // Esegui una nuova richiesta per ottenere i dati aggiornati dei pagamenti
+            fetch('/pagamenti')  // Utilizza lo stesso endpoint
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Errore nella richiesta per ottenere i dati aggiornati');
+                }
+                return response.json();
+              })
+              .then(datiPagamenti => {
+                // Aggiorna la tabella con i nuovi dati
+                populateTable(datiPagamenti);
+              })
+              .catch(error => {
+                console.error('Errore durante la richiesta per ottenere i dati aggiornati:', error);
+              });
+            } else {
+              // Gestisci un errore nell'aggiornamento
+              console.error('Errore nell\'aggiornamento del pagamento');
+            }
+          })
+          .catch(error => {
+            console.error('Errore di rete:', error);
+          });
+      });
+    }
 
     function caricaDatiPagamenti(){
       fetch('/pagamenti')
@@ -590,55 +590,55 @@
     }
 
 
-//     // Aggiungi un evento di ascolto al modulo di inserimento del pagamento
-//   document.getElementById("form").addEventListener("submit", function (e) {
-//   //e.preventDefault(); // Evita l'invio del modulo (gestirai l'invio tramite AJAX)
+    // Aggiungi un evento di ascolto al modulo di inserimento del pagamento
+  document.getElementById("form").addEventListener("submit", function (e) {
+  //e.preventDefault(); // Evita l'invio del modulo (gestirai l'invio tramite AJAX)
 
-//   const data = document.getElementById("data").value;
-//   const descrizione = document.getElementById("descrizione").value;
-//   const codice_identificativo = document.getElementById("codice_identificativo").value;
-//   const prezzo = document.getElementById("prezzo").value;
+  const data = document.getElementById("data").value;
+  const descrizione = document.getElementById("descrizione").value;
+  const codice_identificativo = document.getElementById("codice_identificativo").value;
+  const prezzo = document.getElementById("prezzo").value;
 
-//     // Crea un oggetto con i dati da inviare al server
-//     const paymentData = {
-//       data:data,
-//       descrizione:descrizione,
-//       codice_identificativo: codice_identificativo,
-//       prezzo:prezzo
-//     }
+    // Crea un oggetto con i dati da inviare al server
+    const paymentData = {
+      data:data,
+      descrizione:descrizione,
+      codice_identificativo: codice_identificativo,
+      prezzo:prezzo
+    }
 
-//   // Invia i dati al server per l'inserimento del pagamento
-//  // Invia i dati al server per l'inserimento del pagamento
-// fetch('/insert_payment', {
-//   method: 'POST',
-//   headers: {
-//     'Content-Type': 'application/json'
-//   },
-//   body: JSON.stringify(paymentData)
-// })
-//   .then((response) => {
-//     if (!reponse.ok) {
-//       throw new Error('Errore nella richiesta');
-//     }
-//   })
-//   .catch(error => {
-//     console.error('Errore durante la richiesta al server:', error);
-//   });
-//   document.getElementById("form").style.display="none";
-//   caricaDatiPagamenti();
-// });
+  // Invia i dati al server per l'inserimento del pagamento
+ // Invia i dati al server per l'inserimento del pagamento
+fetch('/insert_payment', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(paymentData)
+})
+  .then((response) => {
+    if (!reponse.ok) {
+      throw new Error('Errore nella richiesta');
+    }
+  })
+  .catch(error => {
+    console.error('Errore durante la richiesta al server:', error);
+  });
+  document.getElementById("form").style.display="none";
+  caricaDatiPagamenti();
+});
 
    
 
 
-//     document.getElementById("form").addEventListener("submit", function (e) {
-//       // e.preventDefault(); // Evita l'invio del form (gestirai l'invio tramite Ajax)
+    document.getElementById("form").addEventListener("submit", function (e) {
+      // e.preventDefault(); // Evita l'invio del form (gestirai l'invio tramite Ajax)
 
-//       document.getElementById("form-container").style.display = "none";
-//       document.getElementById("form-container1").style.display = "none";
-//       document.getElementById("form-container2").style.display = "none";
-//       location.reload();
-//     });
+      document.getElementById("form-container").style.display = "none";
+      document.getElementById("form-container1").style.display = "none";
+      document.getElementById("form-container2").style.display = "none";
+      location.reload();
+    });
 
     function doLogout() {
       sessionStorage.clear();
