@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/pdf', express.static('/Users/francescozoni/Documents/UniPR/Project-Condominium/pdf'));
 app.use('/images', express.static('/Users/francescozoni/Documents/UniPR/Project-Condominium/images'));
+app.use(express.static('public'));
 
 
 app.get('/api/condominii', (req, res) => {
@@ -685,4 +686,9 @@ app.post("/nuova-notifica-altro", (req, res) => {
     }
     console.log("Nuova notifica inserita con successo.");
   });
+});
+
+// Route catch-all per gestire tutte le altre richieste
+app.get('*', (req, res) => {
+  res.status(404).send('Erroro 404. \n Pagina non trovata');
 });
