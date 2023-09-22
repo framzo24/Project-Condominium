@@ -1,16 +1,9 @@
-<<<<<<< Updated upstream
-fare caricamento tabelle automatico in pagamenti, ma anceh in riunioni 
-=======
-IMPLEMENTARE SESSIONE PER TUTTO
->>>>>>> Stashed changes
-guardare il bottone carica pdf 
-tabella notifiche in amiinisitratore 
+PRIORITÁ
 
-
-
-icona notifiche (se si riesce)
-fare in modo che quando viene aggiunta una riunione viene messa la notifica ai condomini (se si riesce)
-amministratore che può rispondere a notifiche (se si riesce)
+NON PRIORITARIE
+    icona notifiche (se si riesce)
+    fare in modo che quando viene aggiunta una riunione viene messa la notifica ai condomini (se si riesce)
+    amministratore che può rispondere a notifiche (se si riesce)
 
 
 
